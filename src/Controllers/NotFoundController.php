@@ -1,0 +1,18 @@
+<?php
+    namespace App\Controllers;
+
+    use App\Http\Response;
+    use App\Http\Resquest;
+
+    class NotFoundController
+    {
+        public function index(Resquest $resquest, Response $response): void
+        {
+            $response::json([
+                "error"     => true,
+                "sucess"    => false,
+                "mensagem"  => "Esse Rota nao existe!!!"
+            ],404);
+            return;
+        }
+    }

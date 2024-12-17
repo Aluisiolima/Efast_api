@@ -3,8 +3,8 @@
 
     class Resquest
     {
-        public static function method()
+        public static function method(): string
         {
-            return $_SERVER["RESQUEST_METHOD"];
+            return $_SERVER["REQUEST_METHOD"];
         }
     }
