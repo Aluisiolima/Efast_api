@@ -71,14 +71,20 @@ Este repositório é dedicado ao desenvolvimento da API do **Efats Menu**, um ca
 efats-menu-api/
 │
 ├── index.php         # Raiz do projeto 
-├── controllers/      # Controlador de Services
-├── services/         # Logicas de serviços
-├── routes/           # Definições de endpoints
-├── models/           # Modelos de banco de dados
-├── core/             # Coracao do projeto 
-├── http/             # Responsavel pela interacao http da aplicacao
-├── utils/            # Arquivos util ex: class de validates
+├── src/
+│     ├── controllers/  # Controlador de Services
+│     ├── services/     # Logicas de serviços
+│     ├── routes/       # Definições de endpoints
+│     ├── models/       # Modelos de banco de dados
+│     ├── core/         # Coracao do projeto 
+│     ├── http/         # interações http da aplicacao
+│     └── utils/        # Arquivos util ex: class de validates
+│
+├── .htaccess         # tratativa de url
+├── composer.json     # arquivo de dependecias
+├── composer.lock     # arquivo de dependecias
 └── .env              # Exemplo do arquivo de variáveis de ambiente
+
 ```
 
 ---
@@ -102,9 +108,10 @@ efats-menu-api/
 
 ---
 
-## 🧩 **Próximos Passos**
-1. Definição completa dos endpoints.
-2. Escolha do banco de dados.
-3. Implementação de autenticação.
+## Dicas pra um bom desenvolvimento 🧩
+
+   1. Atente-se as descricoes da documentação
+   2. Ao cria um função documente ela pra seu colegas entenderem oq vc fez
+   3. Procure nao dar nomes grandes as sua funções
 
 ---
