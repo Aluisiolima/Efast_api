@@ -58,11 +58,11 @@ Este repositório é dedicado ao desenvolvimento da API do **Efats Menu**, um ca
    - Crie um arquivo `.env` na raiz do projeto.  
    - Preencha com as seguintes informações (exemplo):  
      ```env
-     PORT=3000
-     DB_HOST=localhost
-     DB_USER=root
-     DB_PASS=senha
-     DB_NAME=efats_db
+      DB_HOST=localhost:3000
+      DB_PORT=3306
+      DB_NAME=efats
+      DB_USER=user
+      DB_PASSWORD=senha
      ```
 
 ## 📚 **Estrutura do Projeto**
