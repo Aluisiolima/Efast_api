@@ -26,4 +26,25 @@
             }
             
         }
+
+        public static function inseriProdutos(array $data): array
+        {
+            try {
+                $fields = Validator::validateArray([
+                    "nome"      => $data["nome"]        ?? "",
+                    "valor"     => $data["valor"]       ?? "",
+                    "tipo"      => $data["tipo"]        ?? "",
+                    "id_img"    => $data["id_img"]      ?? "",
+                    "id_empresa"=> $data["id_empresa"]  ?? ""
+                ]);
+                $produtosModel = ProdutosModel::inseriProdutos($fields);
+
+                return $produtosModel;
+
+            } catch (PDOException $e) {
+                return ["error" => $e->getMessage()];
+            }catch (Exception $e) {
+                return ["error"=> $e->getMessage()];
+            }
+        }
     }
