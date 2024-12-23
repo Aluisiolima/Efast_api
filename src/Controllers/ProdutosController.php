@@ -19,6 +19,7 @@
             $response::json($produtos,200);
     
         }
+
         public function inseriProdutos(Resquest $resquest, Response $response) 
         {
             $body = $resquest::getBody();
@@ -31,6 +32,7 @@
             $response::json($produtos,200);
     
         }
+
         public function updateProdutos(Resquest $resquest, Response $response) 
         {
             $body = $resquest::getBody();
@@ -43,6 +45,7 @@
             $response::json($produtos,200);
     
         }
+
         public function desativaProdutos(Resquest $resquest, Response $response): void
         {
             $body = $resquest::getBody();
@@ -54,6 +57,7 @@
             }
             $response::json($produtos,200);
         }
+        
         public function ativaProdutos(Resquest $resquest, Response $response): void
         {
             $body = $resquest::getBody();

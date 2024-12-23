@@ -6,8 +6,17 @@
     use Exception;
     use PDOException;
 
+    /**
+     * Class ProdutosServices
+     * Responsável por gereciar e valida tudo antes de envia pra a model
+     */
     class ProdutosServices
     {
+        /**
+         * Validar e direciona as informacoes pra pega os produtos em banco
+         * @param array $data 
+         * @return array
+         */
         public static function pegarProdutos(array $data): array
         {
             try {
@@ -27,6 +36,11 @@
             
         }
 
+        /**
+         * Validar e direciona as informacoes pra inserir os produtos em banco
+         * @param array $data 
+         * @return array
+         */
         public static function inseriProdutos(array $data): array
         {
             try {
@@ -47,6 +61,12 @@
                 return ["error"=> $e->getMessage()];
             }
         }
+
+        /**
+         * Validar e direciona as informacoes pra edita os produtos em banco
+         * @param array $data 
+         * @return array
+         */
         public static function updateProdutos(array $data): array
         {
             try {
@@ -67,6 +87,12 @@
                 return ["error"=> $e->getMessage()];
             }
         }
+
+        /**
+         * Validar e direciona as informacoes pra desativa os produtos em banco
+         * @param array $data 
+         * @return array
+         */
         public static function desativaProdutos(array $data): array
         {
             try {
@@ -83,6 +109,11 @@
             }
         }
 
+        /**
+         * Validar e direciona as informacoes pra ativa os produtos em banco
+         * @param array $data 
+         * @return array
+         */
         public static function ativaProdutos(array $data): array
         {
             try {
