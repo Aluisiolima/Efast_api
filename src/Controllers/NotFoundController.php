@@ -8,11 +8,7 @@
     {
         public function index(Resquest $resquest, Response $response): void
         {
-            $response::json([
-                "error"     => true,
-                "sucess"    => false,
-                "mensagem"  => "Esse Rota nao existe!!!"
-            ],404);
+            $response::json("Esse Rota nao existe!!!",404, true);
             return;
         }
     }
