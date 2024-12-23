@@ -67,4 +67,35 @@
                 return ["error"=> $e->getMessage()];
             }
         }
+        public static function desativaProdutos(array $data): array
+        {
+            try {
+                $fields = Validator::validateArray([
+                    "id" => $data["id"] ?? "",
+                ]);
+                $produtosModel = ProdutosModel::desativaProdutos($fields);
+
+                return $produtosModel;
+            } catch (PDOException $e) {
+                return ["error"=> $e->getMessage()];
+            } catch (Exception $e) {
+                return ["error"=> $e->getMessage()];
+            }
+        }
+
+        public static function ativaProdutos(array $data): array
+        {
+            try {
+                $fields = Validator::validateArray([
+                    "id" => $data["id"] ?? "",
+                ]);
+                $produtosModel = ProdutosModel::ativaprodutos($fields);
+                
+                return $produtosModel;
+            } catch (PDOException $e) {
+                return ["error"=> $e->getMessage()];
+            } catch (Exception $e) {
+                return ["error"=> $e->getMessage()];
+            }
+        }
     }

@@ -43,4 +43,26 @@
             $response::json($produtos,200);
     
         }
+        public function desativaProdutos(Resquest $resquest, Response $response): void
+        {
+            $body = $resquest::getBody();
+            $produtos = ProdutosServices::desativaProdutos($body);
+
+            if(isset($produtos["error"])){
+                $response::json($produtos["error"],400,true);
+                return;
+            }
+            $response::json($produtos,200);
+        }
+        public function ativaProdutos(Resquest $resquest, Response $response): void
+        {
+            $body = $resquest::getBody();
+            $produtos = ProdutosServices::ativaProdutos($body);
+            
+            if(isset($produtos["error"])){
+                $response::json($produtos["error"],400,true);
+                return;
+            }
+            $response::json($produtos,200);
+        }
     }

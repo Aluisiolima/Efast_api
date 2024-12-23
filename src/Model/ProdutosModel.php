@@ -42,24 +42,7 @@ use PDOException;
             }
            
         }
-        public static function desativaProdutos(array $data): array
-        {
-            try {
-                $pdo = self::getConnection();
-                $sql = "UPDATE produtos SET status = 'desativado' WHERE id_produto = ?;";
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute([
-                    $data["id"],
-                ]);
-
-                return [
-                    "message"=> "sucesso em desativa o produto",
-                    "dados"=> $data
-                ];
-            }catch (PDOException $e) {
-                return ["error"=> $e->getMessage()];
-            }
-        }
+        
         public static function updateProdutos(array $data): array
         {
             try {
@@ -82,6 +65,43 @@ use PDOException;
                 
                 return [
                     "message"=> "sucesso em edita o produto",
+                    "dados"=> $data
+                ];
+            }catch (PDOException $e) {
+                return ["error"=> $e->getMessage()];
+            }
+        }
+
+        public static function desativaProdutos(array $data): array
+        {
+            try {
+                $pdo = self::getConnection();
+                $sql = "UPDATE produtos SET status = 'desativado' WHERE id_produto = ?;";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    $data["id"],
+                ]);
+
+                return [
+                    "message"=> "sucesso em desativa o produto",
+                    "dados"=> $data
+                ];
+            }catch (PDOException $e) {
+                return ["error"=> $e->getMessage()];
+            }
+        }
+        public static function ativaProdutos(array $data): array
+        {
+            try {
+                $pdo = self::getConnection();
+                $sql = "UPDATE produtos SET status = 'ativo' WHERE id_produto = ?;";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    $data["id"],
+                ]);
+
+                return [
+                    "message"=> "sucesso em ativa o produto",
                     "dados"=> $data
                 ];
             }catch (PDOException $e) {
