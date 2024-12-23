@@ -31,4 +31,16 @@
             $response::json($produtos,200);
     
         }
+        public function updateProdutos(Resquest $resquest, Response $response) 
+        {
+            $body = $resquest::getBody();
+            $produtos = ProdutosServices::updateProdutos($body);
+    
+            if(isset($produtos["error"])){
+                $response::json($produtos["error"],400,true);
+                return;
+            }
+            $response::json($produtos,200);
+    
+        }
     }

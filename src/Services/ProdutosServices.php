@@ -47,4 +47,24 @@
                 return ["error"=> $e->getMessage()];
             }
         }
+        public static function updateProdutos(array $data): array
+        {
+            try {
+                $fields = Validator::validateArray([
+                    "id"    => $data["id"]      ?? "",
+                    "nome"  => $data["nome"]    ?? "",
+                    "valor" => $data["valor"]   ?? "",
+                    "tipo"  => $data["tipo"]    ?? "",
+                    "id_img"=> $data["id_img"]  ?? ""
+                ]);
+                $produtosModel = ProdutosModel::updateProdutos($fields);
+
+                return $produtosModel;
+
+            } catch (PDOException $e) {
+                return ["error"=> $e->getMessage()];
+            } catch (Exception $e) {
+                return ["error"=> $e->getMessage()];
+            }
+        }
     }

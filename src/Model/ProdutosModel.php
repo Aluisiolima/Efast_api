@@ -19,7 +19,7 @@ use PDOException;
             return $produtos;
            
         }
-        public static function inseriProdutos(array $data)
+        public static function inseriProdutos(array $data): array
         {
             try {
                 $pdo = self::getConnection();
@@ -41,6 +41,52 @@ use PDOException;
                 return ["error" => $e->getMessage()];
             }
            
+        }
+        public static function desativaProdutos(array $data): array
+        {
+            try {
+                $pdo = self::getConnection();
+                $sql = "UPDATE produtos SET status = 'desativado' WHERE id_produto = ?;";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    $data["id"],
+                ]);
+
+                return [
+                    "message"=> "sucesso em desativa o produto",
+                    "dados"=> $data
+                ];
+            }catch (PDOException $e) {
+                return ["error"=> $e->getMessage()];
+            }
+        }
+        public static function updateProdutos(array $data): array
+        {
+            try {
+                $pdo = self::getConnection();
+                $sql = "UPDATE produtos 
+                            SET nome_produto = ?, 
+                                valor = ?,
+                                tipo = ?,
+                                id_img = ?
+                            WHERE id_produto = ?";
+
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    $data["nome"],
+                    $data["valor"],
+                    $data["tipo"],
+                    $data["id_img"],
+                    $data["id"],
+                ]);
+                
+                return [
+                    "message"=> "sucesso em edita o produto",
+                    "dados"=> $data
+                ];
+            }catch (PDOException $e) {
+                return ["error"=> $e->getMessage()];
+            }
         }
 
     }
