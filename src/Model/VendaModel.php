@@ -10,7 +10,24 @@
         {
             try {
                 $pdo = self::getConnection();
-                $sql = "SELECT * FROM venda WHERE id_empresa = ?;";
+                $sql = "SELECT 
+                            ped.id_pedido, 
+                            ped.nome_cliente, 
+                            ped.tipo_pagamento,
+                            ped.numero_contato, 
+                            ped.rua, 
+                            ped.bairro, 
+                            ped.numero_casa, 
+                            ped.numero_mesa, 
+                            ped.mesa, 
+                            ped.data_pedido,
+                            p.nome_produto, 
+                            p.valor,
+                            v.quantidade
+                        FROM venda v
+                        JOIN produtos p ON v.id_produto = p.id_produto
+                        JOIN pedido ped ON v.id_pedido = ped.id_pedido
+                        WHERE v.id_empresa = ?";
 
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
