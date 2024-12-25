@@ -69,4 +69,16 @@
             }
             $response::json($produtos,200);
         }
+        
+        public function pegarProdutosMain(Resquest $resquest, Response $response, array $id): void
+        {
+            $produtos = ProdutosServices::pegarProdutosMain($id);
+    
+            if(isset($produtos["error"])){
+                $response::json($produtos["error"],400,true);
+                return;
+            }
+            $response::json($produtos,200);
+    
+        }
     }

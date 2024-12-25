@@ -129,4 +129,26 @@
                 return ["error"=> $e->getMessage()];
             }
         }
+
+        /**
+         * Validar e direciona as informacoes pra pega os produtos principais da em empresa
+         * @param array $data 
+         * @return array
+         */
+        public static function pegarProdutosMain(array $data): array
+        {
+            try {
+                $fields = Validator::validateArray([
+                    "id_empresa" => $data[0] ?? ""
+                ]);
+
+                $produtosModel = ProdutosModel::pegarProdutosMain($fields);
+                
+                return $produtosModel;
+            } catch (PDOException $e) {
+                return ["error"=> $e->getMessage()];
+            } catch (Exception $e) {
+                return ["error"=> $e->getMessage()];
+            }
+        }
     }

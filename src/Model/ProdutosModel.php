@@ -32,7 +32,29 @@
                 return ["error" => $e->getMessage()];
             }
         }
-
+        /**
+         * Pegar os produtos cargo chefe da empresa
+         * @param array $data contendo as chave
+         *  - "id_empresa" : INT sendo o id da empressa qual o produto e relacionado 
+         * @return array
+         */
+        public static function pegarProdutosMain(array $data): array
+        {
+            try {
+                $pdo = self::getConnection();
+                $sql = "SELECT tipo FROM produtos WHERE id_empresa = ? AND status = 'ativo' GROUP BY tipo ORDER BY  count(*) desc limit 3";
+                    
+                $stmt = $pdo->prepare($sql);
+                
+                $stmt->execute([$data["id_empresa"]]);
+    
+                $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+                return $produtos;
+            } catch (PDOException $e) {
+                return ["error" => $e->getMessage()];
+            }
+        }
         /**
          * Inserir os dados de novo produto
          * @param array $data contendo as chaves 
