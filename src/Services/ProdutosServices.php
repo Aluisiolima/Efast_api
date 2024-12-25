@@ -29,9 +29,9 @@
                 return $produtosModel;
                 
             } catch (PDOException $e) {
-                return ["error" => $e];
+                return ["error" => $e->getMessage()];
             } catch (Exception $e) {
-                return ["error" => $e];
+                return ["error" => $e->getMessage()];
             }
             
         }
