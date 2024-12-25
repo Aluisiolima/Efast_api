@@ -20,4 +20,18 @@
 
             $response::json($vendas, 200);
         }
+
+        public function pegarVendasDay(Resquest $resquest, Response $response)
+        {
+            $body = $resquest->getBody();
+            $vendas = VendaServices::pegarVendasDay($body);
+
+            if (isset($vendas["error"])) 
+            {
+                $response::json($vendas["error"], 400, true);
+                return;
+            }
+
+            $response::json($vendas, 200);
+        }
     }

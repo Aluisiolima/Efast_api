@@ -16,4 +16,5 @@
 
     //Venda
     Routes::post("/pegarVendas", "VendaController@pegarVendas");
+    Routes::post("/pegarVendas/hoje", "VendaController@pegarVendasDay");
     

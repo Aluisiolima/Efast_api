@@ -26,6 +26,27 @@
 
         }
         
+        public static function pegarVendasDay(array $data): array
+        {
+            try{
+                $fields = Validator::validateArray([
+                    "id_empresa" => $data["id"] ?? ""
+                ]);
+                
+                date_default_timezone_set('America/Sao_Paulo');
+                $day  = date('d/m/Y');
+
+                $vendas = VendaModel::pegarVendasDay($fields, $day);
+                $modelagem = self::modelagemDate($vendas);
+                return $modelagem;
+            } catch(Exception $e) {
+                return ["error" => $e->getMessage()];
+            } catch (PDOException $e) {
+                return ["error"=> $e->getMessage()];
+            }
+
+        }
+        
         private static function modelagemDate(array $data): array
         {
             try{
