@@ -42,4 +42,13 @@
             }
             
         }
+
+        public static function pegarVendasHoje(array $data): array
+        {
+            try {
+                return $data;
+            } catch (PDOException $e) {
+                return ["error"=> $e->getMessage()];
+            }        
+        }
     }

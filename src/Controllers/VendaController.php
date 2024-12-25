@@ -7,9 +7,10 @@
 
     class VendaController
     {
-        public function pegarVendas(Resquest $resquest, Response $response, array $id)
+        public function pegarVendas(Resquest $resquest, Response $response)
         {
-            $vendas = VendaServices::pegarVendas($id);
+            $body = $resquest->getBody();
+            $vendas = VendaServices::pegarVendas($body);
 
             if (isset($vendas["error"])) 
             {

@@ -12,7 +12,7 @@
         {
             try{
                 $fields = Validator::validateArray([
-                    "id_empresa" => $data[0] ?? ""
+                    "id_empresa" => $data["id"] ?? ""
                 ]);
 
                 $vendas = VendaModel::pegarVendas($fields);
