@@ -8,12 +8,13 @@
 
     class PedidoServices
     {
-        public static function inserirPedido(array $data): array
+        public static function inserirPedido(array $data, int $id_empresa): array
         {
             try {
                 $fields = Validator::validatePedido([
                     "nome"          => $data["nome"],
                     "tipo_pagamento"=> $data["tipo_pagamento"],
+                    "produtos"      => $data["produtos"],
                     "numero_contato"=> $data["numero_contato"],
                     "entrega"       => $data["entrega"],
                     "bairro"        => $data["bairro"],
@@ -24,9 +25,11 @@
                 ]);
 
                 $fields["data"] = self::data();
+
     
-                $pedidos = PedidoModel::pegarPedido($fields);
-                return  $pedidos;
+                $pedido = PedidoModel::inserirPedido($fields, $id_empresa);
+
+                return  $pedido;
             } catch (Exception $e) {
                 return ["error" => $e->getMessage()];
             } catch (PDOException $e) {

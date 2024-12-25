@@ -31,6 +31,29 @@
                 throw new Exception("O campo {tipo_pagamento} é obrigatório!");
             }
 
+            // Verifica se foi enviado os produtos do pedido
+            if (!isset($data["produtos"]) || empty($data["produtos"])) {
+                throw new Exception("O campo {produtos} é obrigatório!");
+            }
+
+            if (!is_array($data["produtos"])) {
+                throw new Exception("O argumento {produtos} precisa ser um array.");
+            }
+        
+            foreach ($data["produtos"] as $item) {
+                if (!is_array($item)) {
+                    throw new Exception("O argumento {produtos} precisa ser um array de objetos{}.");
+                }
+        
+                if (!array_key_exists('id', $item) || !array_key_exists('quantidade', $item)) {
+                    throw new Exception("As chave {id && quantidade} sao obrigatorias.");
+                }
+        
+                if (($item['id'] === null || !is_int($item['id']))|| ($item['quantidade'] === null || !is_int($item['quantidade']))) {
+                    throw new Exception("As chave {id && quantidade} estao vazias ou seu valores sao diferente (int).");
+                }
+            }
+        
             // Verificar se é um pedido para mesa
             if (isset($data["mesa"]) && $data["mesa"] === true) {
                 if (!isset($data["numero_mesa"]) || empty($data["numero_mesa"])) {

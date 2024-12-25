@@ -6,7 +6,7 @@
 
     class PedidoModel extends Database
     {
-        public static function pegarPedido(array $data): array
+        public static function inserirPedido(array $data, int $id_empresa): array
         {
             
             try {
@@ -30,8 +30,20 @@
                 ]);
                 $pedidos = $pdo->lastInsertId();
 
+                $sql = "INSERT INTO venda (id_pedido,id_produto,quantidade, id_empresa) VALUES (?,?,?,?);";
+
+                foreach ($data["produtos"] as $item) {
+                    $stmt = $pdo->prepare($sql);
+                    $stmt->execute([
+                        $pedidos,
+                        $item["id"],
+                        $item["quantidade"],
+                        $id_empresa
+                    ]);
+                }
+
                 $pdo->commit();
-                return ["id_pedido" => $pedidos];
+                return $data;
             } catch (PDOException $e) {
                 $pdo->rollBack();
                 return ["error" => $e->getMessage()];

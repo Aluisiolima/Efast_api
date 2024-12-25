@@ -17,17 +17,20 @@
          */
         public static function pegarProdutos(array $data): array
         {
-            $pdo = self::getConnection();
-            $sql = "SELECT * FROM produtos WHERE id_empresa = ? AND status = 'ativo';";
+            try {
+                $pdo = self::getConnection();
+                $sql = "SELECT * FROM produtos WHERE id_empresa = ? AND status = 'ativo';";
+                    
+                $stmt = $pdo->prepare($sql);
                 
-            $stmt = $pdo->prepare($sql);
-            
-            $stmt->execute([$data["id_empresa"]]);
-
-            $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            return $produtos;
-           
+                $stmt->execute([$data["id_empresa"]]);
+    
+                $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+                return $produtos;
+            } catch (PDOException $e) {
+                return ["error" => $e->getMessage()];
+            }
         }
 
         /**

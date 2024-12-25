@@ -11,6 +11,8 @@
     Routes::post("/ativaProdutos",      "ProdutosController@ativaProdutos");
 
     //Pedido
-    Routes::post("/inserirPedido", "PedidoController@inserirPedido");
-    
+    Routes::post("/inserirPedido/{id}", "PedidoController@inserirPedido");
+
+    //Venda
+    Routes::get("/pegarVendas/{id}", "VendaController@pegarVendas");
     
