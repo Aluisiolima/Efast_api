@@ -63,6 +63,8 @@ Este repositório é dedicado ao desenvolvimento da API do **Efats Menu**, um ca
       DB_NAME=efats
       DB_USER=user
       DB_PASSWORD=senha
+      USER_SECRET_KEY=userkey
+      DEV_SECRET_KEY=devkey
      ```
 
 ## 📚 **Estrutura do Projeto**
