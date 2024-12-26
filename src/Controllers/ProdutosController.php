@@ -13,7 +13,7 @@
             $produtos = ProdutosServices::pegarProdutos($id);
     
             if(isset($produtos["error"])){
-                $response::json($produtos["error"],400,true);
+                $response::json($produtos,400,true);
                 return;
             }
             $response::json($produtos,200);
@@ -26,7 +26,7 @@
             $produtos = ProdutosServices::inseriProdutos($body);
     
             if(isset($produtos["error"])){
-                $response::json($produtos["error"],400,true);
+                $response::json($produtos,400,true);
                 return;
             }
             $response::json($produtos,200);
@@ -39,7 +39,7 @@
             $produtos = ProdutosServices::updateProdutos($body);
     
             if(isset($produtos["error"])){
-                $response::json($produtos["error"],400,true);
+                $response::json($produtos,400,true);
                 return;
             }
             $response::json($produtos,200);
@@ -52,7 +52,7 @@
             $produtos = ProdutosServices::desativaProdutos($body);
 
             if(isset($produtos["error"])){
-                $response::json($produtos["error"],400,true);
+                $response::json($produtos,400,true);
                 return;
             }
             $response::json($produtos,200);
@@ -64,7 +64,7 @@
             $produtos = ProdutosServices::ativaProdutos($body);
             
             if(isset($produtos["error"])){
-                $response::json($produtos["error"],400,true);
+                $response::json($produtos,400,true);
                 return;
             }
             $response::json($produtos,200);
@@ -75,7 +75,7 @@
             $produtos = ProdutosServices::pegarProdutosMain($id);
     
             if(isset($produtos["error"])){
-                $response::json($produtos["error"],400,true);
+                $response::json($produtos,400,true);
                 return;
             }
             $response::json($produtos,200);

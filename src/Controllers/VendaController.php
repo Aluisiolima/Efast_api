@@ -14,7 +14,7 @@
 
             if (isset($vendas["error"])) 
             {
-                $response::json($vendas["error"], 400, true);
+                $response::json($vendas, 400, true);
                 return;
             }
 
@@ -28,7 +28,7 @@
 
             if (isset($vendas["error"])) 
             {
-                $response::json($vendas["error"], 400, true);
+                $response::json($vendas, 400, true);
                 return;
             }
 

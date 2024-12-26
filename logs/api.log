@@ -1,0 +1,7 @@
+[2024-12-26 17:57:08] POST inserirPedido/1 | status: 400 | Dados: {"nome":"aluisio","tipo_pagamento":"pix","entrega":true,"bairro":"klnshdlahd","rua":"hSksu","numero_casa":3874893} | Resposta: {"error":"O campo {produtos} \u00e9 obrigat\u00f3rio!"}
+[2024-12-26 17:59:37] POST inserirPedido/1 | status: 400 | Dados: {"nome":"aluisio","tipo_pagamento":"pix","entrega":true,"bairro":"klnshdlahd","rua":"hSksu","numero_casa":3874893} | Resposta: {"error":"O campo {produtos} \u00e9 obrigat\u00f3rio!"}
+[2024-12-26 15:00:31] POST inserirPedido/1 | status: 400 | Dados: {"nome":"aluisio","tipo_pagamento":"pix","entrega":true,"bairro":"klnshdlahd","rua":"hSksu","numero_casa":3874893} | Resposta: {"error":"O campo {produtos} \u00e9 obrigat\u00f3rio!"}
+[2024-12-26 15:00:43] POST pegarVendas | status: 400 | Dados: [] | Resposta: {"error":"O campo  \u00e9 obrigatorio!!"}
+[2024-12-26 15:01:17] POST pegarVendas | status: 400 | Dados: [] | Resposta: {"error":"O campo  \u00e9 obrigatorio!!"}
+[2024-12-26 15:02:38] POST pegarVendas | status: 400 | Dados: [] | Resposta: {"error":"O campo id_empresa \u00e9 obrigatorio!!"}
+[2024-12-26 15:03:10] POST pegarVendas | status: 400 | Dados: [] | Resposta: {"error":"O campo { id_empresa } \u00e9 obrigatorio!!"}
