@@ -12,7 +12,18 @@ use PDOException;
         public static function pegarUser(mixed $auth):array
         {
             try {
-                return [];
+                if (isset($auth["error"])) {
+                    return ["unauthorized" => $auth["error"]];
+                }
+                $token = JWToken::validateTokenUser($auth);
+
+                if (!$token){
+                    $token = JWToken::validateTokenDev($auth);
+                    if (!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
+                } 
+                
+                $user = UserModel::pegarUser($token->id);
+                return $user;
             } catch (Exception $e) {
                 return ["error" => $e->getMessage()];
             }
@@ -20,20 +31,29 @@ use PDOException;
                 return ["error"=> $e->getMessage()];
             }
         }
-        public static function inserirUser(array $data):array
+        public static function inserirUser(array $data, string $auth):array
         {
             try {
+                if (isset($auth["error"])) {
+                    return ["unauthorized" => $auth["error"]];
+                }
+                $token = JWToken::validateTokenUser($auth);
+
+                if (!$token){
+                    $token = JWToken::validateTokenDev($auth);
+                    if (!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
+                } 
+
                 $fields = Validator::validateArray([
                     "nome"      => $data["nome"]        ?? "",
                     "cargo"     => $data["cargo"]       ?? "",
                     "codigo"    => $data["codigo"]      ?? "",
                     "senha"     => $data["senha"]       ?? "",
-                    "id_empresa"=> $data["id_empresa"]  ?? "",
                 ]);
 
                 $fields["senha"] = password_hash($fields['senha'], PASSWORD_DEFAULT);
 
-                $userModel = UserModel::inserirUser($fields);
+                $userModel = UserModel::inserirUser($fields, $token->id);
 
                 return $userModel;
             } catch (Exception $e) {

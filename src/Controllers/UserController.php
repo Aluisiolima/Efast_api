@@ -48,8 +48,9 @@
         public function inserirUser(Resquest $resquest, Response $response)
         {
             $body = $resquest::getBody();
+            $auth = $resquest::authorization();
 
-            $user = UserServices::inserirUser($body);
+            $user = UserServices::inserirUser($body, $auth);
 
             if (isset($user["unauthorized"])){
                 $response::json($user,401,true);

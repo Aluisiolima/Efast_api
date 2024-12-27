@@ -34,11 +34,6 @@ class JWToken
             
             self::$secret = $_ENV["DEV_SECRET_KEY"];
             
-            
-            $data["iat"] = time(); 
-            $data["exp"] = time() + $expiration; 
-            
-            
             return JWT::encode($data, self::$secret, "HS256");
         } catch (Exception $e) {
            

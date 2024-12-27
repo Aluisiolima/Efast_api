@@ -5,7 +5,21 @@
     use PDO;
     class UserModel extends Database
     {
-        public static function inserirUser(array $data): array
+        public static function pegarUser(int $id): array
+        {
+            try {
+                $pdo = self::getConnection();
+                $sql = "SELECT id_adm,nome,cargo,codigo FROM user_adm WHERE id_empresa = ?";
+                $stmt = $pdo->prepare($sql);
+
+                $stmt->execute([$id]);
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                return $result;
+            } catch (PDOException $e) {
+                return ["error" => $e->getMessage()];
+            }
+        }
+        public static function inserirUser(array $data, int $id): array
         {
             try {
                 $pdo = self::getConnection();
@@ -16,15 +30,15 @@
                     $data["cargo"],
                     $data["codigo"],
                     $data["senha"],
-                    $data["id_empresa"]
+                    $id,
                 ]);
 
                 return [
-                    "message"=> "sucesso em inserir o user adm",
-                    "dados"=> [
-                        $data["nome"],
-                        $data["cargo"],
-                        $data["codigo"]
+                    "message" => "sucesso em inserir o user adm",
+                    "dados" => [
+                        "nome"   => $data["nome"],
+                        "cargo"  => $data["cargo"],
+                        "codigo" => $data["codigo"]
                     ]
                 ];
             } catch (PDOException $e) {
