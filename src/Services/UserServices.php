@@ -3,6 +3,7 @@
 
 use App\Model\UserModel;
 use App\Utils\Validator;
+use App\Http\JWToken;
 use Exception;
 use PDOException;
 
@@ -55,7 +56,14 @@ use PDOException;
                 ]);
 
                 $userModel = UserModel::login($fields);
-                return $userModel;
+                if($userModel["id"] === 1) 
+                {
+                    $token = JWToken::generateTokenDev($userModel);
+                    return ["token" => $token];
+                }
+
+                $token = JWToken::generateTokenUser($userModel);
+                return ["token" => $token];
             } catch (PDOException $e) {
                 return ["error"=> $e->getMessage()];
             }
