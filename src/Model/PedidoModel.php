@@ -43,7 +43,10 @@
                 }
 
                 $pdo->commit();
-                return $data;
+                return [
+                    "message"=> "sucesso em inserir o pedido",
+                    "dados"=> $data
+                ];
             } catch (PDOException $e) {
                 $pdo->rollBack();
                 return ["error" => $e->getMessage()];

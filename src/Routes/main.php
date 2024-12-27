@@ -33,6 +33,6 @@
     //user_adm
     Routes::post("/pegarUser", "UserController@pegarUser");
     Routes::post("/login", "UserController@login");
-    Routes::post("/inseirUser", "UserController@inseirUser");
+    Routes::post("/inserirUser", "UserController@inserirUser");
     Routes::put("/updateUser", "UserController@updateUser");
     Routes::delete("/deleteUser", "UserController@deleteUser");

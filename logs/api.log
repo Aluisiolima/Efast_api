@@ -7,3 +7,7 @@
 [2024-12-26 15:03:10] POST pegarVendas | status: 400 | Dados: [] | Resposta: {"error":"O campo { id_empresa } \u00e9 obrigatorio!!"}
 [2024-12-26 15:08:20] POST pegarVendas | status: 400 | Dados: [] | Resposta: {"error":"O campo { id_empresa } e obrigatorio!!"}
 [2024-12-26 15:11:03] POST pegarVendas | status: 400 | Dados: [] | Resposta: {"error":"O campo { id_empresa } e obrigatorio!!"}
+[2024-12-27 08:50:39] POST inserirUser | status: 404 | Dados: {"nome":"aluisio","cargo":"dev","codigo":"0612","senha":"12345","id_empresa":1} | Resposta: {"error":"Essa rota nao existe!!!"}
+[2024-12-27 08:57:57] POST inserirUser | status: 400 | Dados: {"nome":"aluisio","cargo":"dev","codigo":"0612","senha":"12345","id_empresa":1} | Resposta: {"error":"SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'senha' at row 1"}
+[2024-12-27 09:31:30] POST login | status: 400 | Dados: {"nome":"aluisio","cargo":"dev","codigo":"0612","senha":"1245","id_empresa":1} | Resposta: {"error":"Sua senha esta errada!!!"}
+[2024-12-27 09:31:43] POST login | status: 400 | Dados: {"nome":"aluisio","cargo":"dev","codigo":"0712","senha":"12345","id_empresa":1} | Resposta: {"error":"Nao existe user como esse parametros"}

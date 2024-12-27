@@ -27,9 +27,9 @@
                 $fields["data"] = self::data();
 
     
-                $pedido = PedidoModel::inserirPedido($fields, $id_empresa);
+                $pedidoModel = PedidoModel::inserirPedido($fields, $id_empresa);
 
-                return  $pedido;
+                return  $pedidoModel;
             } catch (Exception $e) {
                 return ["error" => $e->getMessage()];
             } catch (PDOException $e) {

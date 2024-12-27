@@ -67,13 +67,23 @@
          *
          * @return array Resposta formatada.
          */
-        private static function errorResponse(array|string $data, int $status): array
+        private static function errorResponse(array $data, int $status): array
         {
             Logs::Log($data, $status);
 
+            $message = "";
+
+            if(isset($data["error"]))
+            {
+                $message = $data["error"];
+            }
+            if(isset($data["unauthorized"]))
+            {
+                $message = $data["unauthorized"];
+            }
             return [
                 "error"   => true,
-                "message" => is_string($data["error"]) ? $data["error"] : "Ocorreu um erro.",
+                "message" => $message,
             ];
         }
         

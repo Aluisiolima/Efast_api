@@ -15,8 +15,8 @@
                     "id_empresa" => $data["id"] ?? ""
                 ]);
 
-                $vendas = VendaModel::pegarVendas($fields);
-                $modelagem = self::modelagemDate($vendas);
+                $vendasModel = VendaModel::pegarVendas($fields);
+                $modelagem = self::modelagemDate($vendasModel);
                 return $modelagem;
             } catch(Exception $e) {
                 return ["error" => $e->getMessage()];
@@ -36,8 +36,8 @@
                 date_default_timezone_set('America/Sao_Paulo');
                 $day  = date('d/m/Y');
 
-                $vendas = VendaModel::pegarVendasDay($fields, $day);
-                $modelagem = self::modelagemDate($vendas);
+                $vendasModel = VendaModel::pegarVendasDay($fields, $day);
+                $modelagem = self::modelagemDate($vendasModel);
                 return $modelagem;
             } catch(Exception $e) {
                 return ["error" => $e->getMessage()];
