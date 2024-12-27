@@ -16,3 +16,6 @@
 [2024-12-27 13:56:54] POST pegarUser | status: 401 | Dados: [] | Resposta: {"unauthorized":"Voce nao esta autorizado a essa operacao faca login"}
 [2024-12-27 13:57:15] POST pegarUser | status: 401 | Dados: [] | Resposta: {"unauthorized":"Voce nao esta autorizado a essa operacao faca login"}
 [2024-12-27 13:57:21] POST pegarUser | status: 401 | Dados: [] | Resposta: {"unauthorized":"Voe nao esta autorizado a essa operacao faca login"}
+[2024-12-27 14:46:21] PUT updateUser | status: 401 | Dados: {"nome":"aluisio lima","cargo":"dev","senha":54321} | Resposta: {"unauthorized":"Desculpada mais voce nao passou o Token"}
+[2024-12-27 14:46:45] POST pegarUser | status: 401 | Dados: [] | Resposta: {"unauthorized":"Voce nao esta autorizado a essa operacao faca login"}
+[2024-12-27 20:25:35] POST pegarUser | status: 401 | Dados: [] | Resposta: {"unauthorized":"Voce nao esta autorizado a essa operacao faca login"}
