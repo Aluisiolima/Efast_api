@@ -6,8 +6,19 @@
     use Exception;
     use PDOException;
 
+
+    /**
+     * Classe PedidoServices
+     * classe responsavel pela interacoes entre os pedidos do cardapio
+     */
     class PedidoServices
     {
+        /**
+         * Validar e direciona as informacoes pra inserir o pedido em banco
+         * @param array $data > dados do pedido 
+         * @param int $id_empresa > id da empresa relacionada com esse pedido
+         * @return array
+         */
         public static function inserirPedido(array $data, int $id_empresa): array
         {
             try {
@@ -38,6 +49,10 @@
             
         }
 
+        /**
+         * Pegar a data e hora exata do pedido para registro
+         * @return string 
+         */
         private static function data(): string
         {
             date_default_timezone_set('America/Sao_Paulo'); // Ajuste conforme sua região

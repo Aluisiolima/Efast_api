@@ -4,8 +4,17 @@
     use PDO;
     use PDOException;
 
+    /**
+     * Class VendaModel
+     * Classe responsável por realizar operações relacionadas às vendas.
+     */
     class VendaModel extends Database
     {
+        /**
+         * Busca todas as vendas de uma empresa.
+         * @param array $data Dados necessários para a consulta (exemplo: id_empresa).
+         * @return array Lista de vendas ou mensagem de erro.
+         */
         public static function pegarVendas(array $data): array
         {
             try {
@@ -40,9 +49,14 @@
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             }
-            
         }
 
+        /**
+         * Busca todas as vendas de uma empresa em uma data específica.
+         * @param array $data Dados necessários para a consulta (exemplo: id_empresa).
+         * @param string $day Data no formato 'd/m/Y'.
+         * @return array Lista de vendas no dia especificado ou mensagem de erro.
+         */
         public static function pegarVendasDay(array $data, string $day): array
         {
             try {
@@ -76,7 +90,7 @@
 
                 return $vendas;
             } catch (PDOException $e) {
-                return ["error"=> $e->getMessage()];
-            }        
+                return ["error" => $e->getMessage()];
+            }
         }
     }

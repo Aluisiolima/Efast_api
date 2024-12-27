@@ -6,8 +6,17 @@
     use Exception;
     use PDOException;
 
+    /**
+     * Classe VendaServices
+     * Responsavel pela interacoes de vendas feitas pela empresa relacionada
+     */
     class VendaServices
     {
+        /**
+         * Responsavel por pegas todas as vendas da empresa
+         * @param array $data
+         * @return array
+         */
         public static function pegarVendas(array $data): array
         {
             try{
@@ -26,6 +35,11 @@
 
         }
         
+        /**
+         * Responsavel por pegas todas as venda de hoje
+         * @param array $data
+         * @return array
+         */
         public static function pegarVendasDay(array $data): array
         {
             try{
@@ -47,6 +61,11 @@
 
         }
         
+        /**
+         * Responsavel por modela a respotas em um formato mais adquado
+         * @param array $data
+         * @return array
+         */
         private static function modelagemDate(array $data): array
         {
             try{

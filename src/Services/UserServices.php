@@ -7,8 +7,17 @@
     use Exception;
     use PDOException;
 
+    /**
+     * Classe UserServices
+     * reponsavel pela interacoes de User Adm da empresa
+     */
     class UserServices
     {
+        /**
+         * Responsavel por pegar os dados de todos os User dessa empresa relacionada
+         * @param mixed $auth
+         * @return array
+         */
         public static function pegarUser(mixed $auth):array
         {
             try {
@@ -29,6 +38,13 @@
                 return ["error"=> $e->getMessage()];
             }
         }
+
+        /**
+         * Responsavel por inserir um novo User a empresa
+         * @param array $data
+         * @param mixed $auth
+         * @return array
+         */
         public static function inserirUser(array $data, mixed $auth):array
         {
             try {
@@ -60,6 +76,11 @@
             }
         }
 
+        /**
+         * Responsavel por Fazer Login dos User ao entra no app
+         * @param array $data
+         * @return array
+         */
         public static function login(array $data): array
         {
             try {
@@ -83,6 +104,12 @@
             }
         }
 
+        /**
+         * Responsavel por atualiza as informacoes do seu user
+         * @param array $data
+         * @param mixed $auth
+         * @return array
+         */
         public static function updateUser(array $data, mixed $auth): array
         {
             try {
@@ -110,6 +137,11 @@
             }
         }
 
+        /**
+         * Responsavel por deleta o seu user
+         * @param mixed $auth
+         * @return array
+         */
         public static function deleteUser(mixed $auth): array
         {
             try {

@@ -1,11 +1,20 @@
 <?php
     namespace App\Model;
 
-    use PDO;
     use PDOException;
 
+    /**
+     * Classe PedidoModel
+     * Resposavel pela interacao com os pedidos do banco
+     */
     class PedidoModel extends Database
     {
+        /**
+         * Responsavel por inserir o pedidos e inserir/relaciona os produtos desse pedido
+         * @param array $data
+         * @param int $id_empresa
+         * @return array
+         */
         public static function inserirPedido(array $data, int $id_empresa): array
         {
             
@@ -44,8 +53,7 @@
 
                 $pdo->commit();
                 return [
-                    "message"=> "sucesso em inserir o pedido",
-                    "dados"=> $data
+                    "message"   => "sucesso em inserir o pedido"
                 ];
             } catch (PDOException $e) {
                 $pdo->rollBack();
