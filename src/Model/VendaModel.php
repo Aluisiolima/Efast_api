@@ -4,9 +4,18 @@
     use PDO;
     use PDOException;
 
+    /**
+     * Class VendaModel
+     * Classe responsável por realizar operações relacionadas às vendas.
+     */
     class VendaModel extends Database
     {
-        public static function pegarVendas(array $data): array
+        /**
+         * Busca todas as vendas de uma empresa.
+         * @param array $data Dados necessários para a consulta (exemplo: id_empresa).
+         * @return array Lista de vendas ou mensagem de erro.
+         */
+        public static function pegarVendas(int $id_empresa): array
         {
             try {
                 $pdo = self::getConnection();
@@ -31,7 +40,7 @@
 
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
-                    $data["id_empresa"]
+                    $id_empresa
                 ]);
 
                 $vendas = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -40,10 +49,15 @@
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             }
-            
         }
 
-        public static function pegarVendasDay(array $data, string $day): array
+        /**
+         * Busca todas as vendas de uma empresa em uma data específica.
+         * @param array $data Dados necessários para a consulta (exemplo: id_empresa).
+         * @param string $day Data no formato 'd/m/Y'.
+         * @return array Lista de vendas no dia especificado ou mensagem de erro.
+         */
+        public static function pegarVendasDay(int $id_empresa, string $day): array
         {
             try {
                 $pdo = self::getConnection();
@@ -68,7 +82,7 @@
 
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
-                    $data["id_empresa"],
+                    $id_empresa,
                     $day
                 ]);
 
@@ -76,7 +90,7 @@
 
                 return $vendas;
             } catch (PDOException $e) {
-                return ["error"=> $e->getMessage()];
-            }        
+                return ["error" => $e->getMessage()];
+            }
         }
     }

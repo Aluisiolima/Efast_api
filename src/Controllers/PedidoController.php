@@ -14,7 +14,7 @@ use App\Services\PedidoServices;
             $pedido = PedidoServices::inserirPedido($body, $id[0]);
 
             if (isset($pedido["error"])) {
-                $response::json($pedido["error"],400, true);
+                $response::json($pedido,400, true);
                 return;
             }
 

@@ -13,7 +13,7 @@
             $produtos = ProdutosServices::pegarProdutos($id);
     
             if(isset($produtos["error"])){
-                $response::json($produtos["error"],400,true);
+                $response::json($produtos,400,true);
                 return;
             }
             $response::json($produtos,200);
@@ -23,10 +23,16 @@
         public function inseriProdutos(Resquest $resquest, Response $response) 
         {
             $body = $resquest::getBody();
-            $produtos = ProdutosServices::inseriProdutos($body);
+            $auth = $resquest::authorization();
+            $produtos = ProdutosServices::inseriProdutos($body, $auth);
+
+            if (isset($user["unauthorized"])){
+                $response::json($produtos,401,true);
+                return;
+            }
     
             if(isset($produtos["error"])){
-                $response::json($produtos["error"],400,true);
+                $response::json($produtos,400,true);
                 return;
             }
             $response::json($produtos,200);
@@ -36,10 +42,16 @@
         public function updateProdutos(Resquest $resquest, Response $response) 
         {
             $body = $resquest::getBody();
-            $produtos = ProdutosServices::updateProdutos($body);
+            $auth = $resquest::authorization();
+            $produtos = ProdutosServices::updateProdutos($body, $auth);
     
+            if (isset($user["unauthorized"])){
+                $response::json($produtos,401,true);
+                return;
+            }
+
             if(isset($produtos["error"])){
-                $response::json($produtos["error"],400,true);
+                $response::json($produtos,400,true);
                 return;
             }
             $response::json($produtos,200);
@@ -49,10 +61,16 @@
         public function desativaProdutos(Resquest $resquest, Response $response): void
         {
             $body = $resquest::getBody();
-            $produtos = ProdutosServices::desativaProdutos($body);
+            $auth = $resquest::authorization();
+            $produtos = ProdutosServices::desativaProdutos($body, $auth);
+
+            if (isset($user["unauthorized"])){
+                $response::json($produtos,401,true);
+                return;
+            }
 
             if(isset($produtos["error"])){
-                $response::json($produtos["error"],400,true);
+                $response::json($produtos,400,true);
                 return;
             }
             $response::json($produtos,200);
@@ -61,10 +79,16 @@
         public function ativaProdutos(Resquest $resquest, Response $response): void
         {
             $body = $resquest::getBody();
-            $produtos = ProdutosServices::ativaProdutos($body);
+            $auth = $resquest::authorization();
+            $produtos = ProdutosServices::ativaProdutos($body, $auth);
             
+            if (isset($user["unauthorized"])){
+                $response::json($produtos,401,true);
+                return;
+            }
+
             if(isset($produtos["error"])){
-                $response::json($produtos["error"],400,true);
+                $response::json($produtos,400,true);
                 return;
             }
             $response::json($produtos,200);
@@ -75,7 +99,7 @@
             $produtos = ProdutosServices::pegarProdutosMain($id);
     
             if(isset($produtos["error"])){
-                $response::json($produtos["error"],400,true);
+                $response::json($produtos,400,true);
                 return;
             }
             $response::json($produtos,200);

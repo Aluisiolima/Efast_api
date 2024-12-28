@@ -1,6 +1,8 @@
 <?php
     namespace App\Http;
 
+    use App\Utils\Logs;
+
     /**
      * Class Response
      * 
@@ -22,9 +24,10 @@
             self::setHeaders($status);
         
             $response = $error 
-                ? self::errorResponse($data)
+                ? self::errorResponse($data, $status)
                 : self::successResponse($data);
-        
+            
+            
             echo self::safeJsonEncode($response);
         }
         
@@ -64,11 +67,23 @@
          *
          * @return array Resposta formatada.
          */
-        private static function errorResponse(array|string $data): array
+        private static function errorResponse(array $data, int $status): array
         {
+            Logs::Log($data, $status);
+
+            $message = "";
+
+            if(isset($data["error"]))
+            {
+                $message = $data["error"];
+            }
+            if(isset($data["unauthorized"]))
+            {
+                $message = $data["unauthorized"];
+            }
             return [
                 "error"   => true,
-                "message" => is_string($data) ? $data : "Ocorreu um erro.",
+                "message" => $message,
             ];
         }
         

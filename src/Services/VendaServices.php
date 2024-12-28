@@ -5,18 +5,30 @@
     use App\Utils\Validator;
     use Exception;
     use PDOException;
+    use App\Http\JWToken;
 
+    /**
+     * Classe VendaServices
+     * Responsavel pela interacoes de vendas feitas pela empresa relacionada
+     */
     class VendaServices
     {
-        public static function pegarVendas(array $data): array
+        /**
+         * Responsavel por pegas todas as vendas da empresa
+         * @param array $data
+         * @return array
+         */
+        public static function pegarVendas(mixed $auth): array
         {
             try{
-                $fields = Validator::validateArray([
-                    "id_empresa" => $data["id"] ?? ""
-                ]);
+                if(isset($auth["error"])){
+                    return ["unauthorized" => $auth["error"]];
+                }
+                $token = JWToken::validateToken($auth);
+                if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
 
-                $vendas = VendaModel::pegarVendas($fields);
-                $modelagem = self::modelagemDate($vendas);
+                $vendasModel = VendaModel::pegarVendas($token->id_empresa);
+                $modelagem = self::modelagemDate($vendasModel);
                 return $modelagem;
             } catch(Exception $e) {
                 return ["error" => $e->getMessage()];
@@ -26,18 +38,25 @@
 
         }
         
-        public static function pegarVendasDay(array $data): array
+        /**
+         * Responsavel por pegas todas as venda de hoje
+         * @param array $data
+         * @return array
+         */
+        public static function pegarVendasDay(mixed $auth): array
         {
             try{
-                $fields = Validator::validateArray([
-                    "id_empresa" => $data["id"] ?? ""
-                ]);
-                
+                if(isset($auth["error"])){
+                    return ["unauthorized" => $auth["error"]];
+                }
+                $token = JWToken::validateToken($auth);
+                if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
+
                 date_default_timezone_set('America/Sao_Paulo');
                 $day  = date('d/m/Y');
 
-                $vendas = VendaModel::pegarVendasDay($fields, $day);
-                $modelagem = self::modelagemDate($vendas);
+                $vendasModel = VendaModel::pegarVendasDay($token->id_empresa, $day);
+                $modelagem = self::modelagemDate($vendasModel);
                 return $modelagem;
             } catch(Exception $e) {
                 return ["error" => $e->getMessage()];
@@ -47,6 +66,11 @@
 
         }
         
+        /**
+         * Responsavel por modela a respotas em um formato mais adquado
+         * @param array $data
+         * @return array
+         */
         private static function modelagemDate(array $data): array
         {
             try{

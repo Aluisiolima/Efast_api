@@ -10,7 +10,7 @@
             foreach($datas as $date => $value)
             {
                 if(empty(trim((string) $value))){
-                    throw new Exception("O campo {$value} é obrigatorio!!");
+                    throw new Exception("O campo { $date } e obrigatorio!!");
                 }
 
                 $datas[$date] = is_string($value) ? strtolower($value) : $value;

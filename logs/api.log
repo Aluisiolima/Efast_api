@@ -1,0 +1,21 @@
+[2024-12-26 17:57:08] POST inserirPedido/1 | status: 400 | Dados: {"nome":"aluisio","tipo_pagamento":"pix","entrega":true,"bairro":"klnshdlahd","rua":"hSksu","numero_casa":3874893} | Resposta: {"error":"O campo {produtos} \u00e9 obrigat\u00f3rio!"}
+[2024-12-26 17:59:37] POST inserirPedido/1 | status: 400 | Dados: {"nome":"aluisio","tipo_pagamento":"pix","entrega":true,"bairro":"klnshdlahd","rua":"hSksu","numero_casa":3874893} | Resposta: {"error":"O campo {produtos} \u00e9 obrigat\u00f3rio!"}
+[2024-12-26 15:00:31] POST inserirPedido/1 | status: 400 | Dados: {"nome":"aluisio","tipo_pagamento":"pix","entrega":true,"bairro":"klnshdlahd","rua":"hSksu","numero_casa":3874893} | Resposta: {"error":"O campo {produtos} \u00e9 obrigat\u00f3rio!"}
+[2024-12-26 15:00:43] POST pegarVendas | status: 400 | Dados: [] | Resposta: {"error":"O campo  \u00e9 obrigatorio!!"}
+[2024-12-26 15:01:17] POST pegarVendas | status: 400 | Dados: [] | Resposta: {"error":"O campo  \u00e9 obrigatorio!!"}
+[2024-12-26 15:02:38] POST pegarVendas | status: 400 | Dados: [] | Resposta: {"error":"O campo id_empresa \u00e9 obrigatorio!!"}
+[2024-12-26 15:03:10] POST pegarVendas | status: 400 | Dados: [] | Resposta: {"error":"O campo { id_empresa } \u00e9 obrigatorio!!"}
+[2024-12-26 15:08:20] POST pegarVendas | status: 400 | Dados: [] | Resposta: {"error":"O campo { id_empresa } e obrigatorio!!"}
+[2024-12-26 15:11:03] POST pegarVendas | status: 400 | Dados: [] | Resposta: {"error":"O campo { id_empresa } e obrigatorio!!"}
+[2024-12-27 08:50:39] POST inserirUser | status: 404 | Dados: {"nome":"aluisio","cargo":"dev","codigo":"0612","senha":"12345","id_empresa":1} | Resposta: {"error":"Essa rota nao existe!!!"}
+[2024-12-27 08:57:57] POST inserirUser | status: 400 | Dados: {"nome":"aluisio","cargo":"dev","codigo":"0612","senha":"12345","id_empresa":1} | Resposta: {"error":"SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'senha' at row 1"}
+[2024-12-27 09:31:30] POST login | status: 400 | Dados: {"nome":"aluisio","cargo":"dev","codigo":"0612","senha":"1245","id_empresa":1} | Resposta: {"error":"Sua senha esta errada!!!"}
+[2024-12-27 09:31:43] POST login | status: 400 | Dados: {"nome":"aluisio","cargo":"dev","codigo":"0712","senha":"12345","id_empresa":1} | Resposta: {"error":"Nao existe user como esse parametros"}
+[2024-12-27 13:54:15] POST pegarUser | status: 401 | Dados: [] | Resposta: {"unauthorized":"Voce nao esta autorizado a essa operacao faca login"}
+[2024-12-27 13:56:51] POST pegarUser | status: 401 | Dados: [] | Resposta: {"unauthorized":"Voce nao esta autorizado a essa operacao faca login"}
+[2024-12-27 13:56:54] POST pegarUser | status: 401 | Dados: [] | Resposta: {"unauthorized":"Voce nao esta autorizado a essa operacao faca login"}
+[2024-12-27 13:57:15] POST pegarUser | status: 401 | Dados: [] | Resposta: {"unauthorized":"Voce nao esta autorizado a essa operacao faca login"}
+[2024-12-27 13:57:21] POST pegarUser | status: 401 | Dados: [] | Resposta: {"unauthorized":"Voe nao esta autorizado a essa operacao faca login"}
+[2024-12-27 14:46:21] PUT updateUser | status: 401 | Dados: {"nome":"aluisio lima","cargo":"dev","senha":54321} | Resposta: {"unauthorized":"Desculpada mais voce nao passou o Token"}
+[2024-12-27 14:46:45] POST pegarUser | status: 401 | Dados: [] | Resposta: {"unauthorized":"Voce nao esta autorizado a essa operacao faca login"}
+[2024-12-27 20:25:35] POST pegarUser | status: 401 | Dados: [] | Resposta: {"unauthorized":"Voce nao esta autorizado a essa operacao faca login"}
