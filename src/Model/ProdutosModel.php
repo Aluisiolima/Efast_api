@@ -65,7 +65,7 @@
          *  - "id_empresa" : INT sendo o id da empressa qual o produto e relacionado 
          * @return array
          */
-        public static function inseriProdutos(array $data): array
+        public static function inseriProdutos(array $data, int $id_empresa): array
         {
             try {
                 $pdo = self::getConnection();
@@ -76,12 +76,11 @@
                     $data["valor"],
                     $data["tipo"],
                     $data["id_img"],
-                    $data["id_empresa"]
+                    $id_empresa
                 ]);
     
                 return [
                     "message"   => "Produto inserido com sucesso",
-                    "dados"     => $data,
                 ];
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
@@ -99,7 +98,7 @@
          *  - "id" : INT sendo o id do produto qual o voce que edit 
          * @return array
          */
-        public static function updateProdutos(array $data): array
+        public static function updateProdutos(array $data, int $id_empresa): array
         {
             try {
                 $pdo = self::getConnection();
@@ -108,7 +107,7 @@
                                 valor = ?,
                                 tipo = ?,
                                 id_img = ?
-                            WHERE id_produto = ?";
+                            WHERE id_produto = ? AND id_empresa = ?";
 
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
@@ -117,11 +116,11 @@
                     $data["tipo"],
                     $data["id_img"],
                     $data["id"],
+                    $id_empresa
                 ]);
                 
                 return [
                     "message"=> "sucesso em edita o produto",
-                    "dados"=> $data
                 ];
             }catch (PDOException $e) {
                 return ["error"=> $e->getMessage()];
@@ -134,19 +133,19 @@
          *  - "id" : INT sendo o id do produto 
          * @return array
          */
-        public static function desativaProdutos(array $data): array
+        public static function desativaProdutos(array $data, int $id_empresa): array
         {
             try {
                 $pdo = self::getConnection();
-                $sql = "UPDATE produtos SET status = 'desativado' WHERE id_produto = ?;";
+                $sql = "UPDATE produtos SET status = 'desativado' WHERE id_produto = ? AND id_empresa = ?;";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
                     $data["id"],
+                    $id_empresa,
                 ]);
 
                 return [
                     "message"=> "sucesso em desativa o produto",
-                    "dados"=> $data
                 ];
             }catch (PDOException $e) {
                 return ["error"=> $e->getMessage()];
@@ -159,19 +158,19 @@
          *  - "id" : INT sendo o id do produto 
          * @return array
          */
-        public static function ativaProdutos(array $data): array
+        public static function ativaProdutos(array $data, int $id_empresa): array
         {
             try {
                 $pdo = self::getConnection();
-                $sql = "UPDATE produtos SET status = 'ativo' WHERE id_produto = ?;";
+                $sql = "UPDATE produtos SET status = 'ativo' WHERE id_produto = ? AND id_empresa = ?;";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
                     $data["id"],
+                    $id_empresa
                 ]);
 
                 return [
                     "message"=> "sucesso em ativa o produto",
-                    "dados"=> $data
                 ];
             }catch (PDOException $e) {
                 return ["error"=> $e->getMessage()];

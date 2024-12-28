@@ -5,6 +5,7 @@
     use App\Utils\Validator;
     use Exception;
     use PDOException;
+    use App\Http\JWToken;
 
     /**
      * Classe VendaServices
@@ -17,14 +18,16 @@
          * @param array $data
          * @return array
          */
-        public static function pegarVendas(array $data): array
+        public static function pegarVendas(mixed $auth): array
         {
             try{
-                $fields = Validator::validateArray([
-                    "id_empresa" => $data["id"] ?? ""
-                ]);
+                if(isset($auth["error"])){
+                    return ["unauthorized" => $auth["error"]];
+                }
+                $token = JWToken::validateToken($auth);
+                if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
 
-                $vendasModel = VendaModel::pegarVendas($fields);
+                $vendasModel = VendaModel::pegarVendas($token->id_empresa);
                 $modelagem = self::modelagemDate($vendasModel);
                 return $modelagem;
             } catch(Exception $e) {
@@ -40,17 +43,19 @@
          * @param array $data
          * @return array
          */
-        public static function pegarVendasDay(array $data): array
+        public static function pegarVendasDay(mixed $auth): array
         {
             try{
-                $fields = Validator::validateArray([
-                    "id_empresa" => $data["id"] ?? ""
-                ]);
-                
+                if(isset($auth["error"])){
+                    return ["unauthorized" => $auth["error"]];
+                }
+                $token = JWToken::validateToken($auth);
+                if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
+
                 date_default_timezone_set('America/Sao_Paulo');
                 $day  = date('d/m/Y');
 
-                $vendasModel = VendaModel::pegarVendasDay($fields, $day);
+                $vendasModel = VendaModel::pegarVendasDay($token->id_empresa, $day);
                 $modelagem = self::modelagemDate($vendasModel);
                 return $modelagem;
             } catch(Exception $e) {

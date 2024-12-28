@@ -1,7 +1,8 @@
 <?php
     namespace App\Services;
 
-    use App\Model\ProdutosModel;
+use App\Http\JWToken;
+use App\Model\ProdutosModel;
     use App\Utils\Validator;
     use Exception;
     use PDOException;
@@ -39,19 +40,26 @@
         /**
          * Validar e direciona as informacoes pra inserir os produtos em banco
          * @param array $data 
+         * @param mixed $auth 
          * @return array
          */
-        public static function inseriProdutos(array $data): array
+        public static function inseriProdutos(array $data, mixed $auth): array
         {
             try {
+
+                if(isset($auth["error"])){
+                    return ["unauthorized" => $auth["error"]];
+                }
+                $token = JWToken::validateToken($auth);
+                if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
+
                 $fields = Validator::validateArray([
                     "nome"      => $data["nome"]        ?? "",
                     "valor"     => $data["valor"]       ?? "",
                     "tipo"      => $data["tipo"]        ?? "",
-                    "id_img"    => $data["id_img"]      ?? "",
-                    "id_empresa"=> $data["id_empresa"]  ?? ""
+                    "id_img"    => $data["id_img"]      ?? ""
                 ]);
-                $produtosModel = ProdutosModel::inseriProdutos($fields);
+                $produtosModel = ProdutosModel::inseriProdutos($fields, $token->id_empresa);
 
                 return $produtosModel;
 
@@ -65,11 +73,18 @@
         /**
          * Validar e direciona as informacoes pra edita os produtos em banco
          * @param array $data 
+         * @param mixed $auth 
          * @return array
          */
-        public static function updateProdutos(array $data): array
+        public static function updateProdutos(array $data, mixed $auth): array
         {
             try {
+                if(isset($auth["error"])){
+                    return ["unauthorized" => $auth["error"]];
+                }
+                $token = JWToken::validateToken($auth);
+                if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
+                
                 $fields = Validator::validateArray([
                     "id"    => $data["id"]      ?? "",
                     "nome"  => $data["nome"]    ?? "",
@@ -77,7 +92,8 @@
                     "tipo"  => $data["tipo"]    ?? "",
                     "id_img"=> $data["id_img"]  ?? ""
                 ]);
-                $produtosModel = ProdutosModel::updateProdutos($fields);
+
+                $produtosModel = ProdutosModel::updateProdutos($fields, $token->id_empresa);
 
                 return $produtosModel;
 
@@ -91,15 +107,22 @@
         /**
          * Validar e direciona as informacoes pra desativa os produtos em banco
          * @param array $data 
+         * @param mixed $auth 
          * @return array
          */
-        public static function desativaProdutos(array $data): array
+        public static function desativaProdutos(array $data, mixed $auth): array
         {
             try {
+                if(isset($auth["error"])){
+                    return ["unauthorized"=> $auth["error"]];
+                }    
+                $token = JWToken::validateToken($auth);
+                if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
+
                 $fields = Validator::validateArray([
                     "id" => $data["id"] ?? "",
                 ]);
-                $produtosModel = ProdutosModel::desativaProdutos($fields);
+                $produtosModel = ProdutosModel::desativaProdutos($fields, $token->id_empresa);
 
                 return $produtosModel;
             } catch (PDOException $e) {
@@ -112,15 +135,22 @@
         /**
          * Validar e direciona as informacoes pra ativa os produtos em banco
          * @param array $data 
+         * @param mixed $auth 
          * @return array
          */
-        public static function ativaProdutos(array $data): array
+        public static function ativaProdutos(array $data, mixed $auth): array
         {
             try {
+                if(isset($auth["error"])){
+                    return ["unauthorized"=> $auth["error"]];
+                }
+                $token = JWToken::validateToken($auth);
+                if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
+
                 $fields = Validator::validateArray([
                     "id" => $data["id"] ?? "",
                 ]);
-                $produtosModel = ProdutosModel::ativaprodutos($fields);
+                $produtosModel = ProdutosModel::ativaprodutos($fields, $token->id_empresa);
                 
                 return $produtosModel;
             } catch (PDOException $e) {

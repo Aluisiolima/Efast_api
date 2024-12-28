@@ -9,11 +9,15 @@
     {
         public function pegarVendas(Resquest $resquest, Response $response)
         {
-            $body = $resquest->getBody();
-            $vendas = VendaServices::pegarVendas($body);
+            $auth = $resquest->authorization();
+            $vendas = VendaServices::pegarVendas($auth);
 
-            if (isset($vendas["error"])) 
-            {
+            if (isset($user["unauthorized"])){
+                $response::json($vendas,401,true);
+                return;
+            }
+
+            if (isset($vendas["error"])) {
                 $response::json($vendas, 400, true);
                 return;
             }
@@ -23,11 +27,14 @@
 
         public function pegarVendasDay(Resquest $resquest, Response $response)
         {
-            $body = $resquest->getBody();
-            $vendas = VendaServices::pegarVendasDay($body);
+            $auth = $resquest->authorization();
+            $vendas = VendaServices::pegarVendasDay($auth);
 
-            if (isset($vendas["error"])) 
-            {
+            if (isset($user["unauthorized"])){
+                $response::json($vendas,401,true);
+                return;
+            }
+            if (isset($vendas["error"])){
                 $response::json($vendas, 400, true);
                 return;
             }

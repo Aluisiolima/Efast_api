@@ -15,7 +15,7 @@
          * @param array $data Dados necessários para a consulta (exemplo: id_empresa).
          * @return array Lista de vendas ou mensagem de erro.
          */
-        public static function pegarVendas(array $data): array
+        public static function pegarVendas(int $id_empresa): array
         {
             try {
                 $pdo = self::getConnection();
@@ -40,7 +40,7 @@
 
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
-                    $data["id_empresa"]
+                    $id_empresa
                 ]);
 
                 $vendas = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -57,7 +57,7 @@
          * @param string $day Data no formato 'd/m/Y'.
          * @return array Lista de vendas no dia especificado ou mensagem de erro.
          */
-        public static function pegarVendasDay(array $data, string $day): array
+        public static function pegarVendasDay(int $id_empresa, string $day): array
         {
             try {
                 $pdo = self::getConnection();
@@ -82,7 +82,7 @@
 
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
-                    $data["id_empresa"],
+                    $id_empresa,
                     $day
                 ]);
 
