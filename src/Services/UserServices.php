@@ -125,7 +125,7 @@
                 if (!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
 
                 $fields = Validator::validateArray([
-                    "nome" => $data["nome"] ?? "",
+                    "nome" => $data["nome"]  ?? "",
                     "cargo"=> $data["cargo"] ?? "",
                     "senha"=> $data["senha"] ?? "",
                 ]);
@@ -155,8 +155,10 @@
                 }
                 $token = JWToken::validateToken($auth);
                 if (!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
+
                 $userModel = UserModel::deleteUser($token->id, $token->id_empresa);
                 return $userModel;
+                
             } catch (PDOException $e) {
                 return ["error"=> $e->getMessage()];
             } catch (Exception $e) {

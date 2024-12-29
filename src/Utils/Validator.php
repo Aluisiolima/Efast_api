@@ -45,12 +45,12 @@
                     throw new Exception("O argumento {produtos} precisa ser um array de objetos{}.");
                 }
         
-                if (!array_key_exists('id', $item) || !array_key_exists('quantidade', $item)) {
-                    throw new Exception("As chave {id && quantidade} sao obrigatorias.");
+                if (!array_key_exists("id", $item) || !array_key_exists("quantidade", $item) || !array_key_exists("desconto_aplicado", $item)) {
+                    throw new Exception("As chave {id && quantidade && desconto_aplicado} sao obrigatorias.");
                 }
         
-                if (($item['id'] === null || !is_int($item['id']))|| ($item['quantidade'] === null || !is_int($item['quantidade']))) {
-                    throw new Exception("As chave {id && quantidade} estao vazias ou seu valores sao diferente (int).");
+                if (($item["id"] === null || !is_int($item["id"]))|| ($item["quantidade"] === null || !is_int($item["quantidade"])) || ($item["desconto_aplicado"] === null || !is_int($item["desconto_aplicado"]))) {
+                    throw new Exception("As chave {id && quantidade && desconto_aplicado} estao vazias ou seu valores sao diferente (int).");
                 }
             }
         

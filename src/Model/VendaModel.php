@@ -32,6 +32,7 @@
                             ped.data_pedido,
                             p.nome_produto, 
                             p.valor,
+                            v.desconto_aplicado,
                             v.quantidade
                         FROM venda v
                         JOIN produtos p ON v.id_produto = p.id_produto
@@ -73,6 +74,7 @@
                             ped.data_pedido,
                             p.nome_produto, 
                             p.valor,
+                            v.desconto_aplicado,
                             v.quantidade
                         FROM venda v
                         JOIN produtos p ON v.id_produto = p.id_produto

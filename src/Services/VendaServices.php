@@ -52,8 +52,8 @@
                 $token = JWToken::validateToken($auth);
                 if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
 
-                date_default_timezone_set('America/Sao_Paulo');
-                $day  = date('d/m/Y');
+                date_default_timezone_set("America/Sao_Paulo");
+                $day  = date("d/m/Y");
 
                 $vendasModel = VendaModel::pegarVendasDay($token->id_empresa, $day);
                 $modelagem = self::modelagemDate($vendasModel);
@@ -77,30 +77,31 @@
                 $vendasAgrupadas = [];
 
                 foreach ($data as $row) {
-                    $idPedido = $row['id_pedido'];
+                    $idPedido = $row["id_pedido"];
 
                     // Verifica se o pedido já existe no array
                     if (!isset($vendasAgrupadas[$idPedido])) {
                         $vendasAgrupadas[$idPedido] = [
-                            'cliente' => $row['nome_cliente'],
-                            'tipo_pagamento' => $row['tipo_pagamento'],
-                            'endereco' => !empty($row['bairro']) ? "{$row['rua']}, {$row['bairro']}, Nº {$row['numero_casa']}" : 'Estabelecimento',
-                            'mesa' => !empty($row['mesa']) ? "Mesa {$row['numero_mesa']}" : "Delivery",
-                            'data_pedido' => $row['data_pedido'],
-                            'produtos' => [],
-                            'valor_total' => 0
+                            "cliente" => $row["nome_cliente"],
+                            "tipo_pagamento" => $row["tipo_pagamento"],
+                            "endereco" => !empty($row["bairro"]) ? "{$row["rua"]}, {$row["bairro"]}, Nº {$row["numero_casa"]}" : "Estabelecimento",
+                            "mesa" => !empty($row["mesa"]) ? "Mesa {$row["numero_mesa"]}" : "Delivery",
+                            "data_pedido" => $row["data_pedido"],
+                            "produtos" => [],
+                            "valor_total" => 0
                         ];
                     }
 
                     // Adiciona os produtos ao pedido
-                    $vendasAgrupadas[$idPedido]['produtos'][] = [
-                        'nome_produto' => $row['nome_produto'],
-                        'valor' => $row['valor'],
-                        'quantidade' => $row['quantidade']
+                    $vendasAgrupadas[$idPedido]["produtos"][] = [
+                        "nome_produto" => $row["nome_produto"],
+                        "valor" => $row["valor"],
+                        "desconto" => $row["desconto_aplicado"],
+                        "quantidade" => $row["quantidade"]
                     ];
 
                     // Atualiza o valor total do pedido
-                    $vendasAgrupadas[$idPedido]['valor_total'] += ($row['valor'] * $row['quantidade']);
+                    $vendasAgrupadas[$idPedido]["valor_total"] += ($row["valor"] * (1 - $row["desconto_aplicado"] / 100)) * $row["quantidade"];
                 }
 
                 return $vendasAgrupadas;

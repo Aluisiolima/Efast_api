@@ -7,10 +7,6 @@
 
     class EmpresaController
     {
-    // Routes::get("/pegarEmpresas" , "EmpresaController@pegarEmpresa");
-    // Routes::post("/inserirEmpresa" , "EmpresaController@inserirEmpresa");
-    // Routes::put("/updateEmpresa" , "EmpresaController@updateEmpresa");
-    // Routes::delete("/deleteEmpresa" , "EmpresaController@deleteEmpresa");
         public function pegarEmpresa(Resquest $resquest, Response $response)
         {
 
