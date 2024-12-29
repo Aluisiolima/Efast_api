@@ -13,13 +13,13 @@
         /**
          * Envia uma resposta JSON ao cliente.
          *
-         * @param array|string $data Dados a serem enviados na resposta.
+         * @param array $data Dados a serem enviados na resposta.
          * @param int $status Código de status HTTP.
          * @param bool $error Indica se a resposta é um erro.
          *
          * @return void
          */
-        public static function json(array|string $data = [], int $status = 200, bool $error = false): void
+        public static function json(array $data = [], int $status = 200, bool $error = false): void
         {
             self::setHeaders($status);
         
@@ -47,16 +47,16 @@
         /**
          * Formata uma resposta de sucesso.
          *
-         * @param array|string $data Dados a serem incluídos na resposta.
+         * @param array $data Dados a serem incluídos na resposta.
          *
          * @return array Resposta formatada.
          */
-        private static function successResponse(array|string $data): array
+        private static function successResponse(array $data): array
         {
             return [
                 "error"   => false,
                 "success" => true,
-                "data"    => is_array($data) ? $data : [$data],
+                "data"    => $data,
             ];
         }
         

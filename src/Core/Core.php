@@ -32,7 +32,7 @@ class Core
                 $routeFound = true;
 
                 if ($route["method"] !== Resquest::method()) {
-                    Response::json("Error nao existe esse metodo pra essa rota", 401,true);
+                    Response::json(["error" => "Error nao existe esse metodo pra essa rota"], 401,true);
                     return;
                 }
 

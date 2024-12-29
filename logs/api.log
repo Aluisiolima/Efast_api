@@ -19,3 +19,30 @@
 [2024-12-27 14:46:21] PUT updateUser | status: 401 | Dados: {"nome":"aluisio lima","cargo":"dev","senha":54321} | Resposta: {"unauthorized":"Desculpada mais voce nao passou o Token"}
 [2024-12-27 14:46:45] POST pegarUser | status: 401 | Dados: [] | Resposta: {"unauthorized":"Voce nao esta autorizado a essa operacao faca login"}
 [2024-12-27 20:25:35] POST pegarUser | status: 401 | Dados: [] | Resposta: {"unauthorized":"Voce nao esta autorizado a essa operacao faca login"}
+[2024-12-28 10:42:22] GET pegarEmpresa | status: 404 | Dados: {"url":"pegarEmpresa"} | Resposta: {"error":"Essa rota nao existe!!!"}
+[2024-12-28 10:45:10] GET pegarEmpresa | status: 404 | Dados: {"url":"pegarEmpresa"} | Resposta: {"error":"Essa rota nao existe!!!"}
+[2024-12-28 11:12:30] POST inserirEmpresa | status: 404 | Dados: {"nome":"Pizaria do ze"} | Resposta: {"error":"Essa rota nao existe!!!"}
+[2024-12-28 11:12:57] POST inserirEmpresa | status: 400 | Dados: {"nome":"Pizaria do ze"} | Resposta: {"error":"O campo { endereco } e obrigatorio!!"}
+[2024-12-28 11:13:24] POST inserirEmpresa | status: 400 | Dados: {"nome":"Pizaria do ze","endereco":"av ze pizzaria"} | Resposta: {"error":"O campo { whastapp } e obrigatorio!!"}
+[2024-12-28 11:14:13] POST inserirEmpresa | status: 400 | Dados: {"nome":"Pizaria do ze","endereco":"av ze pizzaria","whastapp":"0000000000000"} | Resposta: {"error":"O campo { logo } e obrigatorio!!"}
+[2024-12-28 11:28:35] POST inserirUser | status: 401 | Dados: {"id":2,"nome":"ze","cargo":"empresario","codigo":"0000","senha":"123"} | Resposta: {"unauthorized":"Voce nao esta autorizado a essa operacao faca login"}
+[2024-12-28 11:33:16] POST login | status: 400 | Dados: {"nome":"ze","cargo":"empresario","codigo":"0000","senha":"123","id_empresa":1} | Resposta: {"error":"N\u00e3o existe user com esses par\u00e2metros"}
+[2024-12-28 11:53:16] POST login | status: 400 | Dados: {"nome":"aluisio lima","cargo":"dev","codigo":"0612","senha":"12345","id_empresa":1} | Resposta: {"error":"Sua senha est\u00e1 errada!!!"}
+[2024-12-28 11:53:41] PUT updateEmpresa | status: 400 | Dados: {"nome":"Pizaria do aluiz","endereco":"av ze pizzaria","whastapp":"0000000000000","logo":"sadjdkldkl","instagram":"aluiz_nt","facebook":"facebook","email":"email"} | Resposta: {"error":"Voce nao tem autorizacao de atualiza essa empresa !!!"}
+[2024-12-28 20:31:13] GET pegarEmpresas | status: 400 | Dados: {"url":"pegarEmpresas"} | Resposta: {"error":"SQLSTATE[42S22]: Column not found: 1054 Unknown column 'status' in 'where clause'"}
+[2024-12-28 20:32:24] GET pegarEmpresas | status: 400 | Dados: {"url":"pegarEmpresas"} | Resposta: {"error":"SQLSTATE[42S22]: Column not found: 1054 Unknown column 'status' in 'where clause'"}
+[2024-12-28 20:33:18] GET pegarEmpresas | status: 400 | Dados: {"url":"pegarEmpresas"} | Resposta: {"error":"SQLSTATE[42S22]: Column not found: 1054 Unknown column 'status' in 'where clause'"}
+[2024-12-28 20:33:33] GET pegarEmpresas | status: 400 | Dados: {"url":"pegarEmpresas"} | Resposta: {"error":"SQLSTATE[42S22]: Column not found: 1054 Unknown column 'status' in 'where clause'"}
+[2024-12-28 20:33:34] GET pegarEmpresas | status: 400 | Dados: {"url":"pegarEmpresas"} | Resposta: {"error":"SQLSTATE[42S22]: Column not found: 1054 Unknown column 'status' in 'where clause'"}
+[2024-12-28 20:33:35] GET pegarEmpresas | status: 400 | Dados: {"url":"pegarEmpresas"} | Resposta: {"error":"SQLSTATE[42S22]: Column not found: 1054 Unknown column 'status' in 'where clause'"}
+[2024-12-28 20:33:35] GET pegarEmpresas | status: 400 | Dados: {"url":"pegarEmpresas"} | Resposta: {"error":"SQLSTATE[42S22]: Column not found: 1054 Unknown column 'status' in 'where clause'"}
+[2024-12-28 20:33:36] GET pegarEmpresas | status: 400 | Dados: {"url":"pegarEmpresas"} | Resposta: {"error":"SQLSTATE[42S22]: Column not found: 1054 Unknown column 'status' in 'where clause'"}
+[2024-12-28 20:43:16] POST inserirEmpresa | status: 401 | Dados: {"nome":"Pizaria do ze","endereco":"av ze pizzaria","whastapp":"0000000000000","logo":"sadjdkldkl","instagram":"aluiz_nt"} | Resposta: {"unauthorized":"Desculpada mais voce nao passou o Token"}
+[2024-12-28 20:44:17] PUT desativaEmpresa | status: 401 | Dados: [] | Resposta: {"error":"Error nao existe esse metodo pra essa rota"}
+[2024-12-28 20:44:26] POST desativaEmpresa | status: 401 | Dados: [] | Resposta: {"error":"Error nao existe esse metodo pra essa rota"}
+[2024-12-28 20:44:53] DELETE desativaEmpresa | status: 401 | Dados: [] | Resposta: {"unauthorized":"Desculpada mais voce nao passou o Token"}
+[2024-12-29 00:06:55] POST ativaEmpresa | status: 401 | Dados: [] | Resposta: {"unauthorized":"Desculpada mais voce nao passou o Token"}
+[2024-12-29 00:07:23] POST ativaEmpresa | status: 400 | Dados: [] | Resposta: {"error":"O campo { id } e obrigatorio!!"}
+[2024-12-29 00:19:01] GET pegarProdutos/1 | status: 400 | Dados: {"url":"pegarProdutos\/1"} | Resposta: {"error":"SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'tipo' in field list is ambiguous"}
+[2024-12-29 00:22:27] POST login | status: 400 | Dados: {"nome":"cassio","cargo":"prof","codigo":"0000","senha":"cassio","id_empresa":1} | Resposta: {"error":"N\u00e3o existe user com esses par\u00e2metros"}
+[2024-12-29 00:23:21] POST ativaEmpresa | status: 400 | Dados: {"id":1} | Resposta: {"error":"Voce nao tem autorizacao de atualiza essa empresa !!!"}
