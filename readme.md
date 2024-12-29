@@ -73,6 +73,10 @@ Este repositório é dedicado ao desenvolvimento da API do **Efats Menu**, um ca
 efats-menu-api/
 │
 ├── index.php         # Raiz do projeto 
+├── docs/
+│     ├── e-fast.png    # Modelagem do banco
+├── logs/
+│     ├── api.log       # Registro de erros na api
 ├── src/
 │     ├── controllers/  # Controlador de Services
 │     ├── services/     # Logicas de serviços
@@ -88,6 +92,9 @@ efats-menu-api/
 └── .env              # Exemplo do arquivo de variáveis de ambiente
 
 ```
+
+## Diagrama do Banco de Dados
+O diagrama do banco de dados está disponível [aqui](./docs/e-fast.png).
 
 ---
 
