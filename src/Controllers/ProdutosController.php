@@ -26,7 +26,7 @@
             $auth = $resquest::authorization();
             $produtos = ProdutosServices::inseriProdutos($body, $auth);
 
-            if (isset($user["unauthorized"])){
+            if (isset($produtos["unauthorized"])){
                 $response::json($produtos,401,true);
                 return;
             }
@@ -45,7 +45,7 @@
             $auth = $resquest::authorization();
             $produtos = ProdutosServices::updateProdutos($body, $auth);
     
-            if (isset($user["unauthorized"])){
+            if (isset($produtos["unauthorized"])){
                 $response::json($produtos,401,true);
                 return;
             }
@@ -64,7 +64,7 @@
             $auth = $resquest::authorization();
             $produtos = ProdutosServices::desativaProdutos($body, $auth);
 
-            if (isset($user["unauthorized"])){
+            if (isset($produtos["unauthorized"])){
                 $response::json($produtos,401,true);
                 return;
             }
@@ -82,7 +82,7 @@
             $auth = $resquest::authorization();
             $produtos = ProdutosServices::ativaProdutos($body, $auth);
             
-            if (isset($user["unauthorized"])){
+            if (isset($produtos["unauthorized"])){
                 $response::json($produtos,401,true);
                 return;
             }

@@ -20,14 +20,14 @@
     
     //Empresa
     Routes::get("/pegarEmpresas" , "EmpresaController@pegarEmpresa");
-    Routes::post("/inserirEmpresas" , "EmpresaController@inserirEmpresas");
-    Routes::put("/updateEmpresas" , "EmpresaController@updateEmpresas");
-    Routes::delete("/deleteEmpresas" , "EmpresaController@deleteEmpresas");
+    Routes::post("/inserirEmpresa" , "EmpresaController@inserirEmpresa");
+    Routes::put("/updateEmpresa" , "EmpresaController@updateEmpresa");
+    Routes::delete("/desativaEmpresa" , "EmpresaController@desativaEmpresa");
+    Routes::post("/ativaEmpresa" , "EmpresaController@ativaEmpresa");
 
     //Arquivo
     Routes::post("/pegarArquivo" , "ArquivoController@pegarArquivo");
-    Routes::post("/inserirArquivo/img" , "ArquivoController@inserirArquivoImg");
-    Routes::post("/inserirArquivo" , "ArquivoController@inserirArquivo");
+    Routes::post("/inserirArquivo/icon" , "ArquivoController@inserirArquivo");
     Routes::delete("/deleteArquivo" , "ArquivoController@deleteArquivo");
 
     //user_adm

@@ -12,7 +12,7 @@
             $auth = $resquest->authorization();
             $vendas = VendaServices::pegarVendas($auth);
 
-            if (isset($user["unauthorized"])){
+            if (isset($vendas["unauthorized"])){
                 $response::json($vendas,401,true);
                 return;
             }
@@ -30,7 +30,7 @@
             $auth = $resquest->authorization();
             $vendas = VendaServices::pegarVendasDay($auth);
 
-            if (isset($user["unauthorized"])){
+            if (isset($vendas["unauthorized"])){
                 $response::json($vendas,401,true);
                 return;
             }

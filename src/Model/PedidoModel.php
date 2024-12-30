@@ -39,7 +39,7 @@
                 ]);
                 $pedidos = $pdo->lastInsertId();
 
-                $sql = "INSERT INTO venda (id_pedido,id_produto,quantidade, id_empresa) VALUES (?,?,?,?);";
+                $sql = "INSERT INTO venda (id_pedido,id_produto,quantidade, id_empresa, desconto_aplicado) VALUES (?,?,?,?,?);";
 
                 foreach ($data["produtos"] as $item) {
                     $stmt = $pdo->prepare($sql);
@@ -47,7 +47,8 @@
                         $pedidos,
                         $item["id"],
                         $item["quantidade"],
-                        $id_empresa
+                        $id_empresa,
+                        $item["desconto_aplicado"],
                     ]);
                 }
 

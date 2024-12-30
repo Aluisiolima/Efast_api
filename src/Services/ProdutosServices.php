@@ -1,8 +1,8 @@
 <?php
     namespace App\Services;
 
-use App\Http\JWToken;
-use App\Model\ProdutosModel;
+    use App\Http\JWToken;
+    use App\Model\ProdutosModel;
     use App\Utils\Validator;
     use Exception;
     use PDOException;

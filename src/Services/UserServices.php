@@ -57,6 +57,7 @@
                 
 
                 $fields = Validator::validateArray([
+                    "id"        => $data["id"]          ?? 0,
                     "nome"      => $data["nome"]        ?? "",
                     "cargo"     => $data["cargo"]       ?? "",
                     "codigo"    => $data["codigo"]      ?? "",
@@ -65,7 +66,9 @@
 
                 $fields["senha"] = password_hash($fields['senha'], PASSWORD_DEFAULT);
 
-                $userModel = UserModel::inserirUser($fields, $token->id_empresa);
+                $id = ($token->cargo === "dev") ? $fields["id"] : $token->id_empresa;
+
+                $userModel = UserModel::inserirUser($fields, $id);
 
                 return $userModel;
             } catch (Exception $e) {
@@ -94,6 +97,8 @@
 
                 $userModel = UserModel::login($fields);
 
+                if (isset($userModel["error"])) return ["error" => $userModel["error"]];
+                
                 $token = JWToken::generateToken($userModel);
                 return ["token" => $token];
             } catch (PDOException $e) {
@@ -120,7 +125,7 @@
                 if (!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
 
                 $fields = Validator::validateArray([
-                    "nome" => $data["nome"] ?? "",
+                    "nome" => $data["nome"]  ?? "",
                     "cargo"=> $data["cargo"] ?? "",
                     "senha"=> $data["senha"] ?? "",
                 ]);
@@ -150,8 +155,10 @@
                 }
                 $token = JWToken::validateToken($auth);
                 if (!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
+
                 $userModel = UserModel::deleteUser($token->id, $token->id_empresa);
                 return $userModel;
+                
             } catch (PDOException $e) {
                 return ["error"=> $e->getMessage()];
             } catch (Exception $e) {

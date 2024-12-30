@@ -19,7 +19,16 @@
         {
             try {
                 $pdo = self::getConnection();
-                $sql = "SELECT * FROM produtos WHERE id_empresa = ? AND status = 'ativo';";
+                $sql = "SELECT 
+                            p.id_produto,
+                            p.nome_produto,
+                            p.valor,
+                            p.tipo,
+                            a.path
+                        FROM produtos p
+                        JOIN empresa e ON e.id_empresa = p.id_empresa
+                        JOIN arquivo a ON a.id_arquivo = p.id_img
+                        WHERE p.id_empresa = ? AND p.status = 'ativo' AND e.status = 'ativa';";
                     
                 $stmt = $pdo->prepare($sql);
                 
