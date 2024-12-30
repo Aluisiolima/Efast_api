@@ -23,17 +23,17 @@
         {
             // Verificar o campo obrigatório "nome"
             if (!isset($data["nome"]) || empty($data["nome"])) {
-                throw new Exception("O campo {nome} é obrigatório!");
+                throw new Exception("O campo {nome} e obrigatorio!");
             }
 
             // Verificar o campo obrigatório "tipo_pagamento"
             if (!isset($data["tipo_pagamento"]) || empty($data["tipo_pagamento"])) {
-                throw new Exception("O campo {tipo_pagamento} é obrigatório!");
+                throw new Exception("O campo {tipo_pagamento} e obrigatorio!");
             }
 
             // Verifica se foi enviado os produtos do pedido
             if (!isset($data["produtos"]) || empty($data["produtos"])) {
-                throw new Exception("O campo {produtos} é obrigatório!");
+                throw new Exception("O campo {produtos} e obrigatorio!");
             }
 
             if (!is_array($data["produtos"])) {
@@ -57,7 +57,7 @@
             // Verificar se é um pedido para mesa
             if (isset($data["mesa"]) && $data["mesa"] === true) {
                 if (!isset($data["numero_mesa"]) || empty($data["numero_mesa"])) {
-                    throw new Exception("O campo {numero_mesa} é obrigatório para pedidos em mesa!");
+                    throw new Exception("O campo {numero_mesa} e obrigatorio para pedidos em mesa!");
                 }
 
                 return $data;
@@ -66,15 +66,15 @@
             // Verificar se é um pedido para entrega
             if (isset($data["entrega"]) && $data["entrega"] === true) {
                 if (!isset($data["bairro"]) || empty($data["bairro"])) {
-                    throw new Exception("O campo {bairro} é obrigatório para pedidos de entrega!");
+                    throw new Exception("O campo {bairro} e obrigatorio para pedidos de entrega!");
                 }
 
                 if (!isset($data["rua"]) || empty($data["rua"])) {
-                    throw new Exception("O campo {rua} é obrigatório para pedidos de entrega!");
+                    throw new Exception("O campo {rua} e obrigatorio para pedidos de entrega!");
                 }
 
                 if (!isset($data["numero_casa"]) || empty($data["numero_casa"])) {
-                    throw new Exception("O campo {numero_casa} é obrigatório para pedidos de entrega!");
+                    throw new Exception("O campo {numero_casa} e obrigatorio para pedidos de entrega!");
                 }
 
                 return $data;
@@ -93,29 +93,29 @@
             // Verifica se o arquivo é uma imagem real
             $check = getimagesize($dates['tmp_name']);
             if ($check === false) {
-                throw new Exception("O arquivo não é uma imagem.");
+                throw new Exception("O arquivo nao e uma imagem.");
             }
 
             // Verifica o tamanho do arquivo
             if ($dates['size'] > $maxSize) {
-                throw new Exception("O arquivo é muito grande.");
+                throw new Exception("O arquivo e muito grande.");
             }
 
             // Verifica a extensão do arquivo
             $fileExtension = strtolower(pathinfo($dates['name'], PATHINFO_EXTENSION));
             if (!in_array($fileExtension, $types)) {
-                throw new Exception("Tipo de arquivo não permitido. Apenas JPG, JPEG, PNG e GIF são aceitos.");
+                throw new Exception("Tipo de arquivo nao permitido. Apenas JPG, JPEG, PNG e GIF sao aceitos.");
             }
 
             if (!is_dir($targetDir)) {
                 if (!mkdir($targetDir, 0777, true)) {
-                    throw new Exception("Falha ao criar o diretório de upload: {$targetDir}");
+                    throw new Exception("Falha ao criar o diretorio de upload: {$targetDir}");
                 }
             } 
             
             // Verifica se o diretório tem permissão de gravação
             if (!is_writable($targetDir)) {
-                throw new Exception("O diretório de upload não tem permissão de gravação: {$targetDir}");
+                throw new Exception("O diretorio de upload nao tem permissao de gravacao: {$targetDir}");
             }
 
             $tamanho = self::verifica_diretorio($targetDir);
