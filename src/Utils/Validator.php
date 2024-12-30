@@ -83,4 +83,78 @@
             throw new Exception("Falta informacoes para o pedido e nao foi possivel finaliza!!!");
             
         }
+
+        public static function validateImg(array $dates, string $subPath): string
+        {
+            $maxSize = 12000000;
+            $types = ['jpg', 'jpeg', 'png', 'gif'];
+            $targetDir = "../uploads/$subPath";
+
+            // Verifica se o arquivo é uma imagem real
+            $check = getimagesize($dates['tmp_name']);
+            if ($check === false) {
+                throw new Exception("O arquivo não é uma imagem.");
+            }
+
+            // Verifica o tamanho do arquivo
+            if ($dates['size'] > $maxSize) {
+                throw new Exception("O arquivo é muito grande.");
+            }
+
+            // Verifica a extensão do arquivo
+            $fileExtension = strtolower(pathinfo($dates['name'], PATHINFO_EXTENSION));
+            if (!in_array($fileExtension, $types)) {
+                throw new Exception("Tipo de arquivo não permitido. Apenas JPG, JPEG, PNG e GIF são aceitos.");
+            }
+
+            if (!is_dir($targetDir)) {
+                if (!mkdir($targetDir, 0777, true)) {
+                    throw new Exception("Falha ao criar o diretório de upload: {$targetDir}");
+                }
+            } 
+            
+            // Verifica se o diretório tem permissão de gravação
+            if (!is_writable($targetDir)) {
+                throw new Exception("O diretório de upload não tem permissão de gravação: {$targetDir}");
+            }
+
+            $tamanho = self::verifica_diretorio($targetDir);
+            if (!$tamanho){
+                throw new Exception("Voce nao tem mais espaco no seu diretorio de arquivos!!!");
+            }
+            
+            $targetFile = $targetDir . basename($dates['name']);
+            if (file_exists($targetFile)) {
+                throw new Exception("O arquivo já existe.");
+            }
+
+            return $targetFile;
+        }
+        private static function verifica_diretorio(string $diretorio): bool
+        {
+            $tamanhoTotal = 0;
+
+            // Percorre os arquivos e subdiretórios
+            $arquivos = scandir($diretorio);
+
+            foreach ($arquivos as $arquivo) {
+                if ($arquivo === '.' || $arquivo === '..') {
+                    continue; // Ignora "." e ".."
+                }
+
+                $caminho = $diretorio . DIRECTORY_SEPARATOR . $arquivo;
+
+                // Se for arquivo, soma o tamanho; se for diretório, faz recursão
+                if (is_file($caminho)) {
+                    $tamanhoTotal += filesize($caminho);
+                } 
+
+                // Verifica se o tamanho já excede 1 GB durante o cálculo
+                if ($tamanhoTotal >= 1 * 1024 * 1024 * 1024) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
     }

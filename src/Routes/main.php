@@ -27,6 +27,7 @@
 
     //Arquivo
     Routes::post("/pegarArquivo" , "ArquivoController@pegarArquivo");
+    Routes::post("/inserirArquivo/icon" , "ArquivoController@inserirArquivo");
     Routes::delete("/deleteArquivo" , "ArquivoController@deleteArquivo");
 
     //user_adm

@@ -2,7 +2,7 @@
     namespace App\Utils;
 
     use App\Http\Resquest;
-
+    use Exception;
 
     class Logs
     {
@@ -12,8 +12,15 @@
             date_default_timezone_set('America/Sao_Paulo');
             $dataHora = date('Y-m-d H:i:s');
 
-            if (!file_exists($dir)) {
-                mkdir($dir, 0777, true);
+            if (!is_dir($dir)) {
+                if (!mkdir($dir, 0755, true)) {
+                    throw new Exception("Falha ao criar o diretório de upload: {$dir}");
+                }
+            } 
+            
+            // Verifica se o diretório tem permissão de gravação
+            if (!is_writable($dir)) {
+                throw new Exception("O diretório de upload não tem permissão de gravação: {$dir}");
             }
             // Informações da requisição
             $metodo = Resquest::method();
