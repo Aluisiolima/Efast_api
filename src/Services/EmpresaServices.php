@@ -7,71 +7,96 @@
     use App\Model\EmpresaModel;
     use App\Utils\Validator;
 
+    /**
+     * Classe EmpresaServices
+     *
+     * Gerencia as operações de serviços relacionadas às empresas, incluindo autenticação e validação.
+     */
     class EmpresaServices
     {
+        /**
+         * Obtém as empresas ativas do banco de dados.
+         *
+         * @return array Lista de empresas ou mensagem de erro.
+         */
         public static function pegarEmpresa(): array
         {
-            try {  
-                $empresa = EmpresaModel::pegarEmpresa();
-
-                return $empresa;
+            try {
+                return EmpresaModel::pegarEmpresa();
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } catch (Exception $e) {
                 return ["error" => $e->getMessage()];
             }
         }
+
+        /**
+         * Insere uma nova empresa no banco de dados, validando o token do usuário.
+         *
+         * @param array $data Dados da empresa.
+         * @param mixed $auth Token de autenticação.
+         * @return array Mensagem de sucesso, erro ou autorização.
+         */
         public static function inserirEmpresa(array $data, mixed $auth): array
         {
-            try {  
-                if (isset($auth["error"])){
+            try {
+                if (isset($auth["error"])) {
                     return ["unauthorized" => $auth["error"]];
                 }
+
                 $token = JWToken::validateToken($auth);
-                if (!$token) return ["unauthorized" => "Voce nao esta autorizado a essa operacao faca login"];
+                if (!$token) return ["unauthorized" => "Você não está autorizado a essa operação. Faça login."];
 
                 $fields = Validator::validateArray([
-                    "nome"      => $data["nome"]        ?? "",
-                    "endereco"  => $data["endereco"]    ?? "",
-                    "whastapp"  => $data["whastapp"]    ?? "",
-                    "instagram" => $data["instagram"]   ?? "instagram",
-                    "facebook"  => $data["facebook"]    ?? "facebook",
-                    "email"     => $data["email"]       ?? "email",
-                    "logo"      => $data["logo"]        ?? "",
+                    "nome"      => $data["nome"]      ?? "",
+                    "endereco"  => $data["endereco"]  ?? "",
+                    "whastapp"  => $data["whastapp"]  ?? "",
+                    "instagram" => $data["instagram"] ?? "instagram",
+                    "facebook"  => $data["facebook"]  ?? "facebook",
+                    "email"     => $data["email"]     ?? "email",
+                    "logo"      => $data["logo"]      ?? "",
                 ]);
 
-                $empresa = EmpresaModel::inserirEmpresa($fields);
-
-                return $empresa;
+                return EmpresaModel::inserirEmpresa($fields);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } catch (Exception $e) {
                 return ["error" => $e->getMessage()];
             }
         }
+
+        /**
+         * Atualiza os dados de uma empresa no banco de dados.
+         *
+         * @param array $data Dados da empresa.
+         * @param mixed $auth Token de autenticação.
+         * @return array Mensagem de sucesso, erro ou autorização.
+         */
         public static function updateEmpresa(array $data, mixed $auth): array
         {
-            try {  
-                if (isset($auth["error"])){
-                    return ["unauthorized"=> $auth["error"]];
+            try {
+                if (isset($auth["error"])) {
+                    return ["unauthorized" => $auth["error"]];
                 }
+
                 $token = JWToken::validateToken($auth);
-                if (!$token) return ["unauthorized" => "Voce nao esta autorizado a essa operacao faca login"];
+                if (!$token) return ["unauthorized" => "Você não está autorizado a essa operação. Faça login."];
 
                 $fields = Validator::validateArray([
-                    "nome"      => $data["nome"]        ?? "",
-                    "endereco"  => $data["endereco"]    ?? "",
-                    "whastapp"  => $data["whastapp"]    ?? "",
-                    "instagram" => $data["instagram"]   ?? "",
-                    "facebook"  => $data["facebook"]    ?? "",
-                    "email"     => $data["email"]       ?? "",
-                    "logo"      => $data["logo"]        ?? "",
+                    "nome"      => $data["nome"]      ?? "",
+                    "endereco"  => $data["endereco"]  ?? "",
+                    "whastapp"  => $data["whastapp"]  ?? "",
+                    "instagram" => $data["instagram"] ?? "",
+                    "facebook"  => $data["facebook"]  ?? "",
+                    "email"     => $data["email"]     ?? "",
+                    "logo"      => $data["logo"]      ?? "",
                 ]);
-                if ($token->cargo !== "empresario") return ["error"=> "Voce nao tem autorizacao de atualiza essa empresa !!!"];
 
-                $empresa = EmpresaModel::updateEmpresa($fields, $token->id_empresa);
+                if ($token->cargo !== "empresario") {
+                    return ["error" => "Você não tem autorização para atualizar esta empresa."];
+                }
 
-                return $empresa;
+                return EmpresaModel::updateEmpresa($fields, $token->id_empresa);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } catch (Exception $e) {
@@ -79,24 +104,32 @@
             }
         }
 
+        /**
+         * Desativa uma empresa no banco de dados.
+         *
+         * @param array $data Dados contendo o ID da empresa.
+         * @param mixed $auth Token de autenticação.
+         * @return array Mensagem de sucesso, erro ou autorização.
+         */
         public static function desativaEmpresa(array $data, mixed $auth): array
         {
-            try {  
-                if (isset($auth["error"])){
+            try {
+                if (isset($auth["error"])) {
                     return ["unauthorized" => $auth["error"]];
                 }
+
                 $token = JWToken::validateToken($auth);
-                if (!$token) return ["unauthorized" => "Voce nao esta autorizado a essa operacao faca login"];
+                if (!$token) return ["unauthorized" => "Você não está autorizado a essa operação. Faça login."];
 
                 $fields = Validator::validateArray([
                     "id" => $data["id"] ?? "",
                 ]);
 
-                if ($token->cargo !== "dev") return ["error" => "Voce nao tem autorizacao de desativa essa empresa !!!"];
+                if ($token->cargo !== "dev") {
+                    return ["error" => "Você não tem autorização para desativar esta empresa."];
+                }
 
-                $empresa = EmpresaModel::desativaEmpresa($fields);
-
-                return $empresa;
+                return EmpresaModel::desativaEmpresa($fields);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } catch (Exception $e) {
@@ -104,24 +137,32 @@
             }
         }
 
+        /**
+         * Ativa uma empresa no banco de dados.
+         *
+         * @param array $data Dados contendo o ID da empresa.
+         * @param mixed $auth Token de autenticação.
+         * @return array Mensagem de sucesso, erro ou autorização.
+         */
         public static function ativaEmpresa(array $data, mixed $auth): array
         {
-            try {  
-                if (isset($auth["error"])){
+            try {
+                if (isset($auth["error"])) {
                     return ["unauthorized" => $auth["error"]];
                 }
+
                 $token = JWToken::validateToken($auth);
-                if (!$token) return ["unauthorized" => "Voce nao esta autorizado a essa operacao faca login"];
+                if (!$token) return ["unauthorized" => "Você não está autorizado a essa operação. Faça login."];
 
                 $fields = Validator::validateArray([
                     "id" => $data["id"] ?? "",
                 ]);
 
-                if ($token->cargo !== "dev") return ["error" => "Voce nao tem autorizacao de ativa essa empresa !!!"];
+                if ($token->cargo !== "dev") {
+                    return ["error" => "Você não tem autorização para ativar esta empresa."];
+                }
 
-                $empresa = EmpresaModel::ativaEmpresa($fields);
-
-                return $empresa;
+                return EmpresaModel::ativaEmpresa($fields);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } catch (Exception $e) {
