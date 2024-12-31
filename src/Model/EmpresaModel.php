@@ -20,7 +20,18 @@
         {
             try {
                 $pdo = self::getConnection();
-                $sql = "SELECT * FROM empresa WHERE status = 'ativa';";
+                $sql = "SELECT 
+                            e.id_empresa,
+                            e.nome_empresa,
+                            e.whatsapp,
+                            e.instagram,
+                            e.facebook,
+                            e.endereco,
+                            e.email,
+                            a.path
+                        FROM empresa e 
+                        JOIN arquivo a ON a.id_arquivo = e.logo_img
+                        WHERE status = 'ativa';";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute();
 
