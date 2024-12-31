@@ -19,6 +19,18 @@
 
             $response::json($empresa,200);
         }
+        public function pegarEmpresaOne(Resquest $resquest, Response $response, array $id)
+        {
+
+            $empresa = EmpresaServices::pegarEmpresaOne($id[0]);
+
+            if (isset($empresa["error"])) {
+                $response::json($empresa,400,true);
+                return;
+            }
+
+            $response::json($empresa,200);
+        }
         public function inserirEmpresa(Resquest $resquest, Response $response)
         {
             $body = $resquest::getBody();

@@ -29,6 +29,22 @@
                 return ["error" => $e->getMessage()];
             }
         }
+        /**
+         * Obtém a empresas que o usuario fez a requisicao.
+         *
+         * @return array Lista de empresas ou mensagem de erro.
+         */
+        public static function pegarEmpresaOne(int $id): array
+        {
+            try {
+                return EmpresaModel::pegarEmpresaOne($id);
+            } catch (PDOException $e) {
+                return ["error" => $e->getMessage()];
+            } catch (Exception $e) {
+                return ["error" => $e->getMessage()];
+            }
+        }
+
 
         /**
          * Insere uma nova empresa no banco de dados, validando o token do usuário.
