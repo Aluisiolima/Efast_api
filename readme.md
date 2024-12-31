@@ -94,7 +94,7 @@ efats-menu-api/
 ```
 
 ## Diagrama do Banco de Dados
-O diagrama do banco de dados está disponível [aqui](./docs/e-fast.png).
+O diagrama do banco de dados está disponível [aqui](./docs/e_fast.png).
 
 ---
 
