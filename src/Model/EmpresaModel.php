@@ -40,6 +40,36 @@
                 return ["error" => $e->getMessage()];
             }
         }
+        /**
+         * Obtém a empresas ativas pedida pelo usuario.
+         *
+         * @param int $id id da empresa 
+         * @return array Lista de empresas ou mensagem de erro.
+         */
+        public static function pegarEmpresaOne(int $id): array
+        {
+            try {
+                $pdo = self::getConnection();
+                $sql = "SELECT 
+                            e.id_empresa,
+                            e.nome_empresa,
+                            e.whatsapp,
+                            e.instagram,
+                            e.facebook,
+                            e.endereco,
+                            e.email,
+                            a.path
+                        FROM empresa e 
+                        JOIN arquivo a ON a.id_arquivo = e.logo_img
+                        WHERE e.id_empresa = ? AND e.status = 'ativa';";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([$id]);
+
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            } catch (PDOException $e) {
+                return ["error" => $e->getMessage()];
+            }
+        }
 
         /**
          * Insere uma nova empresa no banco de dados.

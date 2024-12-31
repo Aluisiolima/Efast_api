@@ -20,6 +20,7 @@
     
     //Empresa
     Routes::get("/pegarEmpresas" , "EmpresaController@pegarEmpresa");
+    Routes::get("/pegarEmpresa/{id}" , "EmpresaController@pegarEmpresaOne");
     Routes::post("/inserirEmpresa" , "EmpresaController@inserirEmpresa");
     Routes::put("/updateEmpresa" , "EmpresaController@updateEmpresa");
     Routes::delete("/desativaEmpresa" , "EmpresaController@desativaEmpresa");
