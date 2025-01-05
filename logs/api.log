@@ -72,3 +72,8 @@
 [2024-12-30 10:18:48] POST inserirArquivo/icon | status: 400 | Dados: {"img":{"name":"e-fast.png","full_path":"e-fast.png","type":"image\/png","tmp_name":"\/tmp\/phpE7692I","error":0,"size":164978}} | Resposta: {"error":"O diret\u00f3rio de upload n\u00e3o tem permiss\u00e3o de grava\u00e7\u00e3o: ..\/uploads\/1\/"}
 [2024-12-31 17:17:11] GET pegarEmpresa/1 | status: 404 | Dados: {"url":"pegarEmpresa\/1"} | Resposta: {"error":"Essa rota nao existe!!!"}
 [2024-12-31 17:17:32] GET pegarEmpresa/1 | status: 400 | Dados: {"url":"pegarEmpresa\/1"} | Resposta: {"error":"SQLSTATE[23000]: Integrity constraint violation: 1052 Column 'id_empresa' in where clause is ambiguous"}
+[2025-01-03 09:51:19] GET pegarEmpresa/ | status: 404 | Dados: {"url":"pegarEmpresa\/"} | Resposta: {"error":"Essa rota nao existe!!!"}
+[2025-01-05 11:03:15] POST inseriProdutos | status: 400 | Dados: {"nome":"pizza de calabresa","valor":10.3,"tipo":"pizza","id_img":1} | Resposta: {"error":"SQLSTATE[HY000]: General error: 1364 Field 'desconto' doesn't have a default value"}
+[2025-01-05 11:06:15] POST inseriProdutos | status: 400 | Dados: {"nome":"pizza de calabresa","valor":10.3,"tipo":"pizza","desconto":0,"id_img":1} | Resposta: {"error":"O campo { desconto } e obrigatorio!!"}
+[2025-01-05 11:07:38] POST inseriProdutos | status: 400 | Dados: {"nome":"pizza de calabresa","valor":10.3,"tipo":"pizza","desconto":0,"id_img":1} | Resposta: {"error":"O campo { desconto } e obrigatorio!!"}
+[2025-01-05 11:09:21] POST inseriProdutos | status: 400 | Dados: {"nome":"pizza de peperoni","valor":10.3,"tipo":"pizza","id_img":1} | Resposta: {"error":"O campo { desconto } e obrigatorio!!"}

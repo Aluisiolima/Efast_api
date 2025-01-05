@@ -28,7 +28,8 @@
                         FROM produtos p
                         JOIN empresa e ON e.id_empresa = p.id_empresa
                         JOIN arquivo a ON a.id_arquivo = p.id_img
-                        WHERE p.id_empresa = ? AND p.status = 'ativo' AND e.status = 'ativa';";
+                        WHERE p.id_empresa = ? AND p.status = 'ativo' AND e.status = 'ativa'
+                        ORDER BY p.tipo;";
                     
                 $stmt = $pdo->prepare($sql);
                 
@@ -78,14 +79,15 @@
         {
             try {
                 $pdo = self::getConnection();
-                $sql = "INSERT INTO produtos (nome_produto, valor, tipo, id_img, id_empresa) VALUES (?,?,?,?,?);";
+                $sql = "INSERT INTO produtos (nome_produto, valor, tipo, id_img, id_empresa, desconto) VALUES (?,?,?,?,?,?);";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
                     $data["nome"],
                     $data["valor"],
                     $data["tipo"],
                     $data["id_img"],
-                    $id_empresa
+                    $id_empresa,
+                    $data["desconto"]
                 ]);
     
                 return [

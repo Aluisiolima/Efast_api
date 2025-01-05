@@ -57,7 +57,6 @@
                 
 
                 $fields = Validator::validateArray([
-                    "id"        => $data["id"]          ?? 0,
                     "nome"      => $data["nome"]        ?? "",
                     "cargo"     => $data["cargo"]       ?? "",
                     "codigo"    => $data["codigo"]      ?? "",
@@ -66,7 +65,7 @@
 
                 $fields["senha"] = password_hash($fields['senha'], PASSWORD_DEFAULT);
 
-                $id = ($token->cargo === "dev") ? $fields["id"] : $token->id_empresa;
+                $id = ($token->cargo === "dev") ? $data["id"] : $token->id_empresa;
 
                 $userModel = UserModel::inserirUser($fields, $id);
 

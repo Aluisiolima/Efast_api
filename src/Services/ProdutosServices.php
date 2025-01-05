@@ -59,6 +59,7 @@
                     "tipo"      => $data["tipo"]        ?? "",
                     "id_img"    => $data["id_img"]      ?? ""
                 ]);
+                $fields["desconto"] = $data["desconto"] ?? 0;
                 $produtosModel = ProdutosModel::inseriProdutos($fields, $token->id_empresa);
 
                 return $produtosModel;
