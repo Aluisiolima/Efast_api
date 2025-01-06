@@ -5,6 +5,7 @@
 
     //Produtos
     Routes::get("/pegarProdutos/{id}",  "ProdutosController@pegarProdutos");
+    Routes::get("/pegarProduto/unico/{id}",  "ProdutosController@pegarProdutosUnico");
     Routes::get("/pegarProdutos/{id}/main","ProdutosController@pegarProdutosMain");
     Routes::post("/inseriProdutos",     "ProdutosController@inseriProdutos");
     Routes::put("/updateProdutos",      "ProdutosController@updateProdutos");

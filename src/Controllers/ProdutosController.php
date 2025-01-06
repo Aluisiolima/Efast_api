@@ -20,6 +20,19 @@
     
         }
 
+        public function pegarProdutosUnico(Resquest $resquest, Response $response, array $id) 
+        {
+    
+            $produtos = ProdutosServices::pegarProdutosUnico($id);
+    
+            if(isset($produtos["error"])){
+                $response::json($produtos,400,true);
+                return;
+            }
+            $response::json($produtos,200);
+    
+        }
+
         public function inseriProdutos(Resquest $resquest, Response $response) 
         {
             $body = $resquest::getBody();
