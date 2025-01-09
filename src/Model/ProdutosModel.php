@@ -24,7 +24,8 @@
                             p.nome_produto,
                             p.valor,
                             p.tipo,
-                            a.path
+                            a.path,
+                            p.desconto
                         FROM produtos p
                         JOIN empresa e ON e.id_empresa = p.id_empresa
                         JOIN arquivo a ON a.id_arquivo = p.id_img
@@ -58,7 +59,8 @@
                             p.nome_produto,
                             p.valor,
                             p.tipo,
-                            a.path
+                            a.path,
+                            p.desconto
                         FROM produtos p
                         JOIN empresa e ON e.id_empresa = p.id_empresa
                         JOIN arquivo a ON a.id_arquivo = p.id_img
