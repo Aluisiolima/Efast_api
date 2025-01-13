@@ -50,7 +50,7 @@
         {
             try {
                 // Obtém a chave secreta do ambiente
-                self::$secret = $_ENV["USER_SECRET_KEY"];
+                self::$secret = $_ENV["SECRET_KEY"];
                 
                 // Decodifica e valida o token
                 return JWT::decode($token, new Key(self::$secret, "HS256"));

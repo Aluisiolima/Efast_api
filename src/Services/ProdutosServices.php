@@ -38,6 +38,30 @@
         }
 
         /**
+         * Validar e direciona as informacoes pra pega os produtos em banco
+         * @param array $data 
+         * @return array
+         */
+        public static function pegarProdutosUnico(array $data): array
+        {
+            try {
+                $fields = Validator::validateArray([
+                    "id" => $data[0] ?? ""
+                ]);
+
+                $produtosModel = ProdutosModel::pegarProdutosUnico($fields);
+                
+                return $produtosModel;
+                
+            } catch (PDOException $e) {
+                return ["error" => $e->getMessage()];
+            } catch (Exception $e) {
+                return ["error" => $e->getMessage()];
+            }
+            
+        }
+
+        /**
          * Validar e direciona as informacoes pra inserir os produtos em banco
          * @param array $data 
          * @param mixed $auth 
@@ -59,6 +83,7 @@
                     "tipo"      => $data["tipo"]        ?? "",
                     "id_img"    => $data["id_img"]      ?? ""
                 ]);
+                $fields["desconto"] = $data["desconto"] ?? 0;
                 $produtosModel = ProdutosModel::inseriProdutos($fields, $token->id_empresa);
 
                 return $produtosModel;

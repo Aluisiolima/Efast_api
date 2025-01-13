@@ -72,7 +72,11 @@
                     "email"     => $data["email"]     ?? "email",
                     "logo"      => $data["logo"]      ?? "",
                 ]);
-
+                
+                if ($token->cargo !== "dev") {
+                    return ["error" => "Você não tem autorização para atualizar esta empresa."];
+                }
+                
                 return EmpresaModel::inserirEmpresa($fields);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];

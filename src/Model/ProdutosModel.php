@@ -24,11 +24,13 @@
                             p.nome_produto,
                             p.valor,
                             p.tipo,
-                            a.path
+                            a.path,
+                            p.desconto
                         FROM produtos p
                         JOIN empresa e ON e.id_empresa = p.id_empresa
                         JOIN arquivo a ON a.id_arquivo = p.id_img
-                        WHERE p.id_empresa = ? AND p.status = 'ativo' AND e.status = 'ativa';";
+                        WHERE p.id_empresa = ? AND p.status = 'ativo' AND e.status = 'ativa'
+                        ORDER BY p.tipo;";
                     
                 $stmt = $pdo->prepare($sql);
                 
@@ -41,6 +43,42 @@
                 return ["error" => $e->getMessage()];
             }
         }
+
+        /**
+         * Pegar os registro de produtos que tem seu status Ativo
+         * @param array $data contendo as chaves 
+         *  - "id_empresa" : INT sendo o id corresponde da empresa que voce que os produtos  
+         * @return array
+         */
+        public static function pegarProdutosUnico(array $data): array
+        {
+            try {
+                $pdo = self::getConnection();
+                $sql = "SELECT 
+                            p.id_produto,
+                            p.nome_produto,
+                            p.valor,
+                            p.tipo,
+                            a.path,
+                            p.desconto
+                        FROM produtos p
+                        JOIN empresa e ON e.id_empresa = p.id_empresa
+                        JOIN arquivo a ON a.id_arquivo = p.id_img
+                        WHERE p.id_produto = ? AND p.status = 'ativo' AND e.status = 'ativa'
+                        ORDER BY p.tipo;";
+                    
+                $stmt = $pdo->prepare($sql);
+                
+                $stmt->execute([$data["id"]]);
+    
+                $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+                return $produtos;
+            } catch (PDOException $e) {
+                return ["error" => $e->getMessage()];
+            }
+        }
+
         /**
          * Pegar os produtos cargo chefe da empresa
          * @param array $data contendo as chave
@@ -78,14 +116,15 @@
         {
             try {
                 $pdo = self::getConnection();
-                $sql = "INSERT INTO produtos (nome_produto, valor, tipo, id_img, id_empresa) VALUES (?,?,?,?,?);";
+                $sql = "INSERT INTO produtos (nome_produto, valor, tipo, id_img, id_empresa, desconto) VALUES (?,?,?,?,?,?);";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
                     $data["nome"],
                     $data["valor"],
                     $data["tipo"],
                     $data["id_img"],
-                    $id_empresa
+                    $id_empresa,
+                    $data["desconto"]
                 ]);
     
                 return [
