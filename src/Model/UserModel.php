@@ -27,6 +27,8 @@
                 return $result;
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
 
@@ -60,6 +62,8 @@
                 ];
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
 
@@ -99,6 +103,8 @@
                 ];
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
 
@@ -132,6 +138,8 @@
                     
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
 
@@ -157,6 +165,8 @@
                 ];
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
     }

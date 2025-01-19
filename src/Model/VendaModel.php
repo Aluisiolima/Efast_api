@@ -49,6 +49,8 @@
                 return $vendas;
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
 
@@ -93,6 +95,8 @@
                 return $vendas;
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
     }
