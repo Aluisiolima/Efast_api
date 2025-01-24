@@ -41,6 +41,8 @@
                 return $produtos;
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
 
@@ -76,6 +78,8 @@
                 return $produtos;
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
 
@@ -100,6 +104,8 @@
                 return $produtos;
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
         /**
@@ -132,6 +138,8 @@
                 ];
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
            
         }
@@ -172,6 +180,8 @@
                 ];
             }catch (PDOException $e) {
                 return ["error"=> $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
 
@@ -197,6 +207,8 @@
                 ];
             }catch (PDOException $e) {
                 return ["error"=> $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
 
@@ -222,6 +234,8 @@
                 ];
             }catch (PDOException $e) {
                 return ["error"=> $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
 

@@ -33,6 +33,8 @@
                 return $result;
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
 
@@ -71,6 +73,8 @@
             } catch (PDOException $e) {
                 $pdo->rollBack(); // Reverte a transação em caso de erro
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
 
@@ -106,6 +110,8 @@
                 return $result;
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
     }

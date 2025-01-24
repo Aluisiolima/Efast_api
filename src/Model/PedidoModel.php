@@ -59,6 +59,8 @@
             } catch (PDOException $e) {
                 $pdo->rollBack();
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
     }

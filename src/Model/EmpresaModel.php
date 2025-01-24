@@ -38,6 +38,8 @@
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
         /**
@@ -68,6 +70,8 @@
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
 
@@ -96,6 +100,8 @@
                 return ["messagem" => "Empresa inserida com sucesso !!"];
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
 
@@ -134,6 +140,8 @@
                 return ["messagem" => "Empresa atualizada com sucesso !!"];
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
 
@@ -154,6 +162,8 @@
                 return ["messagem" => "Empresa desativada com sucesso !!"];
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
 
@@ -174,6 +184,8 @@
                 return ["messagem" => "Empresa ativada com sucesso !!"];
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
             }
         }
     }
