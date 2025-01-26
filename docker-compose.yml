@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  api1:
+    image: aluiznt/api_efast:v1.0
+    container_name: api1
+    env_file:
+      - .env
+    ports:
+      - "8080:80"
+  
+
+  api2:
+    image: aluiznt/api_efast:v1.0
+    container_name: api2
+    env_file:
+      - .env
+    ports:
+      - "8084:80"
+
+  api3:
+    image: aluiznt/api_efast:v1.0
+    container_name: api3
+    env_file:
+      - .env
+    ports:
+      - "8083:80"
+
+  api4:
+    image: aluiznt/api_efast:v1.0
+    container_name: api4
+    env_file:
+      - .env
+    ports:
+      - "8082:80"
+
+  api5:
+    image: aluiznt/api_efast:v1.0
+    container_name: api5
+    env_file:
+      - .env 
+    ports:
+      - "8081:80"
+
+  nginx:
+    build: ./nginx
+    container_name: cardapios
+
+    ports:
+      - "3000:80"
+
+    depends_on:
+      - api1
+      - api2
+      - api3
+      - api4
+      - api5

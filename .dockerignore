@@ -1,0 +1,7 @@
+*.md
+vendor/
+docs/
+nginx/
+logs/
+.*
+docker*
