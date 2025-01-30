@@ -5,7 +5,7 @@ services:
     image: aluiznt/api_efast:v1.0
     container_name: api1
     env_file:
-      - .env
+      - .env.docker
     ports:
       - "8080:80"
   
@@ -14,7 +14,7 @@ services:
     image: aluiznt/api_efast:v1.0
     container_name: api2
     env_file:
-      - .env
+      - .env.docker
     ports:
       - "8084:80"
 
@@ -22,7 +22,7 @@ services:
     image: aluiznt/api_efast:v1.0
     container_name: api3
     env_file:
-      - .env
+      - .env.docker
     ports:
       - "8083:80"
 
@@ -30,7 +30,7 @@ services:
     image: aluiznt/api_efast:v1.0
     container_name: api4
     env_file:
-      - .env
+      - .env.docker
     ports:
       - "8082:80"
 
@@ -38,13 +38,13 @@ services:
     image: aluiznt/api_efast:v1.0
     container_name: api5
     env_file:
-      - .env 
+      - .env.docker 
     ports:
       - "8081:80"
 
   nginx:
     build: ./nginx
-    container_name: cardapios
+    container_name: api_cardapio
 
     ports:
       - "3000:80"
