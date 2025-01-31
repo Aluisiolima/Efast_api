@@ -30,6 +30,7 @@
                             ped.numero_mesa, 
                             ped.mesa, 
                             ped.data_pedido,
+                            ped.status,
                             p.nome_produto, 
                             p.valor,
                             v.desconto_aplicado,

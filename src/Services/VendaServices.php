@@ -86,6 +86,7 @@
                             "endereco" => !empty($row["bairro"]) ? "{$row["rua"]}, {$row["bairro"]}, Nº {$row["numero_casa"]}" : "Estabelecimento",
                             "mesa" => !empty($row["mesa"]) ? "Mesa {$row["numero_mesa"]}" : "Delivery",
                             "data_pedido" => $row["data_pedido"],
+                            "status" => $row["status"],
                             "produtos" => [],
                             "valor_total" => 0
                         ];
