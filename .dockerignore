@@ -3,5 +3,6 @@ vendor/
 docs/
 nginx/
 logs/
-.*
+.env*
+.g*
 docker*
