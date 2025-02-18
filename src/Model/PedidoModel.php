@@ -63,4 +63,21 @@
                 $pdo = null;
             }
         }
+
+        public static function updateStatus(array $data): array
+        {
+            try {
+                $pdo = self::getConnection();
+                $sql = "UPDATE pedido SET status = ? WHERE id_pedido = ?";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    $data["status"],
+                    $data["id"]
+                ]);
+
+                return ["messagem" => "status do pedido atualizado sucesso !!"];
+            } catch (PDOException $e) {
+                return ["error" => $e->getMessage()];
+            }
+        } 
     }
