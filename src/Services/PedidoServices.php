@@ -1,6 +1,7 @@
 <?php
     namespace App\Services;
 
+    use App\Http\JWToken;
     use App\Model\PedidoModel;
     use App\Utils\Validator;
     use Exception;
@@ -44,6 +45,32 @@
             } catch (Exception $e) {
                 return ["error" => $e->getMessage()];
             } catch (PDOException $e) {
+                return ["error" => $e->getMessage()];
+            }
+            
+        }
+        public static function status(array $data, int $id, mixed $auth): array
+        {
+            try{
+                if (isset($auth["error"])) {
+                    return ["unauthorized" => $auth["error"]];
+                }
+    
+                $token = JWToken::validateToken($auth);
+                if (!$token) return ["unauthorized" => "Você não está autorizado a essa operação. Faça login."];
+
+                $fields = Validator::validateArray([
+                    "id"     => $id             ?? "",
+                    "status" => $data["status"] ?? ""
+                ]);
+
+                $pedido = PedidoModel::updateStatus($fields);
+
+                return $pedido;
+            }catch (Exception $e){
+                return ["error" => $e->getMessage()];
+            }
+            catch (PDOException $e){
                 return ["error" => $e->getMessage()];
             }
             

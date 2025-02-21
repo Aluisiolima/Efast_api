@@ -14,6 +14,7 @@
 
     //Pedido
     Routes::post("/inserirPedido/{id}", "PedidoController@inserirPedido");
+    Routes::post("/status/{id}", "PedidoController@status");
 
     //Venda
     Routes::post("/pegarVendas", "VendaController@pegarVendas");
