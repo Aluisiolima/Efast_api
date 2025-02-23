@@ -37,6 +37,31 @@
             
         }
 
+        public static function getTypes(array $data, mixed $auth): array
+        {
+            try {
+                if(isset($auth["error"])){
+                    return ["unauthorized" => $auth["error"]];
+                }
+                $token = JWToken::validateToken($auth);
+                if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
+                
+                $fields = Validator::validateArray([
+                    "id_empresa" => $data[0] ?? ""
+                ]);
+
+                $produtosModel = ProdutosModel::getTypes($fields);
+                
+                return $produtosModel;
+                
+            } catch (PDOException $e) {
+                return ["error" => $e->getMessage()];
+            } catch (Exception $e) {
+                return ["error" => $e->getMessage()];
+            }
+            
+        }
+
         /**
          * Validar e direciona as informacoes pra pega os produtos em banco
          * @param array $data 

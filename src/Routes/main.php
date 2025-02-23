@@ -10,7 +10,8 @@
     Routes::post("/inseriProdutos",     "ProdutosController@inseriProdutos");
     Routes::put("/updateProdutos",      "ProdutosController@updateProdutos");
     Routes::delete("/desativaProdutos", "ProdutosController@desativaProdutos");
-    Routes::post("/ativaProdutos",      "ProdutosController@ativaProdutos");
+    Routes::post("/ativaProdutos",      "ProdutosController@ativaProdutos");    
+    Routes::post("/getTypes/{id}",      "ProdutosController@getTypes");
 
     //Pedido
     Routes::post("/inserirPedido/{id}", "PedidoController@inserirPedido");
