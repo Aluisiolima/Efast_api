@@ -37,6 +37,31 @@
             
         }
 
+        public static function getTypes(array $data, mixed $auth): array
+        {
+            try {
+                if(isset($auth["error"])){
+                    return ["unauthorized" => $auth["error"]];
+                }
+                $token = JWToken::validateToken($auth);
+                if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
+                
+                $fields = Validator::validateArray([
+                    "id_empresa" => $data[0] ?? ""
+                ]);
+
+                $produtosModel = ProdutosModel::getTypes($fields);
+                
+                return $produtosModel;
+                
+            } catch (PDOException $e) {
+                return ["error" => $e->getMessage()];
+            } catch (Exception $e) {
+                return ["error" => $e->getMessage()];
+            }
+            
+        }
+
         /**
          * Validar e direciona as informacoes pra pega os produtos em banco
          * @param array $data 
@@ -111,11 +136,12 @@
                 if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
                 
                 $fields = Validator::validateArray([
-                    "id"    => $data["id"]      ?? "",
-                    "nome"  => $data["nome"]    ?? "",
-                    "valor" => $data["valor"]   ?? "",
-                    "tipo"  => $data["tipo"]    ?? "",
-                    "id_img"=> $data["id_img"]  ?? ""
+                    "id"        => $data["id"]      ?? "",
+                    "nome"      => $data["nome"]    ?? "",
+                    "valor"     => $data["valor"]   ?? "",
+                    "tipo"      => $data["tipo"]    ?? "",
+                    "desconto"  => $data["desconto"]?? "",
+                    "id_img"    => $data["id_img"]  ?? ""
                 ]);
 
                 $produtosModel = ProdutosModel::updateProdutos($fields, $token->id_empresa);

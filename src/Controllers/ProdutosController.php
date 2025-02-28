@@ -33,6 +33,25 @@
     
         }
 
+        public function getTypes(Resquest $resquest, Response $response, array $id) 
+        {
+            $auth = $resquest::authorization();
+            $produtos = ProdutosServices::getTypes($id, $auth);
+    
+            if (isset($produtos["unauthorized"])){
+                $response::json($produtos,401,true);
+                return;
+            }
+
+            if(isset($produtos["error"])){
+                $response::json($produtos,400,true);
+                return;
+            }
+            
+            $response::json($produtos,200);
+    
+        }
+
         public function inseriProdutos(Resquest $resquest, Response $response) 
         {
             $body = $resquest::getBody();

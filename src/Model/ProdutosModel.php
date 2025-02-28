@@ -46,6 +46,26 @@
             }
         }
 
+        public static function getTypes(array $data): array
+        {
+            try {
+                $pdo = self::getConnection();
+                $sql ="SELECT tipo FROM produtos WHERE id_empresa = ? AND status = 'ativo' GROUP BY tipo";
+                    
+                $stmt = $pdo->prepare($sql);
+                
+                $stmt->execute([$data["id_empresa"]]);
+    
+                $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+                return $produtos;
+            } catch (PDOException $e) {
+                return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
+            }
+        }
+
         /**
          * Pegar os registro de produtos que tem seu status Ativo
          * @param array $data contendo as chaves 
@@ -162,7 +182,8 @@
                             SET nome_produto = ?, 
                                 valor = ?,
                                 tipo = ?,
-                                id_img = ?
+                                id_img = ?,
+                                desconto = ?
                             WHERE id_produto = ? AND id_empresa = ?";
 
                 $stmt = $pdo->prepare($sql);
@@ -171,6 +192,7 @@
                     $data["valor"],
                     $data["tipo"],
                     $data["id_img"],
+                    $data["desconto"],
                     $data["id"],
                     $id_empresa
                 ]);
