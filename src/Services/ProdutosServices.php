@@ -136,11 +136,12 @@
                 if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
                 
                 $fields = Validator::validateArray([
-                    "id"    => $data["id"]      ?? "",
-                    "nome"  => $data["nome"]    ?? "",
-                    "valor" => $data["valor"]   ?? "",
-                    "tipo"  => $data["tipo"]    ?? "",
-                    "id_img"=> $data["id_img"]  ?? ""
+                    "id"        => $data["id"]      ?? "",
+                    "nome"      => $data["nome"]    ?? "",
+                    "valor"     => $data["valor"]   ?? "",
+                    "tipo"      => $data["tipo"]    ?? "",
+                    "desconto"  => $data["desconto"]?? "",
+                    "id_img"    => $data["id_img"]  ?? ""
                 ]);
 
                 $produtosModel = ProdutosModel::updateProdutos($fields, $token->id_empresa);

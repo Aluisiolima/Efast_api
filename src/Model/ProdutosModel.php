@@ -182,7 +182,8 @@
                             SET nome_produto = ?, 
                                 valor = ?,
                                 tipo = ?,
-                                id_img = ?
+                                id_img = ?,
+                                desconto = ?
                             WHERE id_produto = ? AND id_empresa = ?";
 
                 $stmt = $pdo->prepare($sql);
@@ -191,6 +192,7 @@
                     $data["valor"],
                     $data["tipo"],
                     $data["id_img"],
+                    $data["desconto"],
                     $data["id"],
                     $id_empresa
                 ]);
