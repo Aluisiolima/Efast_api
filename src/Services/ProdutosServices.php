@@ -140,9 +140,10 @@
                     "nome"      => $data["nome"]    ?? "",
                     "valor"     => $data["valor"]   ?? "",
                     "tipo"      => $data["tipo"]    ?? "",
-                    "desconto"  => $data["desconto"]?? "",
                     "id_img"    => $data["id_img"]  ?? ""
                 ]);
+
+                $fields["desconto"] = $data["desconto"] ?? 0;
 
                 $produtosModel = ProdutosModel::updateProdutos($fields, $token->id_empresa);
 
