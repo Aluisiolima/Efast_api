@@ -67,11 +67,13 @@
                     "nome"      => $data["nome"]      ?? "",
                     "endereco"  => $data["endereco"]  ?? "",
                     "whastapp"  => $data["whastapp"]  ?? "",
-                    "instagram" => $data["instagram"] ?? "instagram",
-                    "facebook"  => $data["facebook"]  ?? "facebook",
-                    "email"     => $data["email"]     ?? "email",
-                    "logo"      => $data["logo"]      ?? "",
+                    
                 ]);
+                
+                $fields["logo"] = 1;
+                $fields["instagram"] = null;
+                $fields["facebook"]  = null;
+                $fields["email"]     = null;
                 
                 if ($token->cargo !== "dev") {
                     return ["error" => "Você não tem autorização para atualizar esta empresa."];
