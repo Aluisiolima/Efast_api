@@ -67,13 +67,12 @@
                     "nome"      => $data["nome"]      ?? "",
                     "endereco"  => $data["endereco"]  ?? "",
                     "whastapp"  => $data["whastapp"]  ?? "",
-                    
+                    "logo"      => $data["logo"]      ?? "",
                 ]);
                 
-                $fields["logo"] = 1;
-                $fields["instagram"] = null;
-                $fields["facebook"]  = null;
-                $fields["email"]     = null;
+                $fields["instagram"] = $data["instagram"] ?? null;
+                $fields["facebook"] = $data["facebook"] ?? null;
+                $fields["email"] = $data["email"] ?? null;
                 
                 if ($token->cargo !== "dev") {
                     return ["error" => "Você não tem autorização para atualizar esta empresa."];
@@ -108,11 +107,12 @@
                     "nome"      => $data["nome"]      ?? "",
                     "endereco"  => $data["endereco"]  ?? "",
                     "whastapp"  => $data["whastapp"]  ?? "",
-                    "instagram" => $data["instagram"] ?? "",
-                    "facebook"  => $data["facebook"]  ?? "",
-                    "email"     => $data["email"]     ?? "",
                     "logo"      => $data["logo"]      ?? "",
                 ]);
+
+                $fields["instagram"] = $data["instagram"] ?? null;
+                $fields["facebook"] = $data["facebook"] ?? null;
+                $fields["email"] = $data["email"] ?? null;
 
                 if ($token->cargo !== "empresario") {
                     return ["error" => "Você não tem autorização para atualizar esta empresa."];
