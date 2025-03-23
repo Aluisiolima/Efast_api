@@ -1,7 +1,9 @@
 <?php
     namespace App\Model;
 
-    use PDOException;
+    use App\Validations\EmpresaValidate\NewEmpresa;
+use App\Validations\EmpresaValidate\UpdateEmpresa;
+use PDOException;
     use PDO;
 
     /**
@@ -78,23 +80,22 @@
         /**
          * Insere uma nova empresa no banco de dados.
          *
-         * @param array $data Dados da empresa a ser inserida.
+         * @param NewEmpresa $data Dados da empresa a ser inserida.
          * @return array Mensagem de sucesso ou erro.
          */
-        public static function inserirEmpresa(array $data): array
+        public static function inserirEmpresa(NewEmpresa $data): array
         {
             try {
                 $pdo = self::getConnection();
-                $sql = "INSERT INTO empresa (nome_empresa, endereco, whatsapp, instagram, facebook, email, logo_img) VALUES (?,?,?,?,?,?,?);";
+                $sql = "INSERT INTO empresa (nome_empresa, endereco, whatsapp, instagram, facebook, email, logo_img) VALUES (?,?,?,?,?,?,1);";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
-                    $data["nome"],
-                    $data["endereco"],
-                    $data["whastapp"],
-                    $data["instagram"],
-                    $data["facebook"],  
-                    $data["email"],
-                    $data["logo"],
+                    $data->nome,
+                    $data->endereco,
+                    $data->whastapp,
+                    $data->instagram,
+                    $data->facebook,  
+                    $data->email,
                 ]);
 
                 return ["messagem" => "Empresa inserida com sucesso !!"];
@@ -108,32 +109,32 @@
         /**
          * Atualiza os dados de uma empresa específica.
          *
-         * @param array $data Dados atualizados da empresa.
+         * @param UpdateEmpresa $data Dados atualizados da empresa.
          * @param int $id ID da empresa a ser atualizada.
          * @return array Mensagem de sucesso ou erro.
          */
-        public static function updateEmpresa(array $data, int $id): array
+        public static function updateEmpresa(UpdateEmpresa $data, int $id): array
         {
             try {
                 $pdo = self::getConnection();
                 $sql = "UPDATE empresa SET 
-                            nome_empresa = ?,
-                            endereco = ?,
-                            whatsapp = ?,
-                            instagram = ?,
-                            facebook = ?,
-                            email = ?, 
-                            logo_img = ?
+                            nome_empresa = COALESCE(?, nome_empresa),
+                            endereco = COALESCE(?, endereco),
+                            whatsapp = COALESCE(?, whatsapp),
+                            instagram = COALESCE(?, instagram),
+                            facebook = COALESCE(?, facebook),
+                            email = COALESCE(?, email), 
+                            logo_img = COALESCE(?, logo_img)
                         WHERE id_empresa = ?;";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
-                    $data["nome"],
-                    $data["endereco"],
-                    $data["whastapp"],
-                    $data["instagram"],
-                    $data["facebook"],  
-                    $data["email"],
-                    $data["logo"],
+                    $data->nome,
+                    $data->endereco,
+                    $data->whastapp,
+                    $data->instagram,
+                    $data->facebook,  
+                    $data->email,
+                    $data->logo,
                     $id
                 ]);
 

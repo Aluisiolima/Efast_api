@@ -1,11 +1,13 @@
 <?php
     namespace App\Services;
 
+    use App\Validations\EmpresaValidate\NewEmpresa;
     use PDOException;
     use Exception;
     use App\Http\JWToken;
     use App\Model\EmpresaModel;
     use App\Utils\Validator;
+use App\Validations\EmpresaValidate\UpdateEmpresa;
 
     /**
      * Classe EmpresaServices
@@ -63,22 +65,13 @@
                 $token = JWToken::validateToken($auth);
                 if (!$token) return ["unauthorized" => "Você não está autorizado a essa operação. Faça login."];
 
-                $fields = Validator::validateArray([
-                    "nome"      => $data["nome"]      ?? "",
-                    "endereco"  => $data["endereco"]  ?? "",
-                    "whastapp"  => $data["whastapp"]  ?? "",
-                    "logo"      => $data["logo"]      ?? "",
-                ]);
                 
-                $fields["instagram"] = $data["instagram"] ?? null;
-                $fields["facebook"] = $data["facebook"] ?? null;
-                $fields["email"] = $data["email"] ?? null;
                 
                 if ($token->cargo !== "dev") {
                     return ["error" => "Você não tem autorização para atualizar esta empresa."];
                 }
                 
-                return EmpresaModel::inserirEmpresa($fields);
+                return EmpresaModel::inserirEmpresa(new NewEmpresa($data));
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } catch (Exception $e) {
@@ -103,22 +96,11 @@
                 $token = JWToken::validateToken($auth);
                 if (!$token) return ["unauthorized" => "Você não está autorizado a essa operação. Faça login."];
 
-                $fields = Validator::validateArray([
-                    "nome"      => $data["nome"]      ?? "",
-                    "endereco"  => $data["endereco"]  ?? "",
-                    "whastapp"  => $data["whastapp"]  ?? "",
-                    "logo"      => $data["logo"]      ?? "",
-                ]);
-
-                $fields["instagram"] = $data["instagram"] ?? null;
-                $fields["facebook"] = $data["facebook"] ?? null;
-                $fields["email"] = $data["email"] ?? null;
-
                 if ($token->cargo !== "empresario") {
                     return ["error" => "Você não tem autorização para atualizar esta empresa."];
                 }
 
-                return EmpresaModel::updateEmpresa($fields, $token->id_empresa);
+                return EmpresaModel::updateEmpresa(new UpdateEmpresa($data), $token->id_empresa);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } catch (Exception $e) {

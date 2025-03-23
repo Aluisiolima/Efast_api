@@ -77,3 +77,8 @@
 [2025-01-05 11:06:15] POST inseriProdutos | status: 400 | Dados: {"nome":"pizza de calabresa","valor":10.3,"tipo":"pizza","desconto":0,"id_img":1} | Resposta: {"error":"O campo { desconto } e obrigatorio!!"}
 [2025-01-05 11:07:38] POST inseriProdutos | status: 400 | Dados: {"nome":"pizza de calabresa","valor":10.3,"tipo":"pizza","desconto":0,"id_img":1} | Resposta: {"error":"O campo { desconto } e obrigatorio!!"}
 [2025-01-05 11:09:21] POST inseriProdutos | status: 400 | Dados: {"nome":"pizza de peperoni","valor":10.3,"tipo":"pizza","id_img":1} | Resposta: {"error":"O campo { desconto } e obrigatorio!!"}
+[2025-03-23 19:26:27] POST inserirEmpresa | status: 400 | Dados: {"endereco":" 214 Centro","whastapp":"0000000000000","email":"teste3","logo":1} | Resposta: {"error":"O nome \u00e9 obrigat\u00f3rio."}
+[2025-03-23 20:12:08] PUT updateEmpresa/7 | status: 404 | Dados: {"nome":"teste de update"} | Resposta: {"error":"Essa rota nao existe!!!"}
+[2025-03-23 20:12:28] PUT updateEmpresa/ | status: 401 | Dados: {"nome":"teste de update"} | Resposta: {"unauthorized":"Desculpada mais voce nao passou o Token"}
+[2025-03-23 20:13:08] PUT updateEmpresa/ | status: 400 | Dados: {"nome":"teste de update"} | Resposta: {"error":"O campo { endereco } e obrigatorio!!"}
+[2025-03-23 20:14:17] PUT updateEmpresa/ | status: 400 | Dados: {"nome":"teste de update"} | Resposta: {"error":"Voc\u00ea n\u00e3o tem autoriza\u00e7\u00e3o para atualizar esta empresa."}
