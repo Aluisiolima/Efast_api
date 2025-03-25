@@ -1,7 +1,10 @@
 <?php
     namespace App\Model;
-    use PDO;
+
+use App\Validations\ProdutosValidate\NewProdutos;
+use PDO;
     use PDOException;
+    use App\Validations\ProdutosValidate\UpdateProdutos;
 
     /**
      * Class ProdutosModel 
@@ -130,27 +133,22 @@
         }
         /**
          * Inserir os dados de novo produto
-         * @param array $data contendo as chaves 
-         *  - "nome" : STRIGN sendo o nome do produto 
-         *  - "valor" : INT sendo o seu valor de mercado
-         *  - "tipo" : STRIGN sendo sua tipagem
-         *  - "id_img" : INT sendo o id do seu arquivo de img para layout
-         *  - "id_empresa" : INT sendo o id da empressa qual o produto e relacionado 
+         * @param NewProdutos $data 
          * @return array
          */
-        public static function inseriProdutos(array $data, int $id_empresa): array
+        public static function inseriProdutos(NewProdutos $data, int $id_empresa): array
         {
             try {
                 $pdo = self::getConnection();
                 $sql = "INSERT INTO produtos (nome_produto, valor, tipo, id_img, id_empresa, desconto) VALUES (?,?,?,?,?,?);";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
-                    $data["nome"],
-                    $data["valor"],
-                    $data["tipo"],
-                    $data["id_img"],
+                    $data->nome,
+                    $data->valor,
+                    $data->tipo,
+                    $data->id_img,
                     $id_empresa,
-                    $data["desconto"]
+                    $data->desconto
                 ]);
     
                 return [
@@ -166,34 +164,29 @@
         
         /**
          * Editar os dados dos produto
-         * @param array $data contendo as chaves 
-         *  - "nome" : STRIGN sendo o nome do produto 
-         *  - "valor" : INT sendo o seu valor de mercado
-         *  - "tipo" : STRIGN sendo sua tipagem
-         *  - "id_img" : INT sendo o id do seu arquivo de img para layout
-         *  - "id" : INT sendo o id do produto qual o voce que edit 
+         * @param UpdateProdutos $data 
          * @return array
          */
-        public static function updateProdutos(array $data, int $id_empresa): array
+        public static function updateProdutos(UpdateProdutos $data, int $id_empresa): array
         {
             try {
                 $pdo = self::getConnection();
                 $sql = "UPDATE produtos 
-                            SET nome_produto = ?, 
-                                valor = ?,
-                                tipo = ?,
-                                id_img = ?,
-                                desconto = ?
+                            SET nome_produto = COALESCE(?, nome_produto), 
+                                valor = COALESCE(?, valor),
+                                tipo = COALESCE(?, tipo),
+                                id_img = COALESCE(?, id_img),
+                                desconto = COALESCE(?, desconto)
                             WHERE id_produto = ? AND id_empresa = ?";
 
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
-                    $data["nome"],
-                    $data["valor"],
-                    $data["tipo"],
-                    $data["id_img"],
-                    $data["desconto"],
-                    $data["id"],
+                    $data->nome,
+                    $data->valor,
+                    $data->tipo,
+                    $data->id_img,
+                    $data->desconto,
+                    $data->id,
                     $id_empresa
                 ]);
                 

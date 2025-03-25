@@ -7,7 +7,7 @@
     use App\Http\JWToken;
     use App\Model\EmpresaModel;
     use App\Utils\Validator;
-use App\Validations\EmpresaValidate\UpdateEmpresa;
+    use App\Validations\EmpresaValidate\UpdateEmpresa;
 
     /**
      * Classe EmpresaServices

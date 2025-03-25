@@ -82,3 +82,23 @@
 [2025-03-23 20:12:28] PUT updateEmpresa/ | status: 401 | Dados: {"nome":"teste de update"} | Resposta: {"unauthorized":"Desculpada mais voce nao passou o Token"}
 [2025-03-23 20:13:08] PUT updateEmpresa/ | status: 400 | Dados: {"nome":"teste de update"} | Resposta: {"error":"O campo { endereco } e obrigatorio!!"}
 [2025-03-23 20:14:17] PUT updateEmpresa/ | status: 400 | Dados: {"nome":"teste de update"} | Resposta: {"error":"Voc\u00ea n\u00e3o tem autoriza\u00e7\u00e3o para atualizar esta empresa."}
+[2025-03-25 18:12:35] PUT updateProdutos/ | status: 400 | Dados: [] | Resposta: {"error":"O campo { id } e obrigatorio!!"}
+[2025-03-25 18:13:17] PUT updateProdutos/ | status: 400 | Dados: [] | Resposta: {"error":"O id do Produto \u00e9 obrigat\u00f3rio."}
+[2025-03-25 18:14:15] GET pegarProdutos/ | status: 404 | Dados: {"url":"pegarProdutos\/"} | Resposta: {"error":"Essa rota nao existe!!!"}
+[2025-03-25 18:17:47] POST inserirProduto | status: 404 | Dados: [] | Resposta: {"error":"Essa rota nao existe!!!"}
+[2025-03-25 18:17:51] POST inserirProdutos | status: 404 | Dados: [] | Resposta: {"error":"Essa rota nao existe!!!"}
+[2025-03-25 18:18:02] POST inseriProdutos | status: 400 | Dados: [] | Resposta: {"error":"O campo { nome } e obrigatorio!!"}
+[2025-03-25 18:29:36] POST inseriProdutos | status: 400 | Dados: [] | Resposta: {"error":"O nome \u00e9 obrigat\u00f3rio."}
+[2025-03-25 18:31:39] POST inseriProdutos | status: 400 | Dados: {"nome":342} | Resposta: {"error":"O valor \u00e9 obrigat\u00f3rio."}
+[2025-03-25 18:32:27] POST inseriProdutos | status: 400 | Dados: [] | Resposta: {"error":"O nome \u00e9 obrigat\u00f3rio."}
+[2025-03-25 18:32:51] POST inseriProdutos | status: 400 | Dados: {"nome":342,"valor":32,"tipo":"type"} | Resposta: {"error":"O id_img \u00e9 obrigat\u00f3rio."}
+[2025-03-25 18:33:05] POST inseriProdutos | status: 400 | Dados: {"nome":342,"valor":32,"tipo":"type","id_img":1} | Resposta: {"error":"O desconto \u00e9 obrigat\u00f3rio."}
+[2025-03-25 18:33:16] POST inseriProdutos | status: 400 | Dados: {"nome":342,"valor":32,"tipo":"type","id_img":1,"desconto":0} | Resposta: {"error":"O desconto \u00e9 obrigat\u00f3rio."}
+[2025-03-25 18:33:22] POST inseriProdutos | status: 400 | Dados: {"nome":342,"valor":32,"tipo":"type","id_img":1,"desconto":0} | Resposta: {"error":"O desconto \u00e9 obrigat\u00f3rio."}
+[2025-03-25 18:33:24] POST inseriProdutos | status: 400 | Dados: {"nome":342,"valor":32,"tipo":"type","id_img":1,"desconto":0} | Resposta: {"error":"O desconto \u00e9 obrigat\u00f3rio."}
+[2025-03-25 18:33:25] POST inseriProdutos | status: 400 | Dados: {"nome":342,"valor":32,"tipo":"type","id_img":1,"desconto":0} | Resposta: {"error":"O desconto \u00e9 obrigat\u00f3rio."}
+[2025-03-25 18:33:25] POST inseriProdutos | status: 400 | Dados: {"nome":342,"valor":32,"tipo":"type","id_img":1,"desconto":0} | Resposta: {"error":"O desconto \u00e9 obrigat\u00f3rio."}
+[2025-03-25 18:33:28] POST inseriProdutos | status: 400 | Dados: {"nome":"342","valor":32,"tipo":"type","id_img":1,"desconto":0} | Resposta: {"error":"O desconto \u00e9 obrigat\u00f3rio."}
+[2025-03-25 18:33:55] POST inseriProdutos | status: 400 | Dados: {"nome":342,"valor":32,"tipo":"type","id_img":1,"desconto":0} | Resposta: {"error":"O desconto \u00e9 obrigat\u00f3rio."}
+[2025-03-25 18:42:10] POST inseriProdutos | status: 400 | Dados: {"nome":342,"valor":32,"tipo":"type","id_img":1,"desconto":0} | Resposta: {"error":"O desconto \u00e9 obrigat\u00f3rio."}
+[2025-03-25 18:50:38] POST inseriProdutos | status: 400 | Dados: {"nome":342,"valor":32,"tipo":"type","id_img":1} | Resposta: {"error":"SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'desconto' cannot be null"}
