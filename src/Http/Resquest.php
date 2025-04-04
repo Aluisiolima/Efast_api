@@ -22,9 +22,9 @@
         /**
          * Pegar os dados passados na requisição do cliente.
          *
-         * @return mixed
+         * @return array
          */
-        public static function getBody(): mixed
+        public static function getBody(): array
         {
             $json = json_decode(file_get_contents("php://input"), true) ?? [];
 

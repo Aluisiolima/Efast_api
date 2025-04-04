@@ -28,6 +28,8 @@
     Routes::put("/updateEmpresa" , "EmpresaController@updateEmpresa");
     Routes::delete("/desativaEmpresa" , "EmpresaController@desativaEmpresa");
     Routes::post("/ativaEmpresa" , "EmpresaController@ativaEmpresa");
+    Routes::post("/calcFrete/{id}" , "EmpresaController@calcFrete");
+    Routes::put("/frete" , "EmpresaController@frete");
 
     //Arquivo
     Routes::post("/pegarArquivo" , "ArquivoController@pegarArquivo");

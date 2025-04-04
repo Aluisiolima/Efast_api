@@ -4,6 +4,8 @@
     use App\Http\JWToken;
     use App\Model\ProdutosModel;
     use App\Utils\Validator;
+    use App\Validations\ProdutosValidate\NewProdutos;
+    use App\Validations\ProdutosValidate\UpdateProdutos;
     use Exception;
     use PDOException;
 
@@ -52,8 +54,7 @@
 
                 $produtosModel = ProdutosModel::getTypes($fields);
                 
-                return $produtosModel;
-                
+                return $produtosModel;           
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } catch (Exception $e) {
@@ -77,7 +78,6 @@
                 $produtosModel = ProdutosModel::pegarProdutosUnico($fields);
                 
                 return $produtosModel;
-                
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } catch (Exception $e) {
@@ -102,17 +102,9 @@
                 $token = JWToken::validateToken($auth);
                 if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
 
-                $fields = Validator::validateArray([
-                    "nome"      => $data["nome"]        ?? "",
-                    "valor"     => $data["valor"]       ?? "",
-                    "tipo"      => $data["tipo"]        ?? "",
-                    "id_img"    => $data["id_img"]      ?? ""
-                ]);
-                $fields["desconto"] = $data["desconto"] ?? 0;
-                $produtosModel = ProdutosModel::inseriProdutos($fields, $token->id_empresa);
+                $produtosModel = ProdutosModel::inseriProdutos(new NewProdutos($data), $token->id_empresa);
 
                 return $produtosModel;
-
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             }catch (Exception $e) {
@@ -134,21 +126,10 @@
                 }
                 $token = JWToken::validateToken($auth);
                 if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
-                
-                $fields = Validator::validateArray([
-                    "id"        => $data["id"]      ?? "",
-                    "nome"      => $data["nome"]    ?? "",
-                    "valor"     => $data["valor"]   ?? "",
-                    "tipo"      => $data["tipo"]    ?? "",
-                    "id_img"    => $data["id_img"]  ?? ""
-                ]);
 
-                $fields["desconto"] = $data["desconto"] ?? 0;
-
-                $produtosModel = ProdutosModel::updateProdutos($fields, $token->id_empresa);
+                $produtosModel = ProdutosModel::updateProdutos(new UpdateProdutos($data), $token->id_empresa);
 
                 return $produtosModel;
-
             } catch (PDOException $e) {
                 return ["error"=> $e->getMessage()];
             } catch (Exception $e) {
