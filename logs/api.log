@@ -102,3 +102,35 @@
 [2025-03-25 18:33:55] POST inseriProdutos | status: 400 | Dados: {"nome":342,"valor":32,"tipo":"type","id_img":1,"desconto":0} | Resposta: {"error":"O desconto \u00e9 obrigat\u00f3rio."}
 [2025-03-25 18:42:10] POST inseriProdutos | status: 400 | Dados: {"nome":342,"valor":32,"tipo":"type","id_img":1,"desconto":0} | Resposta: {"error":"O desconto \u00e9 obrigat\u00f3rio."}
 [2025-03-25 18:50:38] POST inseriProdutos | status: 400 | Dados: {"nome":342,"valor":32,"tipo":"type","id_img":1} | Resposta: {"error":"SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'desconto' cannot be null"}
+[2025-04-04 13:31:46] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:32:30] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:32:39] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:32:40] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:33:08] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:33:13] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:33:31] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:34:07] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:34:08] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:34:08] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:34:08] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:34:09] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:34:09] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:34:10] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:35:26] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:35:27] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:35:27] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:35:27] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:35:28] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:35:29] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:35:29] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:35:29] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:35:30] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:35:30] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:35:30] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:35:43] GET calcFrete/1 | status: 400 | Dados: {"url":"calcFrete\/1"} | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:50:41] PUT frete | status: 401 | Dados: [] | Resposta: {"unauthorized":"Desculpada mais voce nao passou o Token"}
+[2025-04-04 13:51:12] PUT frete | status: 400 | Dados: [] | Resposta: {"error":"O campo { lon } e obrigatorio!!"}
+[2025-04-04 13:53:05] PUT frete | status: 400 | Dados: {"lon":-42.2093739325191,"lat":-5.248920346670266} | Resposta: {"error":"O campo { t_frete } e obrigatorio!!"}
+[2025-04-04 13:53:23] PUT frete | status: 400 | Dados: {"lon":-42.2093739325191,"lat":-5.248920346670266,"t_frete":2} | Resposta: {"error":"SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE id_empresa = '1'' at line 5"}
+[2025-04-04 14:42:57] POST calcFrete/ | status: 404 | Dados: {"lon":-42.17572598439369,"lat":-5.266014330836482} | Resposta: {"error":"Essa rota nao existe!!!"}
+[2025-04-04 17:49:04] POST calcFrete/1 | status: 400 | Dados: [] | Resposta: {"error":"tanto a lat quando a lon \u00e9 obrigat\u00f3rio."}

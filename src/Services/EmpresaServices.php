@@ -1,6 +1,7 @@
 <?php
     namespace App\Services;
 
+    use App\Validations\EmpresaValidate\FreteEmpresa;
     use App\Validations\EmpresaValidate\NewEmpresa;
     use PDOException;
     use Exception;
@@ -173,4 +174,63 @@
                 return ["error" => $e->getMessage()];
             }
         }
+
+        public static function calcFrete(array $data, int $id): array
+        {
+            try {
+                $frete = new FreteEmpresa($data);
+                $empresa = EmpresaModel::calcFrete($id);
+                $distancia = self::calcularDistancia($frete->lat,$frete->lon, $empresa["lat"],$empresa["lon"]);
+
+                return ["frete" =>  $distancia * (float) $empresa["t_frete"]];
+
+            } catch (Exception $e) {
+                return ["error" => $e->getMessage()];
+            } catch (PDOException $e) {
+                return ["error" => $e->getMessage()];
+            }
+        }
+
+        public static function frete(array $data, mixed $auth): array
+        {
+            try {
+                if (isset($auth["error"])) {
+                    return ["unauthorized" => $auth["error"]];
+                }
+
+                $token = JWToken::validateToken($auth);
+                if (!$token) return ["unauthorized" => "Você não está autorizado a essa operação. Faça login."];
+               
+                return EmpresaModel::frete(new FreteEmpresa($data), $token->id);
+        
+            } catch (Exception $e) {
+                return ["error" => $e->getMessage()];
+            } catch (PDOException $e) {
+                return ["error" => $e->getMessage()];
+            }
+        }
+
+        private static function calcularDistancia($lat1, $lon1, $lat2, $lon2): int {
+            $raioTerra = 6371; // Raio da Terra em km
+        
+            // Converte graus para radianos
+            $lat1 = deg2rad($lat1);
+            $lon1 = deg2rad($lon1);
+            $lat2 = deg2rad($lat2);
+            $lon2 = deg2rad($lon2);
+        
+            // Diferenças
+            $dLat = $lat2 - $lat1;
+            $dLon = $lon2 - $lon1;
+        
+            // Fórmula de Haversine
+            $a = sin($dLat/2) * sin($dLat/2) +
+                 cos($lat1) * cos($lat2) *
+                 sin($dLon/2) * sin($dLon/2);
+            $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+        
+            $distancia = $raioTerra * $c;
+            return $distancia ;
+        }
+        
     }

@@ -108,4 +108,36 @@
 
             $response::json($empresa,200);
         }
+
+        public function calcFrete(Resquest $resquest, Response $response, array $id)
+        {
+            $body = $resquest::getBody();
+            $empresa = EmpresaServices::calcFrete($body,$id[0]);
+
+            if(isset($empresa["error"])) {
+              $response::json($empresa, 400, true);
+              return;
+            }
+
+            $response::json($empresa, 200);
+        }
+
+        public function frete(Resquest $resquest, Response $response)
+        {
+            $auth = $resquest::authorization();
+            $body = $resquest::getBody();
+            $empresa = EmpresaServices::frete($body, $auth);
+
+            if (isset($empresa["unauthorized"])){
+                $response::json($empresa,401,true);
+                return;
+            }
+
+            if (isset($empresa["error"])) {
+                $response::json($empresa,400,true);
+                return;
+            }
+
+            $response::json($empresa,200);
+        }
     }
