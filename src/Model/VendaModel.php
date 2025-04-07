@@ -38,7 +38,7 @@
                         FROM venda v
                         JOIN produtos p ON v.id_produto = p.id_produto
                         JOIN pedido ped ON v.id_pedido = ped.id_pedido
-                        WHERE v.id_empresa = ?";
+                        WHERE v.id_empresa = ?;";
 
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
