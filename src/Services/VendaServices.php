@@ -101,10 +101,10 @@
                     ];
 
                     // Atualiza o valor total do pedido
-                    $vendasAgrupadas[$idPedido]["valor_total"] += ($row["valor"] * (1 - $row["desconto_aplicado"] / 100)) * $row["quantidade"];
+                    $vendasAgrupadas[$idPedido]["valor_total"] += number_format(($row["valor"] * (1 - $row["desconto_aplicado"] / 100)) * $row["quantidade"], 2);
                 }
 
-                return $vendasAgrupadas;
+                return array_reverse($vendasAgrupadas);
             } catch(Exception $e) {
                 return ["error"=> $e->getMessage()];
             }
