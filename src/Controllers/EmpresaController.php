@@ -5,139 +5,147 @@
     use App\Http\Resquest;
     use App\Services\EmpresaServices;
 
-    class EmpresaController
+    class EmpresaController 
     {
-        public function pegarEmpresa(Resquest $resquest, Response $response)
+        private readonly Resquest $resquest;
+        private readonly Response $response;
+
+        public function __construct(){
+            $this->resquest = new Resquest;
+            $this->response = new Response;
+        }
+
+        public function pegarEmpresa(): void
         {
 
             $empresa = EmpresaServices::pegarEmpresa();
 
             if (isset($empresa["error"])) {
-                $response::json($empresa,400,true);
+                $this->response::json($empresa,400,true);
                 return;
             }
 
-            $response::json($empresa,200);
+            $this->response::json($empresa,200);
         }
-        public function pegarEmpresaOne(Resquest $resquest, Response $response, array $id)
+        public function pegarEmpresaOne(array $id)
         {
 
             $empresa = EmpresaServices::pegarEmpresaOne($id[0]);
 
             if (isset($empresa["error"])) {
-                $response::json($empresa,400,true);
+                $this->response::json($empresa,400,true);
                 return;
             }
 
-            $response::json($empresa,200);
+            $this->response::json($empresa,200);
         }
-        public function inserirEmpresa(Resquest $resquest, Response $response)
+        public function inserirEmpresa()
         {
-            $body = $resquest::getBody();
-            $auth = $resquest::authorization();
+            $body = $this->resquest::getBody();
+            $auth = $this->resquest::authorization();
 
             $empresa = EmpresaServices::inserirEmpresa($body,$auth);
 
             if (isset($empresa["unauthorized"])){
-                $response::json($empresa,401,true);
+                $this->response::json($empresa,401,true);
                 return;
             }
 
             if (isset($empresa["error"])) {
-                $response::json($empresa,400,true);
+                $this->response::json($empresa,400,true);
                 return;
             }
 
-            $response::json($empresa,200);
+            $this->response::json($empresa,200);
         }
-        public function updateEmpresa(Resquest $resquest, Response $response)
+        public function updateEmpresa()
         {
-            $body = $resquest::getBody();
-            $auth = $resquest::authorization();
+            $body = $this->resquest::getBody();
+            $auth = $this->resquest::authorization();
 
             $empresa = EmpresaServices::updateEmpresa($body,$auth);
 
             if (isset($empresa["unauthorized"])){
-                $response::json($empresa,401,true);
+                $this->response::json($empresa,401,true);
                 return;
             }
 
             if (isset($empresa["error"])) {
-                $response::json($empresa,400,true);
+                $this->response::json($empresa,400,true);
                 return;
             }
 
-            $response::json($empresa,200);
+            $this->response::json($empresa,200);
         }
-        public function desativaEmpresa(Resquest $resquest, Response $response)
+        public function desativaEmpresa()
         {
-            $body = $resquest::getBody();
-            $auth = $resquest::authorization();
+            $body = $this->resquest::getBody();
+            $auth = $this->resquest::authorization();
 
             $empresa = EmpresaServices::desativaEmpresa($body,$auth);
 
             if (isset($empresa["unauthorized"])){
-                $response::json($empresa,401,true);
+                $this->response::json($empresa,401,true);
                 return;
             }
 
             if (isset($empresa["error"])) {
-                $response::json($empresa,400,true);
+                $this->response::json($empresa,400,true);
                 return;
             }
 
-            $response::json($empresa,200);
+            $this->response::json($empresa,200);
         }
 
-        public function ativaEmpresa(Resquest $resquest, Response $response)
+        public function ativaEmpresa()
         {
-            $body = $resquest::getBody();
-            $auth = $resquest::authorization();
+            $body = $this->resquest::getBody();
+            $auth = $this->resquest::authorization();
 
             $empresa = EmpresaServices::ativaEmpresa($body,$auth);
 
             if (isset($empresa["unauthorized"])){
-                $response::json($empresa,401,true);
+                $this->response::json($empresa,401,true);
                 return;
             }
 
             if (isset($empresa["error"])) {
-                $response::json($empresa,400,true);
+                $this->response::json($empresa,400,true);
                 return;
             }
 
-            $response::json($empresa,200);
+            $this->response::json($empresa,200);
         }
 
-        public function calcFrete(Resquest $resquest, Response $response, array $id)
+        public function calcFrete(array $id)
         {
-            $body = $resquest::getBody();
+            $body = $this->resquest::getBody();
             $empresa = EmpresaServices::calcFrete($body,$id[0]);
 
             if(isset($empresa["error"])) {
-              $response::json($empresa, 400, true);
+              $this->response::json($empresa, 400, true);
               return;
             }
 
-            $response::json($empresa, 200);
+            $this->response::json($empresa, 200);
         }
 
-        public function frete(Resquest $resquest, Response $response)
+        public function frete()
         {
-            $auth = $resquest::authorization();
-            $body = $resquest::getBody();
+            $auth = $this->resquest::authorization();
+            $body = $this->resquest::getBody();
             $empresa = EmpresaServices::frete($body, $auth);
 
             if (isset($empresa["unauthorized"])){
-                $response::json($empresa,401,true);
+                $this->response::json($empresa,401,true);
                 return;
             }
 
             if (isset($empresa["error"])) {
-                $response::json($empresa,400,true);
+                $this->response::json($empresa,400,true);
                 return;
             }
 
-            $response::json($empresa,200);
+            $this->response::json($empresa,200);
         }
     }

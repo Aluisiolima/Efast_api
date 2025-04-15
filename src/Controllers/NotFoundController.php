@@ -2,13 +2,18 @@
     namespace App\Controllers;
 
     use App\Http\Response;
-    use App\Http\Resquest;
 
     class NotFoundController
     {
-        public function index(Resquest $resquest, Response $response): void
+        private readonly Response $response;
+
+        public function __construct(){
+            $this->response = new Response;
+        }
+        
+        public function index(): void
         {
-            $response::json(["error" => "Essa rota nao existe!!!"],404, true);
+            $this->response::json(["error" => "Essa rota nao existe!!!"],404, true);
             return;
         }
     }
