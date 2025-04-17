@@ -9,6 +9,14 @@
     use App\Model\EmpresaModel;
     use App\Utils\Validator;
     use App\Validations\EmpresaValidate\UpdateEmpresa;
+    use Endroid\QrCode\Color\Color;                                       
+    use Endroid\QrCode\Encoding\Encoding;                                  
+    use Endroid\QrCode\ErrorCorrectionLevel;                              
+    use Endroid\QrCode\QrCode;                                             
+    use Endroid\QrCode\RoundBlockSizeMode;                                 
+    use Endroid\QrCode\Writer\PngWriter;                                   
+    use Endroid\QrCode\Logo\Logo;
+    use Endroid\QrCode\Writer\Result\ResultInterface;
 
     /**
      * Classe EmpresaServices
@@ -232,5 +240,48 @@
             $distancia = $raioTerra * $c;
             return $distancia ;
         }
+
+        public static function qrcode(int $id): array
+        {
+            try{
+                $id_empresa = EmpresaModel::qrcode($id);
+                $qrcode = self::generateQrcode($id_empresa);
+                return [ $qrcode->getString(), $qrcode->getMimeType() ];
+            }catch(Exception $e){
+                return ["error" => $e->getMessage()];
+            }catch(PDOException $e){
+                return ["error" => $e->getMessage()];
+            }
+        }
         
+        public static function generateQrcode(int $id): ResultInterface
+        {
+            // Cria o objeto QrCode com todos os parâmetros necessários
+            $qrCode = new QrCode(
+                data: "efastmenu.com/cardapio/?id={$id}",
+                encoding: new Encoding('UTF-8'),
+                errorCorrectionLevel: ErrorCorrectionLevel::High,
+                size: 300,
+                margin: 10,
+                roundBlockSizeMode: RoundBlockSizeMode::Margin,
+                foregroundColor: new Color(0, 0, 0),
+                backgroundColor: new Color(255, 255, 255)
+            ); 
+
+            // Instancia o writer de PNG e gera o resultado
+            $writer = new PngWriter(); 
+            $logo = new Logo("src/asset/eFast-menu-black.jpg",150);
+
+            $result = $writer->write(qrCode: $qrCode, logo: $logo);
+
+            return $result;
+            // // Cabeçalhos para exibir o tipo MIME correto
+            // header('Content-Type: '.$result->getMimeType()); 
+
+            // header('Content-Disposition: attachment; filename="qrcode.png"'); 
+
+            // // Envia o conteúdo binário para o navegador e encerra
+            // echo $result->getString(); 
+
+        }
     }

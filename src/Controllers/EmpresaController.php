@@ -148,4 +148,22 @@
 
             $this->response::json($empresa,200);
         }
+
+        public function qrcode(array $id)
+        {
+    
+            $empresa = EmpresaServices::qrcode($id[0]);
+
+            if (isset($empresa["unauthorized"])){
+                $this->response::json($empresa,401,true);
+                return;
+            }
+
+            if (isset($empresa["error"])) {
+                $this->response::json($empresa,400,true);
+                return;
+            }
+
+            $this->response::files($empresa[0],$empresa[1]);
+        }
     }
