@@ -270,18 +270,12 @@
 
             // Instancia o writer de PNG e gera o resultado
             $writer = new PngWriter(); 
-            $logo = new Logo("src/asset/eFast-menu-black.jpg",150);
+	        $logo = new Logo("src/asset/eFast-menu-black.png",150);
 
             $result = $writer->write(qrCode: $qrCode, logo: $logo);
 
             return $result;
-            // // Cabeçalhos para exibir o tipo MIME correto
-            // header('Content-Type: '.$result->getMimeType()); 
-
-            // header('Content-Disposition: attachment; filename="qrcode.png"'); 
-
-            // // Envia o conteúdo binário para o navegador e encerra
-            // echo $result->getString(); 
 
         }
     }
+
