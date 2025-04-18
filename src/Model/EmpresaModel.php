@@ -3,8 +3,8 @@
 
     use App\Validations\EmpresaValidate\FreteEmpresa;
     use App\Validations\EmpresaValidate\NewEmpresa;
-use App\Validations\EmpresaValidate\UpdateEmpresa;
-use PDOException;
+    use App\Validations\EmpresaValidate\UpdateEmpresa;
+    use PDOException;
     use PDO;
 
     /**
@@ -70,7 +70,7 @@ use PDOException;
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([$id]);
 
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+                return $stmt->fetch(PDO::FETCH_ASSOC);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } finally {
@@ -231,6 +231,27 @@ use PDOException;
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             }finally {
+                $pdo = null;
+            }
+        }
+
+        public static function qrcode(int $id): int | array
+        {
+            try {
+                $pdo = self::getConnection();
+                $sql = "SELECT id_empresa FROM empresa WHERE id_empresa = ?;";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    $id
+                ]);
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                if($result){
+                    return (int) $result["id_empresa"];
+                }
+                return ["error" => "not found empresa 404"];
+            } catch (PDOException $e) {
+                return ["error" => $e->getMessage()];
+            }finally{
                 $pdo = null;
             }
         }

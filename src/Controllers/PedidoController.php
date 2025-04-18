@@ -1,40 +1,47 @@
 <?php
     namespace App\Controllers;
 
-use App\Http\Response;
-use App\Http\Resquest;
-use App\Services\PedidoServices;
+    use App\Http\Response;
+    use App\Http\Resquest;
+    use App\Services\PedidoServices;
 
     class PedidoController
     {
+        private readonly Resquest $resquest;
+        private readonly Response $response;
 
-        public static function inserirPedido(Resquest $resquest, Response $response, array $id): void
+        public function __construct(){
+            $this->resquest = new Resquest;
+            $this->response = new Response;
+        }
+
+        public function inserirPedido(array $id): void
         {
-            $body = $resquest::getBody();
+            $body = $this->resquest::getBody();
             $pedido = PedidoServices::inserirPedido($body, $id[0]);
 
             if (isset($pedido["error"])) {
-                $response::json($pedido,400, true);
+                $this->response::json($pedido,400, true);
                 return;
             }
 
-            $response::json($pedido,200);
+            $this->response::json($pedido,200);
         }
-        public static function status(Resquest $resquest, Response $response, array $id): void
+        public function status(array $id): void
         {
-            $auth = $resquest::authorization();
-            $body = $resquest::getBody();
+            $auth = $this->resquest::authorization();
+            $body = $this->resquest::getBody();
             $pedido = PedidoServices::status($body, $id[0], $auth);
 
             if (isset($pedido["error"])) {
-                $response::json($pedido,400, true);
+                $this->response::json($pedido,400, true);
                 return;
             }
             if (isset($pedido["unauthorized"])){
-                $response::json($pedido,401,true);
+                $this->response::json($pedido,401,true);
                 return;
             }
 
-            $response::json($pedido,200);
+            $this->response::json($pedido,200);
         }
     }

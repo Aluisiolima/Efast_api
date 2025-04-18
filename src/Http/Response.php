@@ -2,6 +2,7 @@
     namespace App\Http;
 
     use App\Utils\Logs;
+use Exception;
 
     /**
      * Class Response
@@ -105,5 +106,20 @@
                 ]);
             }
             return $json;
+        }
+
+        public static function files(mixed $file, mixed $type) : void 
+        {
+            try{
+                 
+                header('Content-Type: '. $type); 
+                header('Content-Disposition: attachment; filename="qrcode.png"'); 
+
+                echo $file;
+                
+            }catch(Exception $e){
+                self::json(["error" => "output file {$e}"],400, true);
+            }
+           
         }
     }

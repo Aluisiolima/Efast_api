@@ -7,38 +7,46 @@
 
     class VendaController
     {
-        public function pegarVendas(Resquest $resquest, Response $response)
+        private readonly Resquest $resquest;
+        private readonly Response $response;
+
+        public function __construct(){
+            $this->resquest = new Resquest;
+            $this->response = new Response;
+        }
+
+        public function pegarVendas()
         {
-            $auth = $resquest->authorization();
+            $auth = $this->resquest->authorization();
             $vendas = VendaServices::pegarVendas($auth);
 
             if (isset($vendas["unauthorized"])){
-                $response::json($vendas,401,true);
+                $this->response::json($vendas,401,true);
                 return;
             }
 
             if (isset($vendas["error"])) {
-                $response::json($vendas, 400, true);
+                $this->response::json($vendas, 400, true);
                 return;
             }
 
-            $response::json($vendas, 200);
+            $this->response::json($vendas, 200);
         }
 
-        public function pegarVendasDay(Resquest $resquest, Response $response)
+        public function pegarVendasDay()
         {
-            $auth = $resquest->authorization();
+            $auth = $this->resquest->authorization();
             $vendas = VendaServices::pegarVendasDay($auth);
 
             if (isset($vendas["unauthorized"])){
-                $response::json($vendas,401,true);
+                $this->response::json($vendas,401,true);
                 return;
             }
             if (isset($vendas["error"])){
-                $response::json($vendas, 400, true);
+                $this->response::json($vendas, 400, true);
                 return;
             }
 
-            $response::json($vendas, 200);
+            $this->response::json($vendas, 200);
         }
     }

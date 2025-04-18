@@ -7,94 +7,102 @@
 
     class UserController
     {
-        public function pegarUser(Resquest $resquest, Response $response)
+        private readonly Resquest $resquest;
+        private readonly Response $response;
+
+        public function __construct(){
+            $this->resquest = new Resquest;
+            $this->response = new Response;
+        }
+
+        public function pegarUser()
         {
-            $auth = $resquest::authorization();
+            $auth = $this->resquest::authorization();
 
             $user = UserServices::pegarUser($auth);
 
             if (isset($user["unauthorized"])){
-                $response::json($user,401,true);
+                $this->response::json($user,401,true);
                 return;
             }
 
             if (isset($user["error"])) {
-                $response::json($user,400,true);
+                $this->response::json($user,400,true);
                 return;
             }
 
-            $response::json($user,200);
+            $this->response::json($user,200);
         }    
 
-        public function login(Resquest $resquest, Response $response)
+        public function login()
         {
-            $body = $resquest::getBody();
+            $body = $this->resquest::getBody();
 
             $user = UserServices::login($body);
 
             if (isset($user["error"])) {
-                $response::json($user,400,true);
+                $this->response::json($user,400,true);
                 return;
             }
 
-            $response::json($user,200);
+            $this->response::json($user,200);
         }  
 
-        public function inserirUser(Resquest $resquest, Response $response)
+        public function inserirUser()
         {
-            $body = $resquest::getBody();
-            $auth = $resquest::authorization();
+            $body = $this->resquest::getBody();
+            $auth = $this->resquest::authorization();
 
             $user = UserServices::inserirUser($body, $auth);
 
             if (isset($user["unauthorized"])){
-                $response::json($user,401,true);
+                $this->response::json($user,401,true);
                 return;
             }
             
             if (isset($user["error"])) {
-                $response::json($user,400,true);
+                $this->response::json($user,400,true);
                 return;
             }
 
-            $response::json($user,200);
+            $this->response::json($user,200);
         } 
-        public function updateUser(Resquest $resquest, Response $response)
+        public function updateUser()
         {
-            $body = $resquest::getBody();
-            $auth = $resquest::authorization();
+            $body = $this->resquest::getBody();
+            $auth = $this->resquest::authorization();
 
             $user = UserServices::updateUser($body, $auth);
 
             if (isset($user["unauthorized"])){
-                $response::json($user,401,true);
+                $this->response::json($user,401,true);
                 return;
             }
             
             if (isset($user["error"])) {
-                $response::json($user,400,true);
+                $this->response::json($user,400,true);
                 return;
             }
 
-            $response::json($user,200);
+            $this->response::json($user,200);
         }  
 
-        public function deleteUser(Resquest $resquest, Response $response)
+        public function deleteUser()
         {
-            $auth = $resquest::authorization();
+            $auth = $this->resquest::authorization();
 
             $user = UserServices::deleteUser($auth);
 
             if (isset($user["unauthorized"])){
-                $response::json($user,401,true);
+                $this->response::json($user,401,true);
                 return;
             }
             
             if (isset($user["error"])) {
-                $response::json($user,400,true);
+                $this->response::json($user,400,true);
                 return;
             }
 
-            $response::json($user,200);
+            $this->response::json($user,200);
         }
     }

@@ -30,6 +30,7 @@
     Routes::post("/ativaEmpresa" , "EmpresaController@ativaEmpresa");
     Routes::post("/calcFrete/{id}" , "EmpresaController@calcFrete");
     Routes::put("/frete" , "EmpresaController@frete");
+    Routes::post("/empresa/qrcode/{id}", "EmpresaController@qrcode");
 
     //Arquivo
     Routes::post("/pegarArquivo" , "ArquivoController@pegarArquivo");

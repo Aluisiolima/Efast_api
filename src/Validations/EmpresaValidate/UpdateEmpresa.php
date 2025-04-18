@@ -15,7 +15,7 @@
         {
             $this->nome = $data["nome"];
             $this->endereco = $data["endereco"];
-            $this->whastapp = $data["whastapp"];
+            $this->whastapp = $data["whatsapp"];
             $this->logo = $data["logo"];
             $this->instagram = $data["instagram"];
             $this->facebook = $data["facebook"];

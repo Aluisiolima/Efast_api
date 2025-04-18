@@ -21,8 +21,8 @@
             if (empty($data["endereco"])) {
                 throw new InvalidArgumentException("O endereco é obrigatório.");
             }
-            if (empty($data["whastapp"])) {
-                throw new InvalidArgumentException("O whastapp é obrigatório.");
+            if (empty($data["whatsapp"])) {
+                throw new InvalidArgumentException("O whatsapp é obrigatório.");
             }
             if (empty($data["logo"])) {
                 throw new InvalidArgumentException("A logo é obrigatório.");
@@ -30,7 +30,7 @@
 
             $this->nome = $data["nome"];
             $this->endereco = $data["endereco"];
-            $this->whastapp = $data["whastapp"];
+            $this->whastapp = $data["whatsapp"];
             $this->logo = $data["logo"];
             $this->instagram = $data["instagram"] ?? null;
             $this->facebook = $data["facebook"] ?? null;
