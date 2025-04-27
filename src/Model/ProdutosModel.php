@@ -96,7 +96,7 @@ use PDO;
                 
                 $stmt->execute([$data["id"]]);
     
-                $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $produtos = $stmt->fetch(PDO::FETCH_ASSOC);
     
                 return $produtos;
             } catch (PDOException $e) {
