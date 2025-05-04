@@ -19,7 +19,7 @@
          * @return array Retorna os arquivos encontrados como um array associativo. 
          * Em caso de erro, retorna um array contendo a mensagem de erro.
          */
-        public static function pegarArquivo(int $id_empresa): array
+        public function pegarArquivo(int $id_empresa): array
         {
             try {
                 $pdo = self::getConnection();
@@ -45,7 +45,7 @@
          * @param int $id_empresa ID da empresa associada ao arquivo.
          * @return array Retorna uma mensagem de sucesso com o ID do arquivo inserido ou uma mensagem de erro.
          */
-        public static function inserirArquivo(string $path, int $id_empresa): array
+        public function inserirArquivo(string $path, int $id_empresa): array
         {
             try {
                 $pdo = self::getConnection();
@@ -85,7 +85,7 @@
          * @param int $id_empresa ID da empresa associada ao arquivo.
          * @return array Retorna o caminho do arquivo excluído ou uma mensagem de erro.
          */
-        public static function deleteArquivo(array $data, int $id_empresa): array
+        public function deleteArquivo(array $data, int $id_empresa): array
         {
             try {
                 $pdo = self::getConnection();
