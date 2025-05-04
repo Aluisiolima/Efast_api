@@ -1,10 +1,10 @@
 <?php
     namespace App\Model;
 
-use App\Validations\ProdutosValidate\NewProdutos;
-use PDO;
-    use PDOException;
+    use App\Validations\ProdutosValidate\NewProdutos;
     use App\Validations\ProdutosValidate\UpdateProdutos;
+    use PDO;
+    use PDOException;
 
     /**
      * Class ProdutosModel 
@@ -14,14 +14,13 @@ use PDO;
     {
         /**
          * Pegar os registro de produtos que tem seu status Ativo
-         * @param array $data contendo as chaves 
-         *  - "id_empresa" : INT sendo o id corresponde da empresa que voce que os produtos  
+         * @param int $id sendo o id da empresa que voce que os produtos
          * @return array
          */
-        public static function pegarProdutos(array $data): array
+        public function pegarProdutos(int $id): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "SELECT 
                             p.id_produto,
                             p.nome_produto,
@@ -37,11 +36,9 @@ use PDO;
                     
                 $stmt = $pdo->prepare($sql);
                 
-                $stmt->execute([$data["id_empresa"]]);
+                $stmt->execute([$id]);
     
-                $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-                return $produtos;
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } finally {
@@ -49,19 +46,17 @@ use PDO;
             }
         }
 
-        public static function getTypes(array $data): array
+        public function getTypes(int $id): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql ="SELECT tipo FROM produtos WHERE id_empresa = ? AND status = 'ativo' GROUP BY tipo";
                     
                 $stmt = $pdo->prepare($sql);
                 
-                $stmt->execute([$data["id_empresa"]]);
+                $stmt->execute([$id]);
     
-                $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-                return $produtos;
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } finally {
@@ -71,14 +66,13 @@ use PDO;
 
         /**
          * Pegar os registro de produtos que tem seu status Ativo
-         * @param array $data contendo as chaves 
-         *  - "id_empresa" : INT sendo o id corresponde da empresa que voce que os produtos  
+         * @param int $id sendo o id do produto
          * @return array
          */
-        public static function pegarProdutosUnico(array $data): array
+        public function pegarProdutosUnico(int $id): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "SELECT 
                             p.id_produto,
                             p.nome_produto,
@@ -89,16 +83,14 @@ use PDO;
                         FROM produtos p
                         JOIN empresa e ON e.id_empresa = p.id_empresa
                         JOIN arquivo a ON a.id_arquivo = p.id_img
-                        WHERE p.id_produto = ? AND p.status = 'ativo' AND e.status = 'ativa'
+                        WHERE p.id_produto = ? AND e.status = 'ativa'
                         ORDER BY p.tipo;";
                     
                 $stmt = $pdo->prepare($sql);
                 
-                $stmt->execute([$data["id"]]);
+                $stmt->execute([$id]);
     
-                $produtos = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-                return $produtos;
+                return $stmt->fetch(PDO::FETCH_ASSOC);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } finally {
@@ -108,38 +100,36 @@ use PDO;
 
         /**
          * Pegar os produtos cargo chefe da empresa
-         * @param array $data contendo as chave
-         *  - "id_empresa" : INT sendo o id da empressa qual o produto e relacionado 
+         * @param int $id sendo o id da empresa que voce que os produtos
          * @return array
          */
-        public static function pegarProdutosMain(array $data): array
+        public function pegarProdutosMain(int $id): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "SELECT tipo FROM produtos WHERE id_empresa = ? AND status = 'ativo' GROUP BY tipo ORDER BY  count(*) desc limit 3";
                     
                 $stmt = $pdo->prepare($sql);
                 
-                $stmt->execute([$data["id_empresa"]]);
+                $stmt->execute([$id]);
     
-                $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-                return $produtos;
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } finally {
                 $pdo = null;
             }
         }
+
         /**
          * Inserir os dados de novo produto
          * @param NewProdutos $data 
          * @return array
          */
-        public static function inseriProdutos(NewProdutos $data, int $id_empresa): array
+        public function inseriProdutos(NewProdutos $data, int $id_empresa): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "INSERT INTO produtos (nome_produto, valor, tipo, id_img, id_empresa, desconto) VALUES (?,?,?,?,?,?);";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
@@ -159,7 +149,6 @@ use PDO;
             } finally {
                 $pdo = null;
             }
-           
         }
         
         /**
@@ -167,10 +156,10 @@ use PDO;
          * @param UpdateProdutos $data 
          * @return array
          */
-        public static function updateProdutos(UpdateProdutos $data, int $id_empresa): array
+        public function updateProdutos(UpdateProdutos $data, int $id_empresa): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "UPDATE produtos 
                             SET nome_produto = COALESCE(?, nome_produto), 
                                 valor = COALESCE(?, valor),
@@ -202,18 +191,17 @@ use PDO;
 
         /**
          * Desativa o produto para nao ser comecializado
-         * @param array $data contendo as chaves 
-         *  - "id" : INT sendo o id do produto 
+         * @param int $id sendo o id do produto 
          * @return array
          */
-        public static function desativaProdutos(array $data, int $id_empresa): array
+        public function desativaProdutos(int $id, int $id_empresa): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "UPDATE produtos SET status = 'desativado' WHERE id_produto = ? AND id_empresa = ?;";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
-                    $data["id"],
+                    $id,
                     $id_empresa,
                 ]);
 
@@ -229,18 +217,17 @@ use PDO;
 
         /**
          * Ativa o produto para ser comecializado
-         * @param array $data contendo as chaves 
-         *  - "id" : INT sendo o id do produto 
+         * @param int $id sendo o id do produto
          * @return array
          */
-        public static function ativaProdutos(array $data, int $id_empresa): array
+        public function ativaProdutos(int $id, int $id_empresa): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "UPDATE produtos SET status = 'ativo' WHERE id_produto = ? AND id_empresa = ?;";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
-                    $data["id"],
+                    $id,
                     $id_empresa
                 ]);
 
@@ -253,5 +240,4 @@ use PDO;
                 $pdo = null;
             }
         }
-
     }
