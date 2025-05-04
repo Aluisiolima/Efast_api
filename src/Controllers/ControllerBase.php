@@ -2,6 +2,7 @@
     namespace App\Controllers;
     
     use App\Http\Response;
+use Endroid\QrCode\Writer\Result\ResultInterface;
 
     class ControllerBase
     {
@@ -22,20 +23,5 @@
             }
 
             $this->response::json($data,$statusCode);
-        }
-
-        public function responserFiles(mixed $file, mixed $type): void
-        {
-            if (isset($file["unauthorized"])){
-                $this->response::json($file,401,true);
-                return;
-            }
-
-            if (isset($file["error"])) {
-                $this->response::json($file,400,true);
-                return;
-            }
-
-            $this->response::files($file,$type);
         }
     }

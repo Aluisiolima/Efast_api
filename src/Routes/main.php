@@ -28,9 +28,13 @@
     Routes::put("/updateEmpresa" , "EmpresaController@updateEmpresa");
     Routes::delete("/desativaEmpresa" , "EmpresaController@desativaEmpresa");
     Routes::post("/ativaEmpresa" , "EmpresaController@ativaEmpresa");
-    Routes::post("/calcFrete/{id}" , "EmpresaController@calcFrete");
-    Routes::put("/frete" , "EmpresaController@frete");
-    Routes::post("/empresa/qrcode/{id}", "EmpresaController@qrcode");
+
+    //Frete
+    Routes::post("/frete/calc/{id}" , "FreteController@calcFrete");
+    Routes::put("/frete" , "FreteController@frete");
+
+    //QrCode
+    Routes::post("/qrcode/{id}", "QrCodeController@qrcode");
 
     //Arquivo
     Routes::post("/pegarArquivo" , "ArquivoController@pegarArquivo");

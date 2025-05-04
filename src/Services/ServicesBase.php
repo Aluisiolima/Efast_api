@@ -1,21 +1,22 @@
 <?php   
     namespace App\Services;
     use App\Http\JWToken;
+    use Exception;
 
     class ServicesBase
     {
         public function __construct(
-            protected readonly JWToken $jwtoken
+            private readonly JWToken $jwtoken
         ) {}
 
         public function verificaToken(mixed $auth): array | object
         {
             if (isset($auth["error"])) {
-                return ["unauthorized" => $auth["error"]];
+                throw new Exception($auth["error"]);
             }
 
             $token = $this->jwtoken->validateToken($auth);
-            if (!$token) return ["unauthorized" => "Você não está autorizado a essa operação. Faça login."];
+            if (!$token) throw new Exception("Você não está autorizado a essa operação. Faça login.");
 
             return $token;
         }
