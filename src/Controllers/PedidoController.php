@@ -1,47 +1,35 @@
 <?php
     namespace App\Controllers;
 
+    use App\Controllers\ControllerBase;
     use App\Http\Response;
     use App\Http\Resquest;
     use App\Services\PedidoServices;
 
-    class PedidoController
+    class PedidoController extends ControllerBase
     {
-        private readonly Resquest $resquest;
-        private readonly Response $response;
-
-        public function __construct(){
-            $this->resquest = new Resquest;
-            $this->response = new Response;
+        public function __construct(
+            private readonly Resquest $resquest,
+            private readonly Response $response,
+            private readonly PedidoServices $pedidoServices,
+        ){
+            parent::__construct($response);
         }
 
-        public function inserirPedido(array $id): void
+        public function inserirPedido(string $id): void
         {
             $body = $this->resquest::getBody();
-            $pedido = PedidoServices::inserirPedido($body, $id[0]);
+            $pedido = $this->pedidoServices->inserirPedido($body, (int) $id);
 
-            if (isset($pedido["error"])) {
-                $this->response::json($pedido,400, true);
-                return;
-            }
-
-            $this->response::json($pedido,200);
+            $this->responserController($pedido, 201);
         }
-        public function status(array $id): void
+        
+        public function status(string $id): void
         {
             $auth = $this->resquest::authorization();
             $body = $this->resquest::getBody();
-            $pedido = PedidoServices::status($body, $id[0], $auth);
-
-            if (isset($pedido["error"])) {
-                $this->response::json($pedido,400, true);
-                return;
-            }
-            if (isset($pedido["unauthorized"])){
-                $this->response::json($pedido,401,true);
-                return;
-            }
-
-            $this->response::json($pedido,200);
+            $pedido = $this->pedidoServices->status($body, (int) $id, $auth);
+            
+            $this->responserController($pedido, 200);
         }
     }

@@ -16,7 +16,7 @@
          * 
          * @return PDO|null Retorna uma instância de PDO em caso de sucesso ou null em caso de erro.
          */
-        protected static function getConnection()
+        protected function getConnection()
         {
             try {
                 // Cria uma nova instância de PDO com os parâmetros do ambiente

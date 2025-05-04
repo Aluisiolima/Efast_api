@@ -13,7 +13,7 @@
             private readonly FreteModel $freteModel,
             private readonly JWToken $jwToken
         ) {
-            parent::__construct($jwToken);
+            parent::__construct($this->jwToken);
         }
 
         public function calcFrete(array $data, int $id): array

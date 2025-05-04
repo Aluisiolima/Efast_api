@@ -11,7 +11,7 @@
         public function calcFrete(string $id): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "SELECT lat,lon,t_frete FROM empresa WHERE id_empresa = ?";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([$id]);
@@ -28,7 +28,7 @@
         public function frete(FreteEmpresa $frete, int $id): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "UPDATE empresa SET 
                             lon = COALESCE(?, lon),
                             lat = COALESCE(?, lat),

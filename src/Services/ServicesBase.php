@@ -9,7 +9,7 @@
             private readonly JWToken $jwtoken
         ) {}
 
-        public function verificaToken(mixed $auth): array | object
+        public function verificaToken(mixed $auth): object
         {
             if (isset($auth["error"])) {
                 throw new Exception($auth["error"]);

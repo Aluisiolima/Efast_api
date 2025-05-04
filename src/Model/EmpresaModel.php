@@ -22,7 +22,7 @@
         public function pegarEmpresa(): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "SELECT 
                             e.id_empresa,
                             e.nome_empresa,
@@ -54,7 +54,7 @@
         public function pegarEmpresaOne(int $id): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "SELECT 
                             e.id_empresa,
                             e.nome_empresa,
@@ -87,7 +87,7 @@
         public function inserirEmpresa(NewEmpresa $data): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "INSERT INTO empresa (nome_empresa, endereco, whatsapp, instagram, facebook, email, logo_img) VALUES (?,?,?,?,?,?,1);";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
@@ -117,7 +117,7 @@
         public function updateEmpresa(UpdateEmpresa $data, int $id): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "UPDATE empresa SET 
                             nome_empresa = COALESCE(?, nome_empresa),
                             endereco = COALESCE(?, endereco),
@@ -156,7 +156,7 @@
         public function desativaEmpresa(array $data): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "UPDATE empresa SET status = 'desativada' WHERE id_empresa = ?";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([$data["id"]]);
@@ -178,7 +178,7 @@
         public function ativaEmpresa(array $data): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "UPDATE empresa SET status = 'ativa' WHERE id_empresa = ?";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([$data["id"]]);

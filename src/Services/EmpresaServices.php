@@ -18,9 +18,10 @@
     class EmpresaServices extends ServicesBase implements EmpresaServicesInterface 
     {
         public function __construct(
-            private readonly EmpresaModel $empresaModel
+            private readonly EmpresaModel $empresaModel,
+            private readonly JWToken $jwToken
         ) {
-            parent::__construct(new JWToken());
+            parent::__construct($this->jwToken);
         }
 
 

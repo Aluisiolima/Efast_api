@@ -22,7 +22,7 @@
         public function pegarArquivo(int $id_empresa): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "SELECT * FROM arquivo WHERE id_empresa = ?;";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([$id_empresa]);
@@ -48,7 +48,7 @@
         public function inserirArquivo(string $path, int $id_empresa): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
 
                 // Inicia a transação
                 $pdo->beginTransaction();
@@ -88,7 +88,7 @@
         public function deleteArquivo(array $data, int $id_empresa): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
 
                 // Busca o caminho do arquivo antes de excluí-lo
                 $sql1 = "SELECT path FROM arquivo WHERE id_arquivo = ? AND id_empresa = ?;";
