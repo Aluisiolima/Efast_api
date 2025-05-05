@@ -4,105 +4,56 @@
     use App\Http\Response;
     use App\Http\Resquest;
     use App\Services\UserServices;
+    use App\Controllers\ControllerBase;
 
-    class UserController
+    class UserController extends ControllerBase
     {
-        private readonly Resquest $resquest;
-        private readonly Response $response;
-
-        public function __construct(){
-            $this->resquest = new Resquest;
-            $this->response = new Response;
+        public function __construct(
+            private readonly Resquest $resquest,
+            private readonly Response $response,
+            private readonly UserServices $userServices
+        ){
+            parent::__construct($response);
         }
 
         public function pegarUser()
         {
             $auth = $this->resquest::authorization();
+            $user = $this->userServices->pegarUser($auth);
 
-            $user = UserServices::pegarUser($auth);
-
-            if (isset($user["unauthorized"])){
-                $this->response::json($user,401,true);
-                return;
-            }
-
-            if (isset($user["error"])) {
-                $this->response::json($user,400,true);
-                return;
-            }
-
-            $this->response::json($user,200);
+            $this->responserController($user, 200);
         }    
 
         public function login()
         {
             $body = $this->resquest::getBody();
+            $user = $this->userServices->login($body);
 
-            $user = UserServices::login($body);
-
-            if (isset($user["error"])) {
-                $this->response::json($user,400,true);
-                return;
-            }
-
-            $this->response::json($user,200);
+            $this->responserController($user, 200);
         }  
 
         public function inserirUser()
         {
             $body = $this->resquest::getBody();
             $auth = $this->resquest::authorization();
+            $user = $this->userServices->inserirUser($body, $auth);
 
-            $user = UserServices::inserirUser($body, $auth);
-
-            if (isset($user["unauthorized"])){
-                $this->response::json($user,401,true);
-                return;
-            }
-            
-            if (isset($user["error"])) {
-                $this->response::json($user,400,true);
-                return;
-            }
-
-            $this->response::json($user,200);
+            $this->responserController($user, 201);
         } 
         public function updateUser()
         {
             $body = $this->resquest::getBody();
             $auth = $this->resquest::authorization();
+            $user = $this->userServices->updateUser($body, $auth);
 
-            $user = UserServices::updateUser($body, $auth);
-
-            if (isset($user["unauthorized"])){
-                $this->response::json($user,401,true);
-                return;
-            }
-            
-            if (isset($user["error"])) {
-                $this->response::json($user,400,true);
-                return;
-            }
-
-            $this->response::json($user,200);
+            $this->responserController($user, 200);
         }  
 
         public function deleteUser()
         {
             $auth = $this->resquest::authorization();
+            $user = $this->userServices->deleteUser($auth);
 
-            $user = UserServices::deleteUser($auth);
-
-            if (isset($user["unauthorized"])){
-                $this->response::json($user,401,true);
-                return;
-            }
-            
-            if (isset($user["error"])) {
-                $this->response::json($user,400,true);
-                return;
-            }
-
-            $this->response::json($user,200);
+            $this->responserController($user, 200);
         }
     }

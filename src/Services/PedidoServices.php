@@ -18,7 +18,7 @@
             private readonly PedidoModel $pedidoModel,
             private readonly JWToken $jwToken
         ){
-            parent::__construct($this->jwToken);
+            parent::__construct($jwToken);
         }
         /**
          * Validar e direciona as informacoes pra inserir o pedido em banco

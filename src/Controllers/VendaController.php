@@ -4,49 +4,31 @@
     use App\Http\Response;
     use App\Http\Resquest;
     use App\Services\VendaServices;
+    use App\Controllers\ControllerBase;
 
-    class VendaController
+    class VendaController extends ControllerBase
     {
-        private readonly Resquest $resquest;
-        private readonly Response $response;
-
-        public function __construct(){
-            $this->resquest = new Resquest;
-            $this->response = new Response;
+        public function __construct(
+            private readonly Resquest $resquest,
+            private readonly Response $response,
+            private readonly VendaServices $vendaServices
+        ){
+            parent::__construct($response);
         }
 
         public function pegarVendas()
         {
             $auth = $this->resquest->authorization();
-            $vendas = VendaServices::pegarVendas($auth);
+            $vendas = $this->vendaServices->pegarVendas($auth);
 
-            if (isset($vendas["unauthorized"])){
-                $this->response::json($vendas,401,true);
-                return;
-            }
-
-            if (isset($vendas["error"])) {
-                $this->response::json($vendas, 400, true);
-                return;
-            }
-
-            $this->response::json($vendas, 200);
+            $this->responserController($vendas, 200);
         }
 
         public function pegarVendasDay()
         {
             $auth = $this->resquest->authorization();
-            $vendas = VendaServices::pegarVendasDay($auth);
+            $vendas = $this->vendaServices->pegarVendasDay($auth);
 
-            if (isset($vendas["unauthorized"])){
-                $this->response::json($vendas,401,true);
-                return;
-            }
-            if (isset($vendas["error"])){
-                $this->response::json($vendas, 400, true);
-                return;
-            }
-
-            $this->response::json($vendas, 200);
+            $this->responserController($vendas, 200);
         }
     }

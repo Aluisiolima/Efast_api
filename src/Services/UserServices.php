@@ -11,26 +11,25 @@
      * Classe UserServices
      * reponsavel pela interacoes de User Adm da empresa
      */
-    class UserServices
+    class UserServices extends ServicesBase
     {
+        public function __construct(
+            private readonly UserModel $userModel,
+            private readonly JWToken $jwtoken
+        ){
+            parent::__construct($jwtoken);
+        }
+
         /**
          * Responsavel por pegar os dados de todos os User dessa empresa relacionada
          * @param mixed $auth
          * @return array
          */
-        public static function pegarUser(mixed $auth):array
+        public function pegarUser(mixed $auth):array
         {
             try {
-                if (isset($auth["error"])) {
-                    return ["unauthorized" => $auth["error"]];
-                }
-                $token = JWToken::validateToken($auth);
-
-                if (!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
-                
-                
-                $user = UserModel::pegarUser($token->id_empresa);
-                return $user;
+                $token = $this->verificaToken($auth); 
+                return $this->userModel->pegarUser($token->id_empresa);
             } catch (Exception $e) {
                 return ["error" => $e->getMessage()];
             }
@@ -45,16 +44,10 @@
          * @param mixed $auth
          * @return array
          */
-        public static function inserirUser(array $data, mixed $auth):array
+        public function inserirUser(array $data, mixed $auth):array
         {
             try {
-                if (isset($auth["error"])) {
-                    return ["unauthorized" => $auth["error"]];
-                }
-                $token = JWToken::validateToken($auth);
-
-                if (!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
-                
+                $token = $this->verificaToken($auth);
 
                 $fields = Validator::validateArray([
                     "nome"      => $data["nome"]        ?? "",
@@ -67,9 +60,7 @@
 
                 $id = ($token->cargo === "dev") ? $data["id"] : $token->id_empresa;
 
-                $userModel = UserModel::inserirUser($fields, $id);
-
-                return $userModel;
+                return $this->userModel->inserirUser($fields, $id);
             } catch (Exception $e) {
                 return ["error" => $e->getMessage()];
             }
@@ -83,7 +74,7 @@
          * @param array $data
          * @return array
          */
-        public static function login(array $data): array
+        public function login(array $data): array
         {
             try {
                 $fields = Validator::validateArray([
@@ -94,11 +85,9 @@
                     "senha"      => $data["senha"]      ?? "",
                 ]);
 
-                $userModel = UserModel::login($fields);
+                $user = $this->userModel->login($fields);
 
-                if (isset($userModel["error"])) return ["error" => $userModel["error"]];
-                
-                $token = JWToken::generateToken($userModel);
+                $token = $this->jwtoken->generateToken($user);
                 return ["token" => $token];
             } catch (PDOException $e) {
                 return ["error"=> $e->getMessage()];
@@ -114,14 +103,10 @@
          * @param mixed $auth
          * @return array
          */
-        public static function updateUser(array $data, mixed $auth): array
+        public function updateUser(array $data, mixed $auth): array
         {
             try {
-                if (isset($auth["error"])){
-                    return ["unauthorized"=> $auth["error"]];
-                }
-                $token = JWToken::validateToken($auth);
-                if (!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
+                $token = $this->verificaToken($auth);
 
                 $fields = Validator::validateArray([
                     "nome" => $data["nome"]  ?? "",
@@ -131,9 +116,7 @@
 
                 $fields["senha"] = password_hash($fields['senha'], PASSWORD_DEFAULT);
 
-                $userModel = UserModel::updateUser($fields, $token->id);
-
-                return $userModel;
+                return $this->userModel->updateUser($fields, $token->id);;
             } catch (PDOException $e) {
                 return ["error"=> $e->getMessage()];
             } catch (Exception $e) {
@@ -146,18 +129,11 @@
          * @param mixed $auth
          * @return array
          */
-        public static function deleteUser(mixed $auth): array
+        public function deleteUser(mixed $auth): array
         {
             try {
-                if (isset($auth["error"])){
-                    return ["unauthorized" => $auth["error"]];
-                }
-                $token = JWToken::validateToken($auth);
-                if (!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
-
-                $userModel = UserModel::deleteUser($token->id, $token->id_empresa);
-                return $userModel;
-                
+                $token = $this->verificaToken($auth);
+                return $this->userModel->deleteUser($token->id, $token->id_empresa);
             } catch (PDOException $e) {
                 return ["error"=> $e->getMessage()];
             } catch (Exception $e) {

@@ -21,7 +21,7 @@
             private readonly EmpresaModel $empresaModel,
             private readonly JWToken $jwToken
         ) {
-            parent::__construct($this->jwToken);
+            parent::__construct($jwToken);
         }
 
 
