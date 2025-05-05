@@ -4,46 +4,46 @@
     Routes::get("/", "HomeController@index");
 
     //Produtos
-    Routes::get("/pegarProdutos/{id}",  "ProdutosController@pegarProdutos");
-    Routes::get("/pegarProduto/unico/{id}",  "ProdutosController@pegarProdutosUnico");
-    Routes::get("/pegarProdutos/{id}/main","ProdutosController@pegarProdutosMain");
-    Routes::post("/inseriProdutos",     "ProdutosController@inseriProdutos");
-    Routes::put("/updateProdutos",      "ProdutosController@updateProdutos");
-    Routes::delete("/desativaProdutos", "ProdutosController@desativaProdutos");
-    Routes::post("/ativaProdutos",      "ProdutosController@ativaProdutos");    
-    Routes::post("/getTypes/{id}",      "ProdutosController@getTypes");
+    Routes::get("/produto/empresa/{id}",  "ProdutosController@pegarProdutos");
+    Routes::get("/produto/{id}",  "ProdutosController@pegarProdutosUnico");
+    Routes::get("/produto/empresa/{id}/main","ProdutosController@pegarProdutosMain");
+    Routes::post("/produto/inseri",     "ProdutosController@inseriProdutos");
+    Routes::put("/produto/update",      "ProdutosController@updateProdutos");
+    Routes::delete("/produto/desativa/{id}", "ProdutosController@desativaProdutos");
+    Routes::post("/produto/ativa/{id}",      "ProdutosController@ativaProdutos");    
+    Routes::post("/produto/getTypes/{id_empresa}",      "ProdutosController@getTypes");
 
     //Pedido
-    Routes::post("/inserirPedido/{id}", "PedidoController@inserirPedido");
-    Routes::post("/status/{id}", "PedidoController@status");
+    Routes::post("/pedido/inserir/{id_empresa}", "PedidoController@inserirPedido");
+    Routes::post("/pedido/status/{id}", "PedidoController@status");
 
     //Venda
-    Routes::post("/pegarVendas", "VendaController@pegarVendas");
-    Routes::post("/pegarVendas/hoje", "VendaController@pegarVendasDay");
+    Routes::post("/venda", "VendaController@pegarVendas");
+    Routes::post("/venda/hoje", "VendaController@pegarVendasDay");
     
     //Empresa
-    Routes::get("/pegarEmpresas" , "EmpresaController@pegarEmpresa");
-    Routes::get("/pegarEmpresa/{id}" , "EmpresaController@pegarEmpresaOne");
-    Routes::post("/inserirEmpresa" , "EmpresaController@inserirEmpresa");
-    Routes::put("/updateEmpresa" , "EmpresaController@updateEmpresa");
-    Routes::delete("/desativaEmpresa" , "EmpresaController@desativaEmpresa");
-    Routes::post("/ativaEmpresa" , "EmpresaController@ativaEmpresa");
+    Routes::get( "/empresa" , "EmpresaController@pegarEmpresa");
+    Routes::get("/empresa/{id}" , "EmpresaController@pegarEmpresaOne");
+    Routes::post("/empresa/inserir" , "EmpresaController@inserirEmpresa");
+    Routes::put("/empresa/update" , "EmpresaController@updateEmpresa");
+    Routes::delete("/empresa/desativa/{id}" , "EmpresaController@desativaEmpresa");
+    Routes::post("/empresa/ativa/{id}" , "EmpresaController@ativaEmpresa");
 
     //Frete
     Routes::post("/frete/calc/{id}" , "FreteController@calcFrete");
-    Routes::put("/frete" , "FreteController@frete");
+    Routes::put("/frete/update" , "FreteController@frete");
 
     //QrCode
     Routes::post("/qrcode/{id}", "QrCodeController@qrcode");
 
     //Arquivo
-    Routes::post("/pegarArquivo" , "ArquivoController@pegarArquivo");
-    Routes::post("/inserirArquivo/icon" , "ArquivoController@inserirArquivo");
-    Routes::delete("/deleteArquivo" , "ArquivoController@deleteArquivo");
+    Routes::post("/arquivo" , "ArquivoController@pegarArquivo");
+    Routes::post("/arquivo/inserir" , "ArquivoController@inserirArquivo");
+    Routes::delete("/arquivo/delete" , "ArquivoController@deleteArquivo");
 
     //user_adm
-    Routes::post("/pegarUser", "UserController@pegarUser");
+    Routes::post("/user", "UserController@pegarUser");
     Routes::post("/login", "UserController@login");
-    Routes::post("/inserirUser", "UserController@inserirUser");
-    Routes::put("/updateUser", "UserController@updateUser");
-    Routes::delete("/deleteUser", "UserController@deleteUser");
+    Routes::post("/user/inserir", "UserController@inserirUser");
+    Routes::put("/user/update", "UserController@updateUser");
+    Routes::delete("/user/delete", "UserController@deleteUser");
