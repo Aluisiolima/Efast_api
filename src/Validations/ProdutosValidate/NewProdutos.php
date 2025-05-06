@@ -10,6 +10,7 @@
         public string $tipo;
         public int $id_img;
         public int $desconto;
+        public ?string $descricao;
 
         public function __construct(array $data)
         {
@@ -32,6 +33,7 @@
             $this->tipo = $data["tipo"];
             $this->id_img = $data["id_img"];
             $this->desconto = $data["desconto"];
+            $this->descricao = $data["descricao"] ?? null;
         }
     }
     

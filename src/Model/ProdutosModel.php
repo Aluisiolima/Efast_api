@@ -79,7 +79,8 @@
                             p.valor,
                             p.tipo,
                             a.path,
-                            p.desconto
+                            p.desconto,
+                            p.descricao
                         FROM produtos p
                         JOIN empresa e ON e.id_empresa = p.id_empresa
                         JOIN arquivo a ON a.id_arquivo = p.id_img
@@ -130,7 +131,7 @@
         {
             try {
                 $pdo = $this->getConnection();
-                $sql = "INSERT INTO produtos (nome_produto, valor, tipo, id_img, id_empresa, desconto) VALUES (?,?,?,?,?,?);";
+                $sql = "INSERT INTO produtos (nome_produto, valor, tipo, id_img, id_empresa, desconto, descricao) VALUES (?,?,?,?,?,?);";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
                     $data->nome,
@@ -138,7 +139,8 @@
                     $data->tipo,
                     $data->id_img,
                     $id_empresa,
-                    $data->desconto
+                    $data->desconto,
+                    $data->descricao
                 ]);
     
                 return [
@@ -165,7 +167,8 @@
                                 valor = COALESCE(?, valor),
                                 tipo = COALESCE(?, tipo),
                                 id_img = COALESCE(?, id_img),
-                                desconto = COALESCE(?, desconto)
+                                desconto = COALESCE(?, desconto),
+                                descricao = COALESCE(?, descricao)
                             WHERE id_produto = ? AND id_empresa = ?";
 
                 $stmt = $pdo->prepare($sql);
@@ -176,6 +179,7 @@
                     $data->id_img,
                     $data->desconto,
                     $data->id,
+                    $data->descricao,
                     $id_empresa
                 ]);
                 
