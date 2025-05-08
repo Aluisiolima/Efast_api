@@ -21,7 +21,7 @@
             try {
                 $frete = new FreteEmpresa($data);
                 $empresa = $this->freteModel->calcFrete($id);
-                $distancia = self::calcularDistancia($frete->lat,$frete->lon, $empresa["lat"],$empresa["lon"]);
+                $distancia = $this->calcularDistancia($frete->lat,$frete->lon, $empresa["lat"],$empresa["lon"]);
 
                 return ["frete" =>  number_format(($distancia * $empresa["t_frete"]), 2)];
 

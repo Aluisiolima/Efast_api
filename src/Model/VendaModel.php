@@ -18,7 +18,7 @@
         public function pegarVendas(int $id_empresa): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "SELECT 
                             ped.id_pedido, 
                             ped.nome_cliente, 
@@ -62,7 +62,7 @@
         public function pegarVendasDay(int $id_empresa, string $day): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "SELECT 
                             ped.id_pedido, 
                             ped.nome_cliente, 
