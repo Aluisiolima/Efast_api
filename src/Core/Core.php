@@ -19,7 +19,7 @@ class Core
                 array_shift($matches);
 
                 if ($route["method"] !== Resquest::method()) {
-                    Response::json(["error" => "Método inválido"], 405, true);
+                    Response::json(["error" => "Método inválido"], 405);
                     return;
                 }
 

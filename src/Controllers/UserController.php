@@ -16,7 +16,7 @@
             parent::__construct($response);
         }
 
-        public function pegarUser()
+        public function pegarUser(): void
         {
             $auth = $this->resquest::authorization();
             $user = $this->userServices->pegarUser($auth);
@@ -24,7 +24,7 @@
             $this->responserController($user, 200);
         }    
 
-        public function login()
+        public function login(): void
         {
             $body = $this->resquest::getBody();
             $user = $this->userServices->login($body);
@@ -32,7 +32,7 @@
             $this->responserController($user, 200);
         }  
 
-        public function inserirUser()
+        public function inserirUser(): void
         {
             $body = $this->resquest::getBody();
             $auth = $this->resquest::authorization();
@@ -40,7 +40,7 @@
 
             $this->responserController($user, 201);
         } 
-        public function updateUser()
+        public function updateUser(): void
         {
             $body = $this->resquest::getBody();
             $auth = $this->resquest::authorization();
@@ -49,7 +49,7 @@
             $this->responserController($user, 200);
         }  
 
-        public function deleteUser()
+        public function deleteUser(): void
         {
             $auth = $this->resquest::authorization();
             $user = $this->userServices->deleteUser($auth);

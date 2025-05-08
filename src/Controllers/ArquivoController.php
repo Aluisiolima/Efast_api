@@ -16,7 +16,7 @@
             parent::__construct( $response);
         }
 
-        public function pegarArquivo()
+        public function pegarArquivo(): void
         {
             $auth = $this->resquest::authorization();
 
@@ -25,7 +25,7 @@
             $this->responserController($arquivo, 200);
         }
 
-        public function inserirArquivo()
+        public function inserirArquivo(): void
         {
             $auth = $this->resquest::authorization();
             $body = $this->resquest::getBody();
@@ -35,7 +35,7 @@
             $this->responserController($arquivo, 201);
         }
 
-        public function deleteArquivo()
+        public function deleteArquivo(): void
         {
             $body = $this->resquest::getBody();
             $auth = $this->resquest::authorization();

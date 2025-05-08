@@ -22,13 +22,13 @@
 
             $this->responserController($empresa, 200);
         }
-        public function pegarEmpresaOne(string $id)
+        public function pegarEmpresaOne(string $id): void
         {
             $empresa = $this->empresaServices->pegarEmpresaOne((int) $id);
 
             $this->responserController($empresa, 200);
         }
-        public function inserirEmpresa()
+        public function inserirEmpresa(): void
         {
             $body = $this->resquest::getBody();
             $auth = $this->resquest::authorization();
@@ -37,7 +37,7 @@
 
             $this->responserController($empresa, 200);
         }
-        public function updateEmpresa()
+        public function updateEmpresa(): void
         {
             $body = $this->resquest::getBody();
             $auth = $this->resquest::authorization();
@@ -46,7 +46,7 @@
 
             $this->responserController($empresa, 200);
         }
-        public function desativaEmpresa()
+        public function desativaEmpresa(): void
         {
             $body = $this->resquest::getBody();
             $auth = $this->resquest::authorization();
@@ -56,7 +56,7 @@
             $this->responserController($empresa, 200);
         }
 
-        public function ativaEmpresa()
+        public function ativaEmpresa(): void
         {
             $body = $this->resquest::getBody();
             $auth = $this->resquest::authorization();

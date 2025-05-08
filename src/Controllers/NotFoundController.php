@@ -11,7 +11,7 @@
         
         public function index(): void
         {
-            $this->response::json(["error" => "Essa rota nao existe!!!"],404, true);
+            $this->response->json(["error" => "Essa rota nao existe!!!"],404);
             return;
         }
     }

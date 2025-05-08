@@ -5,8 +5,6 @@
     use App\Http\Resquest;
     use App\Services\QrCodeServices;
 
-use function PHPUnit\Framework\isType;
-
     class QrCodeController extends ControllerBase
     {
         public function __construct(
@@ -17,7 +15,7 @@ use function PHPUnit\Framework\isType;
             parent::__construct($response);
         }    
         
-        public function qrcode(string $id)
+        public function qrcode(string $id): void
         {
             $auth = $this->resquest->authorization();
             $empresa = $this->qrCodeServices->qrcode((int) $id, $auth);
@@ -27,6 +25,6 @@ use function PHPUnit\Framework\isType;
                 return;
             }
 
-            $this->response::files($empresa->getString(), $empresa->getMimeType());
+            $this->response->files($empresa->getString(), $empresa->getMimeType());
         }
     }

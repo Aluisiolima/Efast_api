@@ -2,7 +2,6 @@
     namespace App\Controllers;
     
     use App\Http\Response;
-use Endroid\QrCode\Writer\Result\ResultInterface;
 
     class ControllerBase
     {
@@ -13,15 +12,25 @@ use Endroid\QrCode\Writer\Result\ResultInterface;
         public function responserController(array $data, int $statusCode): void
         {
             if (isset($data["unauthorized"])){
-                $this->response::json($data,401,true);
+                $this->response::json([
+                    "error" => true,
+                    "message" => "Token inválido ou expirado"
+                ],401);
                 return;
             }
 
             if (isset($data["error"])) {
-                $this->response::json($data,400,true);
+                $this->response::json([
+                    "error" => true,
+                    "message" => $data["error"]
+                ],400);
                 return;
             }
 
-            $this->response::json($data,$statusCode);
+            $this->response::json([
+                "error" => false,
+                "success" => true,
+                "data" => $data
+            ],$statusCode);
         }
     }

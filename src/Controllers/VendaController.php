@@ -16,7 +16,7 @@
             parent::__construct($response);
         }
 
-        public function pegarVendas()
+        public function pegarVendas(): void
         {
             $auth = $this->resquest->authorization();
             $vendas = $this->vendaServices->pegarVendas($auth);
@@ -24,7 +24,7 @@
             $this->responserController($vendas, 200);
         }
 
-        public function pegarVendasDay()
+        public function pegarVendasDay(): void
         {
             $auth = $this->resquest->authorization();
             $vendas = $this->vendaServices->pegarVendasDay($auth);

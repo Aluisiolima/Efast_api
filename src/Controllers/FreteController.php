@@ -15,7 +15,7 @@
             parent::__construct($response);
         }    
         
-        public function calcFrete(string $id)
+        public function calcFrete(string $id): void
         {
             $body = $this->resquest::getBody();
             $empresa = $this->freteServices->calcFrete($body, (int) $id);
@@ -23,7 +23,7 @@
             $this->responserController($empresa, 200);
         }
 
-        public function frete()
+        public function frete(): void
         {
             $auth = $this->resquest::authorization();
             $body = $this->resquest::getBody();

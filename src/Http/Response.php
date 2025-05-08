@@ -11,83 +11,24 @@ use Exception;
      */
     class Response
     {
+ 
         /**
-         * Envia uma resposta JSON ao cliente.
+         * Envia uma resposta JSON.
          *
          * @param array $data Dados a serem enviados na resposta.
-         * @param int $status Código de status HTTP.
-         * @param bool $error Indica se a resposta é um erro.
+         * @param int $status Código de status HTTP (default: 200).
          *
          * @return void
          */
-        public static function json(array $data = [], int $status = 200, bool $error = false): void
+        public static function json(array $data = [], int $status = 200): void
         {
-            self::setHeaders($status);
-        
-            $response = $error 
-                ? self::errorResponse($data, $status)
-                : self::successResponse($data);
-            
-            
-            echo self::safeJsonEncode($response);
-        }
-        
-        /**
-         * Define os cabeçalhos da resposta.
-         *
-         * @param int $status Código de status HTTP.
-         *
-         * @return void
-         */
-        private static function setHeaders(int $status): void
-        {
+            header('Content-Type: application/json');
             http_response_code($status);
-            header("Content-Type: application/json");
+            
+            echo self::safeJsonEncode($data);
+            exit();
         }
-        
-        /**
-         * Formata uma resposta de sucesso.
-         *
-         * @param array $data Dados a serem incluídos na resposta.
-         *
-         * @return array Resposta formatada.
-         */
-        private static function successResponse(array $data): array
-        {
-            return [
-                "error"   => false,
-                "success" => true,
-                "data"    => $data,
-            ];
-        }
-        
-        /**
-         * Formata uma resposta de erro.
-         *
-         * @param array|string $data Mensagem de erro ou dados adicionais.
-         *
-         * @return array Resposta formatada.
-         */
-        private static function errorResponse(array $data, int $status): array
-        {
-            Logs::Log($data, $status);
 
-            $message = "";
-
-            if(isset($data["error"]))
-            {
-                $message = $data["error"];
-            }
-            if(isset($data["unauthorized"]))
-            {
-                $message = $data["unauthorized"];
-            }
-            return [
-                "error"   => true,
-                "message" => $message,
-            ];
-        }
-        
         /**
          * Codifica os dados da resposta em JSON de forma segura.
          *
@@ -111,15 +52,13 @@ use Exception;
         public static function files(mixed $file, mixed $type) : void 
         {
             try{
-                 
                 header('Content-Type: '. $type); 
                 header('Content-Disposition: attachment; filename="qrcode.png"'); 
 
                 echo $file;
-                
+                exit();
             }catch(Exception $e){
-                self::json(["error" => "output file {$e}"],400, true);
+                self::json(["error" => "output file {$e}"],400);
             }
-           
         }
     }
