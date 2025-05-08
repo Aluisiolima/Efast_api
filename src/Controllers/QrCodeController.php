@@ -15,10 +15,10 @@
             parent::__construct($response);
         }    
         
-        public function qrcode(string $id): void
+        public function qrcode(): void
         {
             $auth = $this->resquest->authorization();
-            $empresa = $this->qrCodeServices->qrcode((int) $id, $auth);
+            $empresa = $this->qrCodeServices->qrcode($auth);
             
             if (is_array($empresa) and isset($empresa["error"])) {
                 $this->responserController($empresa, 400);

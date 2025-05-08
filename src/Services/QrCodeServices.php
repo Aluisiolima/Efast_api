@@ -17,20 +17,17 @@
     class QrCodeServices extends ServicesBase
     {
         public function __construct(
-            private readonly QrCodeModel $qrcodeModel,
             private readonly JWToken $jwtoken
         ){
             parent::__construct($jwtoken);
         }
 
-        public function qrcode(int $id, mixed $auth): array | ResultInterface
+        public function qrcode(mixed $auth): array | ResultInterface
         {
             try{
                 $token = $this->verificaToken($auth);
-                $id_empresa = $this->qrcodeModel->qrcode($id);
 
-                $qrcode = $this->generateQrcode((int) $id_empresa);
-                return  $qrcode;
+                return $this->generateQrcode((int) $token->id_empresa);
             }catch(Exception $e){
                 return ["error" => $e->getMessage()];
             }catch(PDOException $e){
@@ -38,10 +35,8 @@
             }
         }
         
-        //TODO: melhorar a legibilidade do qrcode
         public function generateQrcode(int $id): ResultInterface
         {
-            // Cria o objeto QrCode com todos os parâmetros necessários
             $qrCode = new QrCode(
                 data: "efastmenu.com/{$id}",
                 encoding: new Encoding('UTF-8'),
@@ -53,9 +48,8 @@
                 backgroundColor: new Color(255, 255, 255)
             ); 
 
-            // Instancia o writer de PNG e gera o resultado
             $writer = new PngWriter(); 
-	        $logo = new Logo("src/asset/eFast-menu-black.png",150);
+	        $logo = new Logo("src/asset/eFast-menu-black.png",100);
 
             $result = $writer->write(qrCode: $qrCode, logo: $logo);
 

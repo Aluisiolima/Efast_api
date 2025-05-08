@@ -34,7 +34,7 @@
     Routes::put("/frete/update" , "FreteController@frete");
 
     //QrCode
-    Routes::post("/qrcode/{id}", "QrCodeController@qrcode");
+    Routes::post("/qrcode", "QrCodeController@qrcode");
 
     //Arquivo
     Routes::post("/arquivo" , "ArquivoController@pegarArquivo");
