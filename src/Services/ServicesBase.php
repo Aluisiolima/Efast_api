@@ -1,7 +1,7 @@
 <?php   
     namespace App\Services;
     use App\Http\JWToken;
-    use Exception;
+    use App\Errors\AuthError;
 
     class ServicesBase
     {
@@ -12,11 +12,11 @@
         public function verificaToken(mixed $auth): object
         {
             if (isset($auth["error"])) {
-                throw new Exception($auth["error"]);
+                throw new AuthError($auth["error"]);
             }
 
             $token = $this->jwtoken->validateToken($auth);
-            if (!$token) throw new Exception("Você não está autorizado a essa operação. Faça login.");
+            if (!$token) throw new AuthError("Você não está autorizado a essa operação. Faça login.");
 
             return $token;
         }
