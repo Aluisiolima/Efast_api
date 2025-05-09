@@ -118,15 +118,11 @@
             try {
                 $token = $this->verificaToken($auth);
 
-                $fields = Validator::validateArray([
-                    "id" => $data["id"] ?? "",
-                ]);
-
                 if ($token->cargo !== "dev") {
                     return ["error" => "Você não tem autorização para desativar esta empresa."];
                 }
 
-                return $this->empresaModel->desativaEmpresa($fields);
+                return $this->empresaModel->desativaEmpresa($token->id_empresa);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } catch (Exception $e) {
@@ -145,15 +141,12 @@
         {
             try {
                 $token = $this->verificaToken($auth);
-                $fields = Validator::validateArray([
-                    "id" => $data["id"] ?? "",
-                ]);
 
                 if ($token->cargo !== "dev") {
                     return ["error" => "Você não tem autorização para ativar esta empresa."];
                 }
 
-                return $this->empresaModel->ativaEmpresa($fields);
+                return $this->empresaModel->ativaEmpresa($token->id_empresa);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } catch (Exception $e) {

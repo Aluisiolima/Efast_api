@@ -150,16 +150,16 @@
         /**
          * Desativa uma empresa específica.
          *
-         * @param array $data Dados contendo o ID da empresa.
+         * @param int $id ID da empresa.
          * @return array Mensagem de sucesso ou erro.
          */
-        public function desativaEmpresa(array $data): array
+        public function desativaEmpresa(int $id): array
         {
             try {
                 $pdo = $this->getConnection();
                 $sql = "UPDATE empresa SET status = 'desativada' WHERE id_empresa = ?";
                 $stmt = $pdo->prepare($sql);
-                $stmt->execute([$data["id"]]);
+                $stmt->execute([$id]);
 
                 return ["messagem" => "Empresa desativada com sucesso !!"];
             } catch (PDOException $e) {
@@ -172,16 +172,16 @@
         /**
          * Ativa uma empresa específica.
          *
-         * @param array $data Dados contendo o ID da empresa.
+         * @param int $id ID da empresa.
          * @return array Mensagem de sucesso ou erro.
          */
-        public function ativaEmpresa(array $data): array
+        public function ativaEmpresa(int $id): array
         {
             try {
                 $pdo = $this->getConnection();
                 $sql = "UPDATE empresa SET status = 'ativa' WHERE id_empresa = ?";
                 $stmt = $pdo->prepare($sql);
-                $stmt->execute([$data["id"]]);
+                $stmt->execute([$id]);
 
                 return ["messagem" => "Empresa ativada com sucesso !!"];
             } catch (PDOException $e) {
