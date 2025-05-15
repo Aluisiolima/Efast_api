@@ -4,17 +4,17 @@
     Routes::get("/", "HomeController@index");
 
     //Produtos
+    Routes::post("/produto/inseri",     "ProdutosController@inseriProdutos");
+    Routes::put("/produto/update",      "ProdutosController@updateProdutos");
     Routes::get("/produto/empresa/{id}",  "ProdutosController@pegarProdutos");
     Routes::get("/produto/{id}",  "ProdutosController@pegarProdutosUnico");
     Routes::get("/produto/empresa/{id}/main","ProdutosController@pegarProdutosMain");
-    Routes::post("/produto/inseri",     "ProdutosController@inseriProdutos");
-    Routes::put("/produto/update",      "ProdutosController@updateProdutos");
     Routes::delete("/produto/desativa/{id}", "ProdutosController@desativaProdutos");
     Routes::post("/produto/ativa/{id}",      "ProdutosController@ativaProdutos");    
-    Routes::post("/produto/getTypes/{id_empresa}",      "ProdutosController@getTypes");
+    Routes::post("/produto/getTypes/{id}",      "ProdutosController@getTypes");
 
     //Pedido
-    Routes::post("/pedido/inserir/{id_empresa}", "PedidoController@inserirPedido");
+    Routes::post("/pedido/inserir/{id}", "PedidoController@inserirPedido");
     Routes::post("/pedido/status/{id}", "PedidoController@status");
 
     //Venda

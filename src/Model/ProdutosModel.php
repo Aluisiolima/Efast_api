@@ -131,7 +131,7 @@
         {
             try {
                 $pdo = $this->getConnection();
-                $sql = "INSERT INTO produtos (nome_produto, valor, tipo, id_img, id_empresa, desconto, descricao) VALUES (?,?,?,?,?,?);";
+                $sql = "INSERT INTO produtos (nome_produto, valor, tipo, id_img, id_empresa, desconto, descricao) VALUES (?,?,?,?,?,?,?);";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
                     $data->nome,
@@ -178,8 +178,8 @@
                     $data->tipo,
                     $data->id_img,
                     $data->desconto,
-                    $data->id,
                     $data->descricao,
+                    $data->id,
                     $id_empresa
                 ]);
                 
