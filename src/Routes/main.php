@@ -23,9 +23,9 @@
     
     //Empresa
     Routes::get( "/empresa" , "EmpresaController@pegarEmpresa");
-    Routes::get("/empresa/{id}" , "EmpresaController@pegarEmpresaOne");
     Routes::post("/empresa/inserir" , "EmpresaController@inserirEmpresa");
     Routes::put("/empresa/update" , "EmpresaController@updateEmpresa");
+    Routes::get("/empresa/{id}" , "EmpresaController@pegarEmpresaOne");
     Routes::delete("/empresa/desativa/{id}" , "EmpresaController@desativaEmpresa");
     Routes::post("/empresa/ativa/{id}" , "EmpresaController@ativaEmpresa");
 

@@ -75,6 +75,7 @@
                     // Verifica se o pedido já existe no array
                     if (!isset($vendasAgrupadas[$idPedido])) {
                         $vendasAgrupadas[$idPedido] = [
+                            "id" => $row["id_pedido"],
                             "cliente" => $row["nome_cliente"],
                             "tipo_pagamento" => $row["tipo_pagamento"],
                             "endereco" => !empty($row["bairro"]) ? "{$row["rua"]}, {$row["bairro"]}, Nº {$row["numero_casa"]}" : "Estabelecimento",
