@@ -4,145 +4,78 @@
     use App\Http\Response;
     use App\Http\Resquest;
     use App\Services\ProdutosServices;
+    use App\Controllers\ControllerBase;
 
-    class ProdutosController 
+    class ProdutosController extends ControllerBase
     {
-        private readonly Resquest $resquest;
-        private readonly Response $response;
-
-        public function __construct(){
-            $this->resquest = new Resquest;
-            $this->response = new Response;
+        public function __construct(
+            private readonly Resquest $resquest,
+            private readonly Response $response,
+            private readonly ProdutosServices $produtosServices,
+        ){
+            parent::__construct($response);
         }
 
-        public function pegarProdutos(array $id) 
+        public function pegarProdutos(string $id): void 
         {
+            $produtos = $this->produtosServices->pegarProdutos((int) $id);
     
-            $produtos = ProdutosServices::pegarProdutos($id);
-    
-            if(isset($produtos["error"])){
-                $this->response::json($produtos,400,true);
-                return;
-            }
-            $this->response::json($produtos,200);
-    
+            $this->responserController($produtos, 200);
         }
 
-        public function pegarProdutosUnico(array $id) 
+        public function pegarProdutosUnico(string $id): void 
         {
-    
-            $produtos = ProdutosServices::pegarProdutosUnico($id);
-    
-            if(isset($produtos["error"])){
-                $this->response::json($produtos,400,true);
-                return;
-            }
-            $this->response::json($produtos,200);
-    
+            $produtos = $this->produtosServices->pegarProdutosUnico((int) $id);
+
+            $this->responserController($produtos, 200);
         }
 
-        public function getTypes(array $id) 
+        public function getTypes(): void 
         {
             $auth = $this->resquest::authorization();
-            $produtos = ProdutosServices::getTypes($id, $auth);
+            $produtos = $this->produtosServices->getTypes($auth);
     
-            if (isset($produtos["unauthorized"])){
-                $this->response::json($produtos,401,true);
-                return;
-            }
-
-            if(isset($produtos["error"])){
-                $this->response::json($produtos,400,true);
-                return;
-            }
-            
-            $this->response::json($produtos,200);
-    
+            $this->responserController($produtos, 200);
         }
 
-        public function inseriProdutos() 
+        public function inseriProdutos(): void 
         {
             $body = $this->resquest::getBody();
             $auth = $this->resquest::authorization();
-            $produtos = ProdutosServices::inseriProdutos($body, $auth);
-
-            if (isset($produtos["unauthorized"])){
-                $this->response::json($produtos,401,true);
-                return;
-            }
+            $produtos = $this->produtosServices->inseriProdutos($body, $auth);
     
-            if(isset($produtos["error"])){
-                $this->response::json($produtos,400,true);
-                return;
-            }
-            $this->response::json($produtos,200);
-    
+            $this->responserController($produtos, 201);
         }
 
-        public function updateProdutos() 
+        public function updateProdutos(): void 
         {
             $body = $this->resquest::getBody();
             $auth = $this->resquest::authorization();
-            $produtos = ProdutosServices::updateProdutos($body, $auth);
-    
-            if (isset($produtos["unauthorized"])){
-                $this->response::json($produtos,401,true);
-                return;
-            }
+            $produtos = $this->produtosServices->updateProdutos($body, $auth);
 
-            if(isset($produtos["error"])){
-                $this->response::json($produtos,400,true);
-                return;
-            }
-            $this->response::json($produtos,200);
-    
+            $this->responserController($produtos, 200);
         }
 
-        public function desativaProdutos(): void
+        public function desativaProdutos(string $id): void
         {
-            $body = $this->resquest::getBody();
             $auth = $this->resquest::authorization();
-            $produtos = ProdutosServices::desativaProdutos($body, $auth);
+            $produtos = $this->produtosServices->desativaProdutos((int) $id, $auth);
 
-            if (isset($produtos["unauthorized"])){
-                $this->response::json($produtos,401,true);
-                return;
-            }
-
-            if(isset($produtos["error"])){
-                $this->response::json($produtos,400,true);
-                return;
-            }
-            $this->response::json($produtos,200);
+            $this->responserController($produtos, 200);
         }
         
-        public function ativaProdutos(): void
+        public function ativaProdutos(string $id): void
         {
-            $body = $this->resquest::getBody();
             $auth = $this->resquest::authorization();
-            $produtos = ProdutosServices::ativaProdutos($body, $auth);
-            
-            if (isset($produtos["unauthorized"])){
-                $this->response::json($produtos,401,true);
-                return;
-            }
+            $produtos = $this->produtosServices->ativaProdutos((int) $id, $auth);
 
-            if(isset($produtos["error"])){
-                $this->response::json($produtos,400,true);
-                return;
-            }
-            $this->response::json($produtos,200);
+            $this->responserController($produtos, 200);
         }
         
-        public function pegarProdutosMain(array $id): void
+        public function pegarProdutosMain(string $id): void
         {
-            $produtos = ProdutosServices::pegarProdutosMain($id);
+            $produtos = $this->produtosServices->pegarProdutosMain((int) $id);
     
-            if(isset($produtos["error"])){
-                $this->response::json($produtos,400,true);
-                return;
-            }
-            $this->response::json($produtos,200);
-    
+            $this->responserController($produtos, 200);
         }
     }

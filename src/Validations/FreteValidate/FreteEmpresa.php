@@ -1,5 +1,5 @@
 <?php
-    namespace App\Validations\EmpresaValidate;
+    namespace App\Validations\FreteValidate;
     use InvalidArgumentException;
 
     class FreteEmpresa

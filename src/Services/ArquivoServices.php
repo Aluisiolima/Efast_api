@@ -12,27 +12,27 @@
      *
      * Responsável por gerenciar as operações de negócio relacionadas aos arquivos.
      */
-    class ArquivoServices
+    class ArquivoServices extends ServicesBase
     {
+        public function __construct(
+            private readonly ArquivoModel $arquivoModel,
+            private readonly JWToken $jwToken
+        ) {
+            parent::__construct($jwToken);
+        }
+        
         /**
          * Obtém os arquivos associados à empresa autenticada.
          *
          * @param mixed $auth Dados de autenticação (token de acesso).
          * @return array Retorna os arquivos da empresa ou mensagens de erro/autorização.
          */
-        public static function pegarArquivo(mixed $auth): array
+        public function pegarArquivo(mixed $auth): array
         {
-            try {
-                if (isset($auth["error"])) {
-                    return ["unauthorized" => $auth["error"]];
-                }
+            try {   
+                $token = $this->verificaToken($auth);
 
-                $token = JWToken::validateToken($auth);
-                if (!$token) {
-                    return ["unauthorized" => "Você não está autorizado a esta operação. Faça login."];
-                }
-
-                return ArquivoModel::pegarArquivo($token->id_empresa);
+                return $this->arquivoModel->pegarArquivo($token->id_empresa);
             } catch (Exception | PDOException $e) {
                 return ["error" => $e->getMessage()];
             }
@@ -45,22 +45,16 @@
          * @param mixed $auth Dados de autenticação (token de acesso).
          * @return array Retorna uma mensagem de sucesso ou erro.
          */
-        public static function inserirArquivo(array $data, mixed $auth): array
+        public function inserirArquivo(array $data, mixed $auth): array
         {
             try {
-                if (isset($auth["error"])) {
-                    return ["unauthorized" => $auth["error"]];
-                }
-
-                $token = JWToken::validateToken($auth);
-                if (!$token) {
-                    return ["unauthorized" => "Você não está autorizado a esta operação. Faça login."];
-                }
+                
+                $token = $this->verificaToken($auth);
 
                 $fields = Validator::validateImg($data['img'], "$token->id_empresa/");
-                $urlImg = str_replace('../', '', self::upload($fields, $data['img']));
+                $urlImg = str_replace('../', '', $this->upload($fields, $data['img']));
 
-                return ArquivoModel::inserirArquivo($urlImg, $token->id_empresa);
+                return $this->arquivoModel->inserirArquivo($urlImg, $token->id_empresa);
             } catch (Exception | PDOException $e) {
                 return ["error" => $e->getMessage()];
             }
@@ -73,24 +67,18 @@
          * @param mixed $auth Dados de autenticação (token de acesso).
          * @return array Retorna uma mensagem de sucesso ou erro.
          */
-        public static function deleteArquivo(array $data, mixed $auth): array
+        public function deleteArquivo(array $data, mixed $auth): array
         {
             try {
-                if (isset($auth["error"])) {
-                    return ["unauthorized" => $auth["error"]];
-                }
-
-                $token = JWToken::validateToken($auth);
-                if (!$token) {
-                    return ["unauthorized" => "Você não está autorizado a esta operação. Faça login."];
-                }
+                
+                $token = $this->verificaToken($auth);
 
                 $fields = Validator::validateArray([
                     "id" => $data["id"] ?? "",
                 ]);
 
-                $arquivo = ArquivoModel::deleteArquivo($fields, $token->id_empresa);
-                return self::remove($arquivo["path"]);
+                $arquivo = $this->arquivoModel->deleteArquivo($fields, $token->id_empresa);
+                return $this->remove($arquivo["path"]);
             } catch (Exception | PDOException $e) {
                 return ["error" => $e->getMessage()];
             }
@@ -104,7 +92,7 @@
          * @return string Retorna o caminho do arquivo enviado.
          * @throws Exception Caso ocorra erro no envio do arquivo.
          */
-        private static function upload(string $targetFile, array $img): string
+        private function upload(string $targetFile, array $img): string
         {
             try {
                 if (move_uploaded_file($img['tmp_name'], $targetFile)) {
@@ -123,7 +111,7 @@
          * @param string $img Caminho do arquivo a ser removido.
          * @return array Retorna uma mensagem de sucesso ou erro.
          */
-        private static function remove(string $img): array
+        private function remove(string $img): array
         {
             try {
                 $caminhoImagem = "../$img";

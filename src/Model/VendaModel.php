@@ -15,10 +15,10 @@
          * @param array $data Dados necessários para a consulta (exemplo: id_empresa).
          * @return array Lista de vendas ou mensagem de erro.
          */
-        public static function pegarVendas(int $id_empresa): array
+        public function pegarVendas(int $id_empresa): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "SELECT 
                             ped.id_pedido, 
                             ped.nome_cliente, 
@@ -45,9 +45,7 @@
                     $id_empresa
                 ]);
 
-                $vendas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                return $vendas;
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } finally {
@@ -61,10 +59,10 @@
          * @param string $day Data no formato 'd/m/Y'.
          * @return array Lista de vendas no dia especificado ou mensagem de erro.
          */
-        public static function pegarVendasDay(int $id_empresa, string $day): array
+        public function pegarVendasDay(int $id_empresa, string $day): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "SELECT 
                             ped.id_pedido, 
                             ped.nome_cliente, 
@@ -92,9 +90,7 @@
                     $day
                 ]);
 
-                $vendas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                return $vendas;
+                return  $stmt->fetchAll(PDO::FETCH_ASSOC);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } finally {

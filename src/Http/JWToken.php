@@ -26,12 +26,14 @@
          * @return string|array Retorna o token JWT gerado em formato string. 
          * Em caso de erro, retorna um array contendo a mensagem de erro.
          */
-        public static function generateToken(array $data = []): string|array
+        public function generateToken(array $data = []): string|array
         {
             try {
                 // Obtém a chave secreta do ambiente
                 self::$secret = $_ENV["SECRET_KEY"];
-                
+                $data["exp"] = time() + 300; // Define a expiração do token para 1 hora
+                $data["iat"] = time(); // Define a data de emissão do token
+
                 // Codifica os dados no token JWT
                 return JWT::encode($data, self::$secret, "HS256");
             } catch (Exception $e) {
@@ -46,7 +48,7 @@
          * @return object|null Retorna os dados decodificados do token como um objeto em caso de sucesso.
          * Retorna null se o token for inválido ou ocorrer algum erro.
          */
-        public static function validateToken(string $token): ?object
+        public function validateToken(string $token): ?object
         {
             try {
                 // Obtém a chave secreta do ambiente

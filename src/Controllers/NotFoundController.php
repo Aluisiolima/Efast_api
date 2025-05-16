@@ -5,15 +5,13 @@
 
     class NotFoundController
     {
-        private readonly Response $response;
-
-        public function __construct(){
-            $this->response = new Response;
-        }
+        public function __construct(
+            private readonly Response $response
+        ){}
         
         public function index(): void
         {
-            $this->response::json(["error" => "Essa rota nao existe!!!"],404, true);
+            $this->response->json(["error" => "Essa rota nao existe!!!"],404);
             return;
         }
     }

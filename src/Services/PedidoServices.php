@@ -12,15 +12,21 @@
      * Classe PedidoServices
      * classe responsavel pela interacoes entre os pedidos do cardapio
      */
-    class PedidoServices
+    class PedidoServices extends ServicesBase
     {
+        public function __construct(
+            private readonly PedidoModel $pedidoModel,
+            private readonly JWToken $jwToken
+        ){
+            parent::__construct($jwToken);
+        }
         /**
          * Validar e direciona as informacoes pra inserir o pedido em banco
          * @param array $data > dados do pedido 
          * @param int $id_empresa > id da empresa relacionada com esse pedido
          * @return array
          */
-        public static function inserirPedido(array $data, int $id_empresa): array
+        public function inserirPedido(array $data, int $id_empresa): array
         {
             try {
                 $fields = Validator::validatePedido([
@@ -36,10 +42,10 @@
                     "numero_mesa"   => $data["numero_mesa"],
                 ]);
 
-                $fields["data"] = self::data();
+                $fields["data"] = $this->data();
 
     
-                $pedidoModel = PedidoModel::inserirPedido($fields, $id_empresa);
+                $pedidoModel = $this->pedidoModel->inserirPedido($fields, $id_empresa);
 
                 return  $pedidoModel;
             } catch (Exception $e) {
@@ -49,22 +55,17 @@
             }
             
         }
-        public static function status(array $data, int $id, mixed $auth): array
+        public function status(array $data, int $id, mixed $auth): array
         {
             try{
-                if (isset($auth["error"])) {
-                    return ["unauthorized" => $auth["error"]];
-                }
-    
-                $token = JWToken::validateToken($auth);
-                if (!$token) return ["unauthorized" => "Você não está autorizado a essa operação. Faça login."];
+                $token = $this->verificaToken($auth);
 
                 $fields = Validator::validateArray([
                     "id"     => $id             ?? "",
                     "status" => $data["status"] ?? ""
                 ]);
 
-                $pedido = PedidoModel::updateStatus($fields);
+                $pedido = $this->pedidoModel->updateStatus($fields);
 
                 return $pedido;
             }catch (Exception $e){
@@ -80,7 +81,7 @@
          * Pegar a data e hora exata do pedido para registro
          * @return string 
          */
-        private static function data(): string
+        private function data(): string
         {
             date_default_timezone_set('America/Sao_Paulo'); // Ajuste conforme sua região
 

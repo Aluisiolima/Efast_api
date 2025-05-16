@@ -134,3 +134,4 @@
 [2025-04-04 13:53:23] PUT frete | status: 400 | Dados: {"lon":-42.2093739325191,"lat":-5.248920346670266,"t_frete":2} | Resposta: {"error":"SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE id_empresa = '1'' at line 5"}
 [2025-04-04 14:42:57] POST calcFrete/ | status: 404 | Dados: {"lon":-42.17572598439369,"lat":-5.266014330836482} | Resposta: {"error":"Essa rota nao existe!!!"}
 [2025-04-04 17:49:04] POST calcFrete/1 | status: 400 | Dados: [] | Resposta: {"error":"tanto a lat quando a lon \u00e9 obrigat\u00f3rio."}
+[2025-05-04 10:03:56] POST qrcode/55 | status: 400 | Dados: [] | Resposta: {"error":"Desculpada mais voce nao passou o Token"}

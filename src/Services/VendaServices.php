@@ -10,31 +10,32 @@
      * Classe VendaServices
      * Responsavel pela interacoes de vendas feitas pela empresa relacionada
      */
-    class VendaServices
+    class VendaServices extends ServicesBase
     {
+        public function __construct(
+            private readonly VendaModel $vendaModel,
+            private readonly JWToken $jwToken
+        ) {
+            parent::__construct($jwToken);
+        }
+        
         /**
          * Responsavel por pegas todas as vendas da empresa
          * @param array $data
          * @return array
          */
-        public static function pegarVendas(mixed $auth): array
+        public function pegarVendas(mixed $auth): array
         {
             try{
-                if(isset($auth["error"])){
-                    return ["unauthorized" => $auth["error"]];
-                }
-                $token = JWToken::validateToken($auth);
-                if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
+                $token = $this->verificaToken($auth);
+                $vendasModel = $this->vendaModel->pegarVendas($token->id_empresa);
 
-                $vendasModel = VendaModel::pegarVendas($token->id_empresa);
-                $modelagem = self::modelagemDate($vendasModel);
-                return $modelagem;
+                return $this->modelagemDate($vendasModel); 
             } catch(Exception $e) {
                 return ["error" => $e->getMessage()];
             } catch (PDOException $e) {
                 return ["error"=> $e->getMessage()];
             }
-
         }
         
         /**
@@ -42,27 +43,20 @@
          * @param array $data
          * @return array
          */
-        public static function pegarVendasDay(mixed $auth): array
+        public function pegarVendasDay(mixed $auth): array
         {
             try{
-                if(isset($auth["error"])){
-                    return ["unauthorized" => $auth["error"]];
-                }
-                $token = JWToken::validateToken($auth);
-                if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
-
+                $token = $this->verificaToken($auth);
                 date_default_timezone_set("America/Sao_Paulo");
                 $day  = date("d/m/Y");
 
-                $vendasModel = VendaModel::pegarVendasDay($token->id_empresa, $day);
-                $modelagem = self::modelagemDate($vendasModel);
-                return $modelagem;
+                $vendasModel = $this->vendaModel->pegarVendasDay($token->id_empresa, $day);
+                return $this->modelagemDate($vendasModel);
             } catch(Exception $e) {
                 return ["error" => $e->getMessage()];
             } catch (PDOException $e) {
                 return ["error"=> $e->getMessage()];
             }
-
         }
         
         /**
@@ -70,7 +64,7 @@
          * @param array $data
          * @return array
          */
-        private static function modelagemDate(array $data): array
+        private function modelagemDate(array $data): array
         {
             try{
                 $vendasAgrupadas = [];
@@ -81,6 +75,7 @@
                     // Verifica se o pedido já existe no array
                     if (!isset($vendasAgrupadas[$idPedido])) {
                         $vendasAgrupadas[$idPedido] = [
+                            "id" => $row["id_pedido"],
                             "cliente" => $row["nome_cliente"],
                             "tipo_pagamento" => $row["tipo_pagamento"],
                             "endereco" => !empty($row["bairro"]) ? "{$row["rua"]}, {$row["bairro"]}, Nº {$row["numero_casa"]}" : "Estabelecimento",

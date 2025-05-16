@@ -3,7 +3,6 @@
 
     use App\Http\JWToken;
     use App\Model\ProdutosModel;
-    use App\Utils\Validator;
     use App\Validations\ProdutosValidate\NewProdutos;
     use App\Validations\ProdutosValidate\UpdateProdutos;
     use Exception;
@@ -13,71 +12,53 @@
      * Class ProdutosServices
      * Responsável por gereciar e valida tudo antes de envia pra a model
      */
-    class ProdutosServices
+    class ProdutosServices extends ServicesBase
     {
+        public function __construct(
+            private readonly ProdutosModel $produtosModel,
+            private readonly JWToken $jwToken
+        ){
+            parent::__construct($jwToken);
+        }
+
         /**
-         * Validar e direciona as informacoes pra pega os produtos em banco
-         * @param array $data 
+         * pega os produtos em banco
+         * @param int $id id da empresa 
          * @return array
          */
-        public static function pegarProdutos(array $data): array
+        public function pegarProdutos(int $id): array
         {
-            try {
-                $fields = Validator::validateArray([
-                    "id_empresa" => $data[0] ?? ""
-                ]);
-
-                $produtosModel = ProdutosModel::pegarProdutos($fields);
-                
-                return $produtosModel;
-                
+            try { 
+                return $this->produtosModel->pegarProdutos($id);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } catch (Exception $e) {
                 return ["error" => $e->getMessage()];
             }
-            
         }
 
-        public static function getTypes(array $data, mixed $auth): array
+        public function getTypes(mixed $auth): array
         {
             try {
-                if(isset($auth["error"])){
-                    return ["unauthorized" => $auth["error"]];
-                }
-                $token = JWToken::validateToken($auth);
-                if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
+                $token = $this->verificaToken($auth);
                 
-                $fields = Validator::validateArray([
-                    "id_empresa" => $data[0] ?? ""
-                ]);
-
-                $produtosModel = ProdutosModel::getTypes($fields);
-                
-                return $produtosModel;           
+                return $this->produtosModel->getTypes($token->id_empresa);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } catch (Exception $e) {
                 return ["error" => $e->getMessage()];
             }
-            
         }
 
         /**
-         * Validar e direciona as informacoes pra pega os produtos em banco
-         * @param array $data 
+         * pega os dados de um produto em banco
+         * @param int $id id do produto
          * @return array
          */
-        public static function pegarProdutosUnico(array $data): array
+        public function pegarProdutosUnico(int $id): array
         {
             try {
-                $fields = Validator::validateArray([
-                    "id" => $data[0] ?? ""
-                ]);
-
-                $produtosModel = ProdutosModel::pegarProdutosUnico($fields);
-                
-                return $produtosModel;
+                return $this->produtosModel->pegarProdutosUnico($id);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } catch (Exception $e) {
@@ -92,19 +73,12 @@
          * @param mixed $auth 
          * @return array
          */
-        public static function inseriProdutos(array $data, mixed $auth): array
+        public function inseriProdutos(array $data, mixed $auth): array
         {
             try {
+                $token = $this->verificaToken($auth);
 
-                if(isset($auth["error"])){
-                    return ["unauthorized" => $auth["error"]];
-                }
-                $token = JWToken::validateToken($auth);
-                if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
-
-                $produtosModel = ProdutosModel::inseriProdutos(new NewProdutos($data), $token->id_empresa);
-
-                return $produtosModel;
+                return $this->produtosModel->inseriProdutos(new NewProdutos($data), $token->id_empresa);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             }catch (Exception $e) {
@@ -118,18 +92,12 @@
          * @param mixed $auth 
          * @return array
          */
-        public static function updateProdutos(array $data, mixed $auth): array
+        public function updateProdutos(array $data, mixed $auth): array
         {
             try {
-                if(isset($auth["error"])){
-                    return ["unauthorized" => $auth["error"]];
-                }
-                $token = JWToken::validateToken($auth);
-                if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
+                $token = $this->verificaToken($auth);
 
-                $produtosModel = ProdutosModel::updateProdutos(new UpdateProdutos($data), $token->id_empresa);
-
-                return $produtosModel;
+                return $this->produtosModel->updateProdutos(new UpdateProdutos($data), $token->id_empresa);
             } catch (PDOException $e) {
                 return ["error"=> $e->getMessage()];
             } catch (Exception $e) {
@@ -138,26 +106,17 @@
         }
 
         /**
-         * Validar e direciona as informacoes pra desativa os produtos em banco
-         * @param array $data 
+         * desativa os produtos em banco
+         * @param int $id id do produto 
          * @param mixed $auth 
          * @return array
          */
-        public static function desativaProdutos(array $data, mixed $auth): array
+        public function desativaProdutos(int $id, mixed $auth): array
         {
             try {
-                if(isset($auth["error"])){
-                    return ["unauthorized"=> $auth["error"]];
-                }    
-                $token = JWToken::validateToken($auth);
-                if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
+                $token = $this->verificaToken($auth);
 
-                $fields = Validator::validateArray([
-                    "id" => $data["id"] ?? "",
-                ]);
-                $produtosModel = ProdutosModel::desativaProdutos($fields, $token->id_empresa);
-
-                return $produtosModel;
+                return $this->produtosModel->desativaProdutos($id, $token->id_empresa);
             } catch (PDOException $e) {
                 return ["error"=> $e->getMessage()];
             } catch (Exception $e) {
@@ -166,26 +125,17 @@
         }
 
         /**
-         * Validar e direciona as informacoes pra ativa os produtos em banco
-         * @param array $data 
+         * ativa os produtos em banco
+         * @param int $id id do produto 
          * @param mixed $auth 
          * @return array
          */
-        public static function ativaProdutos(array $data, mixed $auth): array
+        public function ativaProdutos(int $id, mixed $auth): array
         {
             try {
-                if(isset($auth["error"])){
-                    return ["unauthorized"=> $auth["error"]];
-                }
-                $token = JWToken::validateToken($auth);
-                if(!$token) return ["unauthorized"=> "Voce nao esta autorizado a essa operacao faca login"];
+                $token = $this->verificaToken($auth);
 
-                $fields = Validator::validateArray([
-                    "id" => $data["id"] ?? "",
-                ]);
-                $produtosModel = ProdutosModel::ativaprodutos($fields, $token->id_empresa);
-                
-                return $produtosModel;
+                return $this->produtosModel->ativaprodutos($id, $token->id_empresa);
             } catch (PDOException $e) {
                 return ["error"=> $e->getMessage()];
             } catch (Exception $e) {
@@ -195,19 +145,13 @@
 
         /**
          * Validar e direciona as informacoes pra pega os produtos principais da em empresa
-         * @param array $data 
+         * @param int $id id da empresa
          * @return array
          */
-        public static function pegarProdutosMain(array $data): array
+        public function pegarProdutosMain(int $id): array
         {
             try {
-                $fields = Validator::validateArray([
-                    "id_empresa" => $data[0] ?? ""
-                ]);
-
-                $produtosModel = ProdutosModel::pegarProdutosMain($fields);
-                
-                return $produtosModel;
+                return $this->produtosModel->pegarProdutosMain($id);
             } catch (PDOException $e) {
                 return ["error"=> $e->getMessage()];
             } catch (Exception $e) {

@@ -1,73 +1,47 @@
 <?php 
     namespace App\Controllers;
 
+    use App\Controllers\ControllerBase;
     use App\Http\Response;
     use App\Http\Resquest;
     use App\Services\ArquivoServices;
 
-    class ArquivoController
+    class ArquivoController extends ControllerBase
     {
-        private readonly Resquest $resquest;
-        private readonly Response $response;
-
-        public function __construct(){
-            $this->resquest = new Resquest;
-            $this->response = new Response;
+        public function __construct(
+            private readonly Resquest $resquest,
+            private readonly Response $response,
+            private readonly ArquivoServices $arquivoServices
+        ){
+            parent::__construct( $response);
         }
 
-        public function pegarArquivo()
+        public function pegarArquivo(): void
         {
             $auth = $this->resquest::authorization();
 
-            $arquivo = ArquivoServices::pegarArquivo($auth);
+            $arquivo = $this->arquivoServices->pegarArquivo($auth);
 
-            if(isset($arquivo["unauthorized"])){
-                $this->response::json($arquivo, 401, true);
-                return;
-            }
-            if(isset($arquivo["error"])){
-                $this->response::json($arquivo, 400, true);
-                return;
-            }
-
-            $this->response::json($arquivo, 200);
+            $this->responserController($arquivo, 200);
         }
 
-        public function inserirArquivo()
+        public function inserirArquivo(): void
         {
             $auth = $this->resquest::authorization();
             $body = $this->resquest::getBody();
 
-            $arquivo = ArquivoServices::inserirArquivo($body, $auth);
+            $arquivo = $this->arquivoServices->inserirArquivo($body, $auth);
 
-            if(isset($arquivo["unauthorized"])){
-                $this->response::json($arquivo, 401, true);
-                return;
-            }
-            if(isset($arquivo["error"])){
-                $this->response::json($arquivo, 400, true);
-                return;
-            }
-
-            $this->response::json($arquivo, 200);
+            $this->responserController($arquivo, 201);
         }
 
-        public function deleteArquivo()
+        public function deleteArquivo(): void
         {
             $body = $this->resquest::getBody();
             $auth = $this->resquest::authorization();
 
-            $arquivo = ArquivoServices::deleteArquivo($body, $auth);
+            $arquivo = $this->arquivoServices->deleteArquivo($body, $auth);
 
-            if(isset($arquivo["unauthorized"])){
-                $this->response::json($arquivo, 401, true);
-                return;
-            }
-            if(isset($arquivo["error"])){
-                $this->response::json($arquivo, 400, true);
-                return;
-            }
-
-            $this->response::json($arquivo, 200);
+            $this->responserController($arquivo, 200);
         }
     }

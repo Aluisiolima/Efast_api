@@ -15,16 +15,15 @@
          * @param int $id ID da empresa.
          * @return array Lista de usuários ou mensagem de erro.
          */
-        public static function pegarUser(int $id): array
+        public function pegarUser(int $id): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "SELECT id_adm, nome, cargo, codigo FROM user_adm WHERE id_empresa = ?";
                 $stmt = $pdo->prepare($sql);
 
                 $stmt->execute([$id]);
-                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                return $result;
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
             } catch (PDOException $e) {
                 return ["error" => $e->getMessage()];
             } finally {
@@ -38,10 +37,10 @@
          * @param int $id ID da empresa.
          * @return array Mensagem de sucesso ou erro.
          */
-        public static function inserirUser(array $data, int $id): array
+        public function inserirUser(array $data, int $id): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "INSERT INTO user_adm (nome, cargo, codigo, senha, id_empresa) VALUES (?, ?, ?, ?, ?);";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
@@ -72,10 +71,10 @@
          * @param array $data Dados de login (nome, cargo, código, senha, id_empresa).
          * @return array Dados do usuário autenticado ou mensagem de erro.
          */
-        public static function login(array $data): array
+        public function login(array $data): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "SELECT * FROM user_adm WHERE nome = ? AND cargo = ? AND codigo = ? AND id_empresa = ?;";
                 $stmt = $pdo->prepare($sql);
 
@@ -86,12 +85,12 @@
                     $data["id_empresa"],
                 ]);
 
-                if ($stmt->rowCount() < 1) return ["error" => "Não existe user com esses parâmetros"];
+                if ($stmt->rowCount() < 1) throw new PDOException("Não existe user com esses parâmetros");
 
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 if (!password_verify($data["senha"], $user["senha"])) {
-                    return ["error" => "Sua senha está errada!!!"];
+                    throw new PDOException("Senha incorreta");
                 }
 
                 return [
@@ -114,10 +113,10 @@
          * @param int $id ID do usuário administrador.
          * @return array Mensagem de sucesso ou erro.
          */
-        public static function updateUser(array $data, int $id): array
+        public function updateUser(array $data, int $id): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "UPDATE user_adm SET
                             nome = ?,
                             cargo = ?,
@@ -149,10 +148,10 @@
          * @param int $id_empresa ID da empresa.
          * @return array Mensagem de sucesso ou erro.
          */
-        public static function deleteUser(int $id, int $id_empresa): array
+        public function deleteUser(int $id, int $id_empresa): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "DELETE FROM user_adm WHERE id_adm = ? AND id_empresa = ?;";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([

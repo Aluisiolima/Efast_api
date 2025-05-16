@@ -19,10 +19,10 @@
          * @return array Retorna os arquivos encontrados como um array associativo. 
          * Em caso de erro, retorna um array contendo a mensagem de erro.
          */
-        public static function pegarArquivo(int $id_empresa): array
+        public function pegarArquivo(int $id_empresa): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
                 $sql = "SELECT * FROM arquivo WHERE id_empresa = ?;";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([$id_empresa]);
@@ -45,10 +45,10 @@
          * @param int $id_empresa ID da empresa associada ao arquivo.
          * @return array Retorna uma mensagem de sucesso com o ID do arquivo inserido ou uma mensagem de erro.
          */
-        public static function inserirArquivo(string $path, int $id_empresa): array
+        public function inserirArquivo(string $path, int $id_empresa): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
 
                 // Inicia a transação
                 $pdo->beginTransaction();
@@ -85,10 +85,10 @@
          * @param int $id_empresa ID da empresa associada ao arquivo.
          * @return array Retorna o caminho do arquivo excluído ou uma mensagem de erro.
          */
-        public static function deleteArquivo(array $data, int $id_empresa): array
+        public function deleteArquivo(array $data, int $id_empresa): array
         {
             try {
-                $pdo = self::getConnection();
+                $pdo = $this->getConnection();
 
                 // Busca o caminho do arquivo antes de excluí-lo
                 $sql1 = "SELECT path FROM arquivo WHERE id_arquivo = ? AND id_empresa = ?;";
