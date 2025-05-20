@@ -83,6 +83,7 @@
                             "data_pedido" => $row["data_pedido"],
                             "status" => $row["status"],
                             "produtos" => [],
+                            "t_frete" => $row["t_frete"],
                             "valor_total" => 0
                         ];
                     }

@@ -32,7 +32,8 @@
                             ped.data_pedido,
                             ped.status,
                             p.nome_produto, 
-                            p.valor,
+                            v.valor_atual_produto,
+                            v.t_frete,
                             v.desconto_aplicado,
                             v.quantidade
                         FROM venda v
@@ -75,7 +76,8 @@
                             ped.data_pedido,
                             ped.status,
                             p.nome_produto, 
-                            p.valor,
+                            v.valor_atual_produto,
+                            v.t_frete,
                             v.desconto_aplicado,
                             v.quantidade
                         FROM venda v
