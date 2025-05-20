@@ -23,7 +23,7 @@
                 $empresa = $this->freteModel->calcFrete($id);
                 $distancia = $this->calcularDistancia($frete->lat,$frete->lon, $empresa["lat"],$empresa["lon"]);
 
-                return ["frete" =>  number_format(($distancia * $empresa["t_frete"]), 2)];
+                return ["frete" =>  (int) ($distancia * $empresa["t_frete"])];
 
             } catch (Exception $e) {
                 return ["error" => $e->getMessage()];
@@ -46,7 +46,7 @@
             }
         }
 
-        private function calcularDistancia($lat1, $lon1, $lat2, $lon2): float {
+        private function calcularDistancia($lat1, $lon1, $lat2, $lon2): int {
             $raioTerra = 6371; // Raio da Terra em km
         
             // Converte graus para radianos

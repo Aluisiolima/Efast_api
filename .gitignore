@@ -1,4 +1,4 @@
 /vendor
 *.env
 *.env.docker
-logs/api.log
+/logs

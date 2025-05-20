@@ -2,7 +2,9 @@
 
     namespace App\Model;
 
+    use Exception;
     use PDOException;
+    use PDO;
 
     /**
      * Classe PedidoModel
@@ -24,8 +26,8 @@
 
                 $pdo->beginTransaction();
 
-                $sql = "INSERT INTO pedido (nome_cliente,tipo_pagamento ,numero_contato ,entrega ,bairro ,rua ,numero_casa ,mesa ,numero_mesa ,data_pedido) VALUES (?,?,?,?,?,?,?,?,?,?);";
-                $stmt = $pdo->prepare($sql);
+                $sql_pedido = "INSERT INTO pedido (nome_cliente,tipo_pagamento ,numero_contato ,entrega ,bairro ,rua ,numero_casa ,mesa ,numero_mesa ,data_pedido) VALUES (?,?,?,?,?,?,?,?,?,?);";
+                $stmt = $pdo->prepare($sql_pedido);
                 $stmt->execute([
                     $data["nome"],
                     $data["tipo_pagamento"],
@@ -40,16 +42,31 @@
                 ]);
                 $pedidos = $pdo->lastInsertId();
 
-                $sql = "INSERT INTO venda (id_pedido,id_produto,quantidade, id_empresa, desconto_aplicado) VALUES (?,?,?,?,?);";
+                $sql_venda = "INSERT INTO venda (id_pedido,id_produto,quantidade, id_empresa, desconto_aplicado, valor_atual_produto, t_frete) VALUES (?,?,?,?,?,?,?);";
+                $stmt_venda = $pdo->prepare($sql_venda);
+                
+                $sql_produto = "SELECT valor, desconto FROM produtos WHERE id_produto = ?";
+                $stmt_produto = $pdo->prepare($sql_produto);
 
                 foreach ($data["produtos"] as $item) {
-                    $stmt = $pdo->prepare($sql);
-                    $stmt->execute([
+                    $stmt_produto->execute([$item["id"]]);
+            
+                    $result = $stmt_produto->fetch(PDO::FETCH_ASSOC);
+
+                    if (!$result) {
+                        throw new Exception("Produto com ID {$item['id']} não encontrado.");
+                    }
+
+                    [$valor, $desconto] = [$result["valor"], $result["desconto"]];
+                    
+                    $stmt_venda->execute([
                         $pedidos,
                         $item["id"],
                         $item["quantidade"],
                         $id_empresa,
-                        $item["desconto_aplicado"],
+                        $desconto,
+                        $valor,
+                        $data["t_frete"]
                     ]);
                 }
 
@@ -60,7 +77,11 @@
             } catch (PDOException $e) {
                 $pdo->rollBack();
                 return ["error" => $e->getMessage()];
-            } finally {
+            }catch (Exception $e){
+                $pdo->rollBack();
+                return ["error" => $e->getMessage()];
+            }
+            finally {
                 $pdo = null;
             }
         }
