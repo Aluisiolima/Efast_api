@@ -31,7 +31,7 @@
             try {
                 // Obtém a chave secreta do ambiente
                 self::$secret = $_ENV["SECRET_KEY"];
-                $data["exp"] = time() + 300; // Define a expiração do token para 1 hora
+                $data["exp"] = time() + (60 * 60); // Define a expiração do token para 1 hora
                 $data["iat"] = time(); // Define a data de emissão do token
 
                 // Codifica os dados no token JWT
