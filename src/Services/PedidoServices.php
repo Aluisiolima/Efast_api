@@ -40,6 +40,7 @@
                     "numero_casa"   => $data["numero_casa"],
                     "mesa"          => $data["mesa"],
                     "numero_mesa"   => $data["numero_mesa"],
+                    "t_frete"       => $data["t_frete"]
                 ]);
 
                 $fields["data"] = $this->data();
