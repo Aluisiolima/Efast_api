@@ -33,7 +33,7 @@
                             ped.status,
                             p.nome_produto, 
                             v.valor_atual_produto,
-                            v.t_frete,
+                            ped.t_frete,
                             v.desconto_aplicado,
                             v.quantidade
                         FROM venda v
@@ -77,7 +77,7 @@
                             ped.status,
                             p.nome_produto, 
                             v.valor_atual_produto,
-                            v.t_frete,
+                            ped.t_frete,
                             v.desconto_aplicado,
                             v.quantidade
                         FROM venda v
