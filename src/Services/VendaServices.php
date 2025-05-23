@@ -91,13 +91,13 @@
                     // Adiciona os produtos ao pedido
                     $vendasAgrupadas[$idPedido]["produtos"][] = [
                         "nome_produto" => $row["nome_produto"],
-                        "valor" => $row["valor"],
+                        "valor" => $row["valor_atual_produto"],
                         "desconto" => $row["desconto_aplicado"],
                         "quantidade" => $row["quantidade"]
                     ];
 
                     // Atualiza o valor total do pedido
-                    $vendasAgrupadas[$idPedido]["valor_total"] += number_format(($row["valor"] * (1 - $row["desconto_aplicado"] / 100)) * $row["quantidade"], 2);
+                    $vendasAgrupadas[$idPedido]["valor_total"] += number_format(($row["valor_atual_produto"] * (1 - $row["desconto_aplicado"] / 100)) * $row["quantidade"], 2);
                 }
 
                 return array_reverse($vendasAgrupadas);

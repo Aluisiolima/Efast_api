@@ -26,7 +26,7 @@
 
                 $pdo->beginTransaction();
 
-                $sql_pedido = "INSERT INTO pedido (nome_cliente,tipo_pagamento ,numero_contato ,entrega ,bairro ,rua ,numero_casa ,mesa ,numero_mesa ,data_pedido) VALUES (?,?,?,?,?,?,?,?,?,?);";
+                $sql_pedido = "INSERT INTO pedido (nome_cliente,tipo_pagamento ,numero_contato ,entrega ,bairro ,rua ,numero_casa ,mesa ,numero_mesa ,data_pedido, t_frete) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
                 $stmt = $pdo->prepare($sql_pedido);
                 $stmt->execute([
                     $data["nome"],
@@ -38,11 +38,12 @@
                     $data["numero_casa"],
                     $data["mesa"],
                     $data["numero_mesa"],
-                    $data["data"]
+                    $data["data"],
+                    $data["t_frete"]
                 ]);
                 $pedidos = $pdo->lastInsertId();
 
-                $sql_venda = "INSERT INTO venda (id_pedido,id_produto,quantidade, id_empresa, desconto_aplicado, valor_atual_produto, t_frete) VALUES (?,?,?,?,?,?,?);";
+                $sql_venda = "INSERT INTO venda (id_pedido,id_produto,quantidade, id_empresa, desconto_aplicado, valor_atual_produto) VALUES (?,?,?,?,?,?);";
                 $stmt_venda = $pdo->prepare($sql_venda);
                 
                 $sql_produto = "SELECT valor, desconto FROM produtos WHERE id_produto = ?";
@@ -66,7 +67,6 @@
                         $id_empresa,
                         $desconto,
                         $valor,
-                        $data["t_frete"]
                     ]);
                 }
 
