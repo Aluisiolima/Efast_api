@@ -43,7 +43,10 @@
 
     //user_adm
     Routes::post("/user", "UserController@pegarUser");
-    Routes::post("/login", "UserController@login");
     Routes::post("/user/inserir", "UserController@inserirUser");
     Routes::put("/user/update", "UserController@updateUser");
     Routes::delete("/user/delete", "UserController@deleteUser");
+
+    //Login
+    Routes::post("/login", "LoginController@login");
+    Routes::post("/login/refresh", "LoginController@refreshLoginToken");

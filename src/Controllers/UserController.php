@@ -24,14 +24,6 @@
             $this->responserController($user, 200);
         }    
 
-        public function login(): void
-        {
-            $body = $this->resquest::getBody();
-            $user = $this->userServices->login($body);
-
-            $this->responserController($user, 200);
-        }  
-
         public function inserirUser(): void
         {
             $body = $this->resquest::getBody();

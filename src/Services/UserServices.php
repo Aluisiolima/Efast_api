@@ -69,34 +69,7 @@
             }
         }
 
-        /**
-         * Responsavel por Fazer Login dos User ao entra no app
-         * @param array $data
-         * @return array
-         */
-        public function login(array $data): array
-        {
-            try {
-                $fields = Validator::validateArray([
-                    "nome"       => $data["nome"]       ?? "", 
-                    "cargo"      => $data["cargo"]      ?? "",
-                    "codigo"     => $data["codigo"]     ?? "",
-                    "id_empresa" => $data["id_empresa"] ?? "",
-                    "senha"      => $data["senha"]      ?? "",
-                ]);
-
-                $user = $this->userModel->login($fields);
-
-                $token = $this->jwtoken->generateToken($user);
-                return ["token" => $token];
-            } catch (PDOException $e) {
-                return ["error"=> $e->getMessage()];
-            }
-            catch (Exception $e) {
-                return ["error"=> $e->getMessage()];
-            }
-        }
-
+        
         /**
          * Responsavel por atualiza as informacoes do seu user
          * @param array $data
