@@ -83,53 +83,56 @@
             throw new Exception("Falta informacoes para o pedido e nao foi possivel finaliza!!!");
             
         }
-
         public static function validateImg(array $dates, string $subPath): string
         {
-            $maxSize = 12000000;
-            $types = ['jpg', 'jpeg', 'png', 'gif'];
-            $targetDir = "../uploads/$subPath";
+            $maxSize = 12 * 1024 * 1024; // 12MB
+            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+            $targetDir = "../uploads/{$subPath}/";
 
-            // Verifica se o arquivo é uma imagem real
-            $check = getimagesize($dates['tmp_name']);
-            if ($check === false) {
-                throw new Exception("O arquivo nao e uma imagem.");
+            // 🔍 Valida se o arquivo foi enviado corretamente
+            if (empty($dates['tmp_name']) || !file_exists($dates['tmp_name'])) {
+                throw new Exception("Arquivo inválido ou não enviado.");
             }
 
-            // Verifica o tamanho do arquivo
-            if ($dates['size'] > $maxSize) {
-                throw new Exception("O arquivo e muito grande.");
+            // 🔍 Verifica se é uma imagem válida
+            $imageInfo = getimagesize($dates['tmp_name']);
+            if ($imageInfo === false) {
+                throw new Exception("O arquivo enviado não é uma imagem válida.");
             }
 
-            // Verifica a extensão do arquivo
+            // 🔍 Verifica o tamanho do arquivo
+            if (empty($dates['size']) || $dates['size'] > $maxSize) {
+                throw new Exception("O arquivo é muito grande. Tamanho máximo permitido: 12MB.");
+            }
+
+            // 🔍 Verifica a extensão
             $fileExtension = strtolower(pathinfo($dates['name'], PATHINFO_EXTENSION));
-            if (!in_array($fileExtension, $types)) {
-                throw new Exception("Tipo de arquivo nao permitido. Apenas JPG, JPEG, PNG e GIF sao aceitos.");
+            if (!in_array($fileExtension, $allowedExtensions)) {
+                throw new Exception("Tipo de arquivo não permitido. Permitidos: JPG, JPEG, PNG e GIF.");
             }
 
-            if (!is_dir($targetDir)) {
-                if (!mkdir($targetDir, 0777, true)) {
-                    throw new Exception("Falha ao criar o diretorio de upload: {$targetDir}");
-                }
-            } 
-            
-            // Verifica se o diretório tem permissão de gravação
+            // 🗂️ Garante que o diretório existe
+            if (!is_dir($targetDir) && !mkdir($targetDir, 0777, true)) {
+                throw new Exception("Falha ao criar o diretório de upload: {$targetDir}");
+            }
+
+            // 🔐 Verifica permissões de escrita no diretório
             if (!is_writable($targetDir)) {
-                throw new Exception("O diretorio de upload nao tem permissao de gravacao: {$targetDir}");
+                throw new Exception("O diretório de upload não tem permissão de gravação.");
             }
 
-            $tamanho = self::verifica_diretorio($targetDir);
-            if (!$tamanho){
-                throw new Exception("Voce nao tem mais espaco no seu diretorio de arquivos!!!");
+            // 📦 Verifica espaço no diretório (função própria)
+            if (!self::verifica_diretorio($targetDir)) {
+                throw new Exception("Sem espaço disponível no diretório de arquivos.");
             }
-            
-            $targetFile = $targetDir . basename($dates['name']);
-            if (file_exists($targetFile)) {
-                throw new Exception("O arquivo já existe.");
-            }
+
+            // 🏷️ Gera um nome único para o arquivo, evitando sobrescrever
+            $safeFileName = uniqid('img_', true) . '.' . $fileExtension;
+            $targetFile = $targetDir . $safeFileName;
 
             return $targetFile;
         }
+
         private static function verifica_diretorio(string $diretorio): bool
         {
             $tamanhoTotal = 0;

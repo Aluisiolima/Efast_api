@@ -35,12 +35,11 @@
             $this->responserController($arquivo, 201);
         }
 
-        public function deleteArquivo(): void
+        public function deleteArquivo(int $id): void
         {
-            $body = $this->resquest::getBody();
             $auth = $this->resquest::authorization();
 
-            $arquivo = $this->arquivoServices->deleteArquivo($body, $auth);
+            $arquivo = $this->arquivoServices->deleteArquivo($id, $auth);
 
             $this->responserController($arquivo, 200);
         }
