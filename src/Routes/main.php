@@ -39,7 +39,7 @@
     //Arquivo
     Routes::post("/arquivo" , "ArquivoController@pegarArquivo");
     Routes::post("/arquivo/inserir" , "ArquivoController@inserirArquivo");
-    Routes::delete("/arquivo/delete" , "ArquivoController@deleteArquivo");
+    Routes::delete("/arquivo/delete/{id}" , "ArquivoController@deleteArquivo");
 
     //user_adm
     Routes::post("/user", "UserController@pegarUser");
