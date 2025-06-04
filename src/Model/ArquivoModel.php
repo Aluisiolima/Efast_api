@@ -81,11 +81,11 @@
         /**
          * Exclui um arquivo associado a uma empresa.
          *
-         * @param array $data Dados contendo o ID do arquivo a ser excluído.
+         * @param int $id Dados contendo o ID do arquivo a ser excluído.
          * @param int $id_empresa ID da empresa associada ao arquivo.
          * @return array Retorna o caminho do arquivo excluído ou uma mensagem de erro.
          */
-        public function deleteArquivo(array $data, int $id_empresa): array
+        public function deleteArquivo(int $id, int $id_empresa): array
         {
             try {
                 $pdo = $this->getConnection();
@@ -94,7 +94,7 @@
                 $sql1 = "SELECT path FROM arquivo WHERE id_arquivo = ? AND id_empresa = ?;";
                 $stmt1 = $pdo->prepare($sql1);
                 $stmt1->execute([
-                    $data["id"],
+                    $id,
                     $id_empresa 
                 ]);
                 $result = $stmt1->fetch(PDO::FETCH_ASSOC);
@@ -103,7 +103,7 @@
                 $sql = "DELETE FROM arquivo WHERE id_arquivo = ? AND id_empresa = ?;";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
-                    $data["id"],
+                    $id,
                     $id_empresa,
                 ]);
 

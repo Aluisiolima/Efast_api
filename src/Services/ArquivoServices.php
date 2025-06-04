@@ -4,6 +4,8 @@
     use App\Http\JWToken;
     use App\Model\ArquivoModel;
     use App\Utils\Validator;
+    use Intervention\Image\ImageManager;
+    use Intervention\Image\Drivers\Gd\Driver;
     use Exception;
     use PDOException;
 
@@ -16,7 +18,7 @@
     {
         public function __construct(
             private readonly ArquivoModel $arquivoModel,
-            private readonly JWToken $jwToken
+            private readonly JWToken $jwToken,
         ) {
             parent::__construct($jwToken);
         }
@@ -51,8 +53,24 @@
                 
                 $token = $this->verificaToken($auth);
 
-                $fields = Validator::validateImg($data['img'], "$token->id_empresa/");
-                $urlImg = str_replace('../', '', $this->upload($fields, $data['img']));
+                Validator::validateImg($data['img'], "$token->id_empresa/");
+
+                $hash = hash_file('sha256', $data['img']['tmp_name']);
+                $fileName = $hash . '.webp';
+
+                $diretorio = "../uploads/$token->id_empresa/";
+                if (!is_dir($diretorio)) {
+                    mkdir($diretorio, 0755, true);
+                }
+
+                $destino = $diretorio . $fileName;
+
+                if (file_exists($destino)) {
+                    return ["error" => "Arquivo já existe."];
+                }
+                $urlImg = "uploads/$token->id_empresa/$fileName";
+
+                $this->processaImagemToWebp($data['img']['tmp_name'], $destino);
 
                 return $this->arquivoModel->inserirArquivo($urlImg, $token->id_empresa);
             } catch (Exception | PDOException $e) {
@@ -67,17 +85,17 @@
          * @param mixed $auth Dados de autenticação (token de acesso).
          * @return array Retorna uma mensagem de sucesso ou erro.
          */
-        public function deleteArquivo(array $data, mixed $auth): array
+        public function deleteArquivo(int $id, mixed $auth): array
         {
             try {
-                
                 $token = $this->verificaToken($auth);
 
-                $fields = Validator::validateArray([
-                    "id" => $data["id"] ?? "",
-                ]);
+                $arquivo = $this->arquivoModel->deleteArquivo($id, $token->id_empresa);
+                
+                if (isset($arquivo["error"])) {
+                    return $arquivo; // Retorna o erro se houver
+                }
 
-                $arquivo = $this->arquivoModel->deleteArquivo($fields, $token->id_empresa);
                 return $this->remove($arquivo["path"]);
             } catch (Exception | PDOException $e) {
                 return ["error" => $e->getMessage()];
@@ -85,25 +103,28 @@
         }
 
         /**
-         * Faz o upload de um arquivo para o diretório de destino.
+         * Processa uma imagem e a salva no formato WebP.
          *
-         * @param string $targetFile Caminho do arquivo de destino.
-         * @param array $img Dados do arquivo enviado.
-         * @return string Retorna o caminho do arquivo enviado.
-         * @throws Exception Caso ocorra erro no envio do arquivo.
+         * @param string $originalPath Caminho da imagem original.
+         * @param string $targetPath Caminho onde a imagem processada será salva.
+         * @return void Apenas salva a imagem no formato WebP.
          */
-        private function upload(string $targetFile, array $img): string
+        private function processaImagemToWebp(string $originalPath, string $targetPath): void
         {
             try {
-                if (move_uploaded_file($img['tmp_name'], $targetFile)) {
-                    return $targetFile;
+                $manager = new ImageManager(driver: new Driver());
+                $image = $manager->read($originalPath);
+
+                if ($image->width() > 200) {
+                    $image = $image->scale(width: 200); // Mantém a proporção
                 }
 
-                throw new Exception("Houve um erro ao enviar o arquivo.");
+                $image->toWebp(quality: 90)->save($targetPath);
             } catch (Exception $e) {
-                throw new Exception($e->getMessage());
+                throw new Exception("Erro ao processar a imagem: " . $e->getMessage());
             }
         }
+
 
         /**
          * Remove um arquivo do sistema.
