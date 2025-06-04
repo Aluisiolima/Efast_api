@@ -89,9 +89,15 @@
         {
             try {
                 
+                var_dump($id);
                 $token = $this->verificaToken($auth);
 
                 $arquivo = $this->arquivoModel->deleteArquivo($id, $token->id_empresa);
+
+                if (isset($arquivo["error"])) {
+                    return $arquivo; // Retorna o erro se houver
+                }
+                
                 return $this->remove($arquivo["path"]);
             } catch (Exception | PDOException $e) {
                 return ["error" => $e->getMessage()];

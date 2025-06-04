@@ -81,7 +81,7 @@
         /**
          * Exclui um arquivo associado a uma empresa.
          *
-         * @param array $data Dados contendo o ID do arquivo a ser excluído.
+         * @param int $id Dados contendo o ID do arquivo a ser excluído.
          * @param int $id_empresa ID da empresa associada ao arquivo.
          * @return array Retorna o caminho do arquivo excluído ou uma mensagem de erro.
          */
