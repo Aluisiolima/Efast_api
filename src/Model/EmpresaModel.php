@@ -1,7 +1,6 @@
 <?php
     namespace App\Model;
 
-    use App\Validations\EmpresaValidate\FreteEmpresa;
     use App\Validations\EmpresaValidate\NewEmpresa;
     use App\Validations\EmpresaValidate\UpdateEmpresa;
     use PDOException;
@@ -63,7 +62,8 @@
                             e.facebook,
                             e.endereco,
                             e.email,
-                            a.path
+                            a.path,
+                            e.logo_img
                         FROM empresa e 
                         JOIN arquivo a ON a.id_arquivo = e.logo_img
                         WHERE e.id_empresa = ? AND e.status = 'ativa';";
