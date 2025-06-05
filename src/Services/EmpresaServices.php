@@ -7,7 +7,6 @@
     use Exception;
     use App\Http\JWToken;
     use App\Model\EmpresaModel;
-    use App\Utils\Validator;
     use App\Validations\EmpresaValidate\UpdateEmpresa;
 
     /**
@@ -94,9 +93,9 @@
             try {
                 $token = $this->verificaToken($auth);
 
-                if ($token->cargo !== "empresario") {
-                    return ["error" => "Você não tem autorização para atualizar esta empresa."];
-                }
+                // if ($token->cargo !== "empresario") {
+                //     return ["error" => "Você não tem autorização para atualizar esta empresa."];
+                // }
 
                 return $this->empresaModel->updateEmpresa(new UpdateEmpresa($data), $token->id_empresa);
             } catch (PDOException $e) {

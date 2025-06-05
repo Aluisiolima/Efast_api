@@ -79,6 +79,7 @@
                             p.valor,
                             p.tipo,
                             a.path,
+                            p.id_img,
                             p.desconto,
                             p.descricao
                         FROM produtos p
