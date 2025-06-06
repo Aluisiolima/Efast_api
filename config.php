@@ -4,6 +4,7 @@
     $allowed_origins = [
         "https://efastmenu.com",
         "https://www.efastmenu.com",
+        "https://admin.efastmenu.com",
         "http://localhost:3000",
     ];
 
