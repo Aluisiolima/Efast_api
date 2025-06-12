@@ -93,9 +93,9 @@
             try {
                 $token = $this->verificaToken($auth);
 
-                // if ($token->cargo !== "empresario") {
-                //     return ["error" => "Você não tem autorização para atualizar esta empresa."];
-                // }
+                if ($token->cargo !== "empresario") {
+                    return ["error" => "Você não tem autorização para atualizar esta empresa."];
+                }
 
                 return $this->empresaModel->updateEmpresa(new UpdateEmpresa($data), $token->id_empresa);
             } catch (PDOException $e) {

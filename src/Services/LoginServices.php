@@ -5,8 +5,7 @@
     use App\Model\UserModel;
     use App\Services\ServicesBase;
     use App\Utils\Validator;
-use DASPRiD\Enum\Exception\MismatchException;
-use Exception;
+    use Exception;
     use PDOException;
 
     class LoginServices extends ServicesBase
@@ -35,6 +34,10 @@ use Exception;
                 ]);
 
                 $user = $this->userModel->login($fields);
+
+                if (isset($user["error"])) {
+                    return $user;
+                }
 
                 $token = $this->jwtoken->generateToken($user);
                 return ["token" => $token];
