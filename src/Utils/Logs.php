@@ -2,38 +2,44 @@
     namespace App\Utils;
 
     use App\Http\Resquest;
-    use Exception;
 
     class Logs
     {
-        public static function Log(array $dates, int $status) 
-        {
-            $dir = "logs/";
-            date_default_timezone_set('America/Sao_Paulo');
+        private static float $timeStart = 0;
+        public static function log_request(): void 
+        {   
             $dataHora = date('Y-m-d H:i:s');
+            self::$timeStart = microtime(true);
 
-            if (!is_dir($dir)) {
-                if (!mkdir($dir, 0755, true)) {
-                    throw new Exception("Falha ao criar o diretório de upload: {$dir}");
-                }
-            } 
-            
-            // Verifica se o diretório tem permissão de gravação
-            if (!is_writable($dir)) {
-                throw new Exception("O diretório de upload não tem permissão de gravação: {$dir}");
-            }
-            // Informações da requisição
             $metodo = Resquest::method();
-            $uri = $_GET["url"];
-            $dados = json_encode(Resquest::getBody());
+            $uri = $_GET["url"] ?? "/";
 
-            // Informações da resposta
-            $resposta = json_encode($dates);
+            $mensagemLog = "**[$dataHora]** **$metodo** __ $uri __  " . PHP_EOL;
+            self::seedLog($mensagemLog);
+        }
 
-            $mensagemLog = "[$dataHora] $metodo $uri | status: $status | Dados: $dados | Resposta: $resposta" . PHP_EOL;
-            $dirFile = "{$dir}api.log";
-            // Escreve no log
-            file_put_contents($dirFile, $mensagemLog, FILE_APPEND | LOCK_EX);
+        public static function log_response(int $statusCode): void 
+        {
+            $dataHora = date('Y-m-d H:i:s');
+            $tempoExecucao = (microtime(true) - self::$timeStart) * 1000;
+
+            $mensagemLog = "**[$dataHora]** | Resposta: **$statusCode** | Tempo de execução: __".number_format($tempoExecucao, 2)."ms__" . PHP_EOL;
+
+            self::seedLog($mensagemLog);
+        }
+
+        private static function seedLog(string $mensagem): void
+        {
+            $webhookUrl = $_ENV['LOG_URL'];
+
+            $ch = curl_init($webhookUrl);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-type: application/json']);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode( ['content' => $mensagem]));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+            curl_exec($ch);
+            curl_close($ch);
         }
     }
     

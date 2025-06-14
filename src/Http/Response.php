@@ -2,7 +2,7 @@
     namespace App\Http;
 
     use App\Utils\Logs;
-use Exception;
+    use Exception;
 
     /**
      * Class Response
@@ -25,8 +25,8 @@ use Exception;
             header('Content-Type: application/json');
             http_response_code($status);
             
+            Logs::log_response( $status);
             echo self::safeJsonEncode($data);
-            exit();
         }
 
         /**
