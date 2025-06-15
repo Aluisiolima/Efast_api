@@ -6,7 +6,7 @@
     class ControllerResolver
     {
 
-        public static function criar(string $nomeController)
+        public static function criar(string $nomeController): object|null
         {
             $classe = "App\\Controllers\\" . $nomeController;
 

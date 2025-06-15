@@ -6,39 +6,46 @@
     class Logs
     {
         private static float $timeStart = 0;
-        public static function log_request(): void 
+        private static string $messageLog;
+
+        public static function log_api(int $statusCode): void 
         {   
             $dataHora = date('Y-m-d H:i:s');
-            self::$timeStart = microtime(true);
 
             $metodo = Resquest::method();
             $uri = $_GET["url"] ?? "/";
 
-            $mensagemLog = "**[$dataHora]** **$metodo** __ $uri __  " . PHP_EOL;
-            self::seedLog($mensagemLog);
-        }
-
-        public static function log_response(int $statusCode): void 
-        {
             $dataHora = date('Y-m-d H:i:s');
             $tempoExecucao = (microtime(true) - self::$timeStart) * 1000;
 
-            $mensagemLog = "**[$dataHora]** | Resposta: **$statusCode** | Tempo de execução: __".number_format($tempoExecucao, 2)."ms__" . PHP_EOL;
+            self::$messageLog = "**[$dataHora]** **$metodo** __ $uri __ | Resposta: **$statusCode** | Tempo de execução: __".number_format($tempoExecucao, 2)."ms__" . PHP_EOL;
+            self::seedLog();
 
-            self::seedLog($mensagemLog);
         }
 
-        private static function seedLog(string $mensagem): void
+        public static function start(): void 
+        {
+            self::$timeStart = microtime(true);
+        }
+
+        private static function seedLog(): void
         {
             $webhookUrl = $_ENV['LOG_URL'];
 
             $ch = curl_init($webhookUrl);
             curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-type: application/json']);
             curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode( ['content' => $mensagem]));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode( ['content' => self::$messageLog]));
 
-            curl_exec($ch);
+            // Limita o tempo total de tentativa e conexão
+            curl_setopt($ch, CURLOPT_TIMEOUT_MS, 150); // no máximo 150ms de execução
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 100); // no máximo 100ms para conectar
+
+            // Não se importa com o resultado, só dispara
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
+
+            @curl_exec($ch);
+            
             curl_close($ch);
         }
     }
