@@ -4,7 +4,6 @@
     use App\Http\Resquest;
     use App\Http\Response;
     use App\Core\ControllerResolver;
-    use App\Utils\Logs;
 
     class Core
     {
@@ -27,7 +26,6 @@
                     [$controllerName, $action] = explode("@", $route["action"]);
                 
                     $controller = ControllerResolver::criar($controllerName);
-                    Logs::log_request();
                     $controller->$action(...$matches);
                     
                     return;
