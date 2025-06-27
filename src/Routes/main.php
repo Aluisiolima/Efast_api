@@ -6,6 +6,7 @@
     //Produtos
     Routes::post("/produto/inseri",     "ProdutosController@inseriProdutos");
     Routes::put("/produto/update",      "ProdutosController@updateProdutos");
+    Routes::post("/produto/desativados",  "ProdutosController@pegarProdutosDesativados");
     Routes::get("/produto/empresa/{id}",  "ProdutosController@pegarProdutos");
     Routes::get("/produto/{id}",  "ProdutosController@pegarProdutosUnico");
     Routes::get("/produto/empresa/{id}/main","ProdutosController@pegarProdutosMain");

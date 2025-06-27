@@ -46,6 +46,35 @@
             }
         }
 
+        public function pegarProdutosDesativados(int $id_empresa): array
+        {
+            try {
+                $pdo = $this->getConnection();
+                $sql = "SELECT 
+                            p.id_produto,
+                            p.nome_produto,
+                            p.valor,
+                            p.tipo,
+                            a.path,
+                            p.desconto
+                        FROM produtos p
+                        JOIN empresa e ON e.id_empresa = p.id_empresa
+                        JOIN arquivo a ON a.id_arquivo = p.id_img
+                        WHERE p.id_empresa = ? AND p.status = 'desativado' AND e.status = 'ativa'
+                        ORDER BY p.tipo;";
+                    
+                $stmt = $pdo->prepare($sql);
+                
+                $stmt->execute([$id_empresa]);
+
+                return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+            } catch (PDOException $e) {
+                return ["error" => $e->getMessage()];
+            } finally {
+                $pdo = null;
+            }
+        }
+
         public function getTypes(int $id): array
         {
             try {

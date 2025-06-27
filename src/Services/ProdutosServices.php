@@ -68,6 +68,25 @@
         }
 
         /**
+         * pega os produtos desativados em banco
+         * @param int $id id da empresa 
+         * @param mixed $auth 
+         * @return array
+         */
+        public function pegarProdutosDesativados(mixed $auth): array
+        {
+            try {
+                $token = $this->verificaToken($auth);
+
+                return $this->produtosModel->pegarProdutosDesativados($token->id_empresa);
+            } catch (PDOException $e) {
+                return ["error" => $e->getMessage()];
+            } catch (Exception $e) {
+                return ["error" => $e->getMessage()];
+            }
+        }
+
+        /**
          * Validar e direciona as informacoes pra inserir os produtos em banco
          * @param array $data 
          * @param mixed $auth 

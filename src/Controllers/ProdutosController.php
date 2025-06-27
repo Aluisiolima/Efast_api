@@ -30,6 +30,14 @@
             $this->responserController($produtos, 200);
         }
 
+        public function pegarProdutosDesativados(): void 
+        {
+            $auth = $this->resquest::authorization();
+            $produtos = $this->produtosServices->pegarProdutosDesativados($auth);
+
+            $this->responserController($produtos, 200);
+        }
+
         public function getTypes(): void 
         {
             $auth = $this->resquest::authorization();
